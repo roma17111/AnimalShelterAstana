@@ -1,5 +1,6 @@
 package animal.shelter.animalsshelter.controllers;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -25,14 +26,19 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 public class TelegramBotStart extends TelegramLongPollingBot {
+
+    @Value("${bot.name}")
+    private String botName;
+    @Value("${bot.key}")
+    private String botKey;
     @Override
     public String getBotUsername() {
-        return "animal-Shelter-Astana";
+        return botName;
     }
 
     @Override
     public String getBotToken() {
-        return "6162958373:AAF4Vaqz4K1CfEDsVzF4PwxJb26fTGMq6hg";
+        return botKey;
     }
 
     @Override
