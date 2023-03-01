@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ShelterAnimalsRun {
     public static void main(String[] args) {
         SpringApplication.run(ShelterAnimalsRun.class);
+        System.out.println();
     }
 }
