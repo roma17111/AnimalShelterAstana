@@ -43,10 +43,22 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        try {
             Message message = update.getMessage();
+        long id = update.getMessage().getChatId();
+        if (update.hasMessage()&& message.hasText()) {
+            sendBotMessage(id,"Вы ввели - " + message.getText());
             System.out.println(message.getText());
-        } catch (Exception e) {
+        }
+    }
+
+    private void sendBotMessage(long id,String name) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(id));
+        sendMessage.setText(name);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+
         }
     }
 }
