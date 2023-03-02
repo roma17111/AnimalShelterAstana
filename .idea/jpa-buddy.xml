@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig" migrateIndexesAndConstraints="true" reUseTableSchema="true">
+    <option name="defaultUnitInitialized" value="true" />
+    <option name="renamerInitialized" value="true" />
+    <option name="reverseEngineeringLastDbConnectionId" value="baca9699-0b4a-46ef-9bb2-c16d009a228e" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/animal/shelter/animalsshelter" />
+    <reUseDbSnapshotConnections>
+      <dbConnection id="baca9699-0b4a-46ef-9bb2-c16d009a228e" />
+    </reUseDbSnapshotConnections>
+  </component>
+</project>

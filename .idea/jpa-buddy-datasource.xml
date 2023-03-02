@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-sources>
+      <data-source id="baca9699-0b4a-46ef-9bb2-c16d009a228e" name="AnimalShelterAstana" url="jdbc:postgresql://77.91.84.45:5432/skypro_tg" driverClass="org.postgresql.Driver" />
+    </data-sources>
+  </component>
+</project>

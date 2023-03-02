@@ -1,30 +1,17 @@
 package animal.shelter.animalsshelter.controllers;
 
+import animal.shelter.animalsshelter.model.TestEntity;
+import animal.shelter.animalsshelter.util.HibernateUtil;
 import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.*;
-import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
-import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
-import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
-
-import javax.swing.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Log4j
 @Component
@@ -46,13 +33,38 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-            Message message = update.getMessage();
+
+        Message message = update.getMessage();
+
+        addTestEntity();
+
         long id = update.getMessage().getChatId();
         if (update.hasMessage()&& message.hasText()) {
             sendBotMessage(id,"Вы ввели - " + message.getText());
             System.out.println(message.getText());
             log.info(id+" "+message.getText());
         }
+    }
+
+    public void addTestEntity() {
+        TestEntity emp = new TestEntity();
+        emp.setName("David");
+        emp.setAge(15);
+
+        //Get Session
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.getCurrentSession();
+        //start transaction
+        session.beginTransaction();
+        //Save the Model object
+        session.save(emp);
+        //Commit transaction
+        session.getTransaction().commit();
+
+        System.out.println("Test = ="+emp.getId());
+
+        //terminate session factory, otherwise program won't end
+        sessionFactory.close();
     }
 
     private void sendBotMessage(long id,String name) {
