@@ -1,5 +1,7 @@
 package animal.shelter.animalsshelter.controllers;
 
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -24,6 +26,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+@Log4j
 @Component
 public class TelegramBotStart extends TelegramLongPollingBot {
 
@@ -48,6 +51,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (update.hasMessage()&& message.hasText()) {
             sendBotMessage(id,"Вы ввели - " + message.getText());
             System.out.println(message.getText());
+            log.info(id+" "+message.getText());
         }
     }
 
@@ -58,6 +62,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
+            log.error(e.getMessage());
         }
     }
 }
