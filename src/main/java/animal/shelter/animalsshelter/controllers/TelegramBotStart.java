@@ -95,7 +95,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         shelterInfoButton.setText("Информация о приюте");
         shelterInfoButton.setCallbackData(INFO_BUTTON);
         InlineKeyboardButton necessary = new InlineKeyboardButton();
-        necessary.setText("Какие условия необходимо выполнить, чтобы взять животное");
+        necessary.setText("Какие условия необходимо выполнить, чтобы взять животное?");
         necessary.setCallbackData(NECESSARY);
         InlineKeyboardButton report = new InlineKeyboardButton();
         report.setText("Отправить отчёт о содержании животного");
