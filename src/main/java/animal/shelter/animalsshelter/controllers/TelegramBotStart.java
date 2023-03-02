@@ -60,7 +60,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (update.hasMessage()&&message.hasText()) {
             switch (message.getText()) {
                 case "/start":
-                    sendBotMessage(id,getBotUsername());
+                    getBotStartUserMenu(id);
                     break;
                 default:
                     sendBotMessage(id, "Вы ввели - " + message.getText());
@@ -82,8 +82,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    private void getBotStartUserMenu() {
+    private void getBotStartUserMenu(long id) {
         SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(id));
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
@@ -112,5 +113,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         rows.add(row3);
         inlineKeyboardMarkup.setKeyboard(rows);
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        sendMessage.setText("Привет - Это Asha)");
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
     }
 }
