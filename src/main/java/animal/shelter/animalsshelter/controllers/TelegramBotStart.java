@@ -101,7 +101,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         report.setText("Отправить отчёт о животном");
         report.setCallbackData(SEND_REPORT);
         InlineKeyboardButton call = new InlineKeyboardButton();
-        call.setText("Позвать волонтёра");
+        call.setText("Вопрос к волонтёру");
         call.setCallbackData(CALL_VOLUNTEER);
         row.add(shelterInfoButton);
         row1.add(necessary);
