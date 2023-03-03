@@ -37,6 +37,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final static String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
     private final static String SEND_REPORT = "SEND_REPORT";
     private final static String CALL_VOLUNTEER = "CALL_VOLUNTEER";
+    private final static String URL_START_PHOTO = "https://web.telegram.org/69d699be-0545-4b36-ba22-6599363c7a98";
 
     @Value("${bot.name}")
     private String botName;
@@ -120,4 +121,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             log.error(e.getMessage());
         }
     }
+
+
 }
