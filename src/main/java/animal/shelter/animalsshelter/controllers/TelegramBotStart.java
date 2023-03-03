@@ -3,21 +3,21 @@ package animal.shelter.animalsshelter.controllers;
 import animal.shelter.animalsshelter.config.Config;
 import animal.shelter.animalsshelter.services.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Log4j
 @Component
@@ -32,7 +32,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
    private final Config config;
 
-    private StartMenu startMenu = new StartMenu();
+    private final StartMenu startMenu = new StartMenu();
 
 
 
@@ -50,6 +50,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         return config.getBotKey();
     }
 
+    @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
@@ -61,7 +62,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     sendBotMessage(update.getMessage().getChatId(),"Привет - Это Asha)");
                     log.info(update.getMessage().getChatId()+" Привет - Это Asha)");
                     sendPhoto(update.getMessage().getChatId());
+                    Thread.sleep(1200);
                     sendBotMessage(update.getMessage().getChatId(),hello);
+                    Thread.sleep(1200);
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/start":
