@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
 import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
 import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
-import org.telegram.telegrambots.meta.api.objects.File;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -24,6 +24,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final static String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
     private final static String SEND_REPORT = "SEND_REPORT";
     private final static String CALL_VOLUNTEER = "CALL_VOLUNTEER";
-    private final static String URL_START_PHOTO = "https://web.telegram.org/69d699be-0545-4b36-ba22-6599363c7a98";
+    private final static String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
     @Value("${bot.name}")
     private String botName;
@@ -58,8 +59,13 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
         long id = update.getMessage().getChatId();
-        if (update.hasMessage()&&message.hasText()) {
+        if (update.hasMessage() && message.hasText()) {
             switch (message.getText()) {
+                case "/hello":
+                    sendBotMessage(id,"Привет - Это Asha)");
+                    sendPhoto(id);
+                    getBotStartUserMenu(id);
+                    break;
                 case "/start":
                     getBotStartUserMenu(id);
                     break;
@@ -114,7 +120,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         rows.add(row3);
         inlineKeyboardMarkup.setKeyboard(rows);
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-        sendMessage.setText("Привет - Это Asha)");
+        sendMessage.setText("Главное меню");
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -122,5 +128,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-
+    private void sendPhoto(long id) {
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(String.valueOf(id));
+        sendPhoto.setPhoto(new InputFile(new File(URL_START_PHOTO)));
+        try {
+            execute(sendPhoto);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
 }
