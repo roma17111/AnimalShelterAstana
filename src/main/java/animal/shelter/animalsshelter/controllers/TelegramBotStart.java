@@ -1,6 +1,8 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
+import animal.shelter.animalsshelter.services.StartMenu;
+import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -28,7 +30,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final static String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
 
-    final Config config;
+   private final Config config;
+
+    private StartMenu startMenu = new StartMenu();
+
+
 
     public TelegramBotStart(Config config) {
         this.config = config;
@@ -50,8 +56,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (update.hasMessage() && message.hasText()) {
             switch (message.getText()) {
                 case "/hello":
+                    String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
                     sendBotMessage(update.getMessage().getChatId(),"Привет - Это Asha)");
                     sendPhoto(update.getMessage().getChatId());
+                    sendBotMessage(update.getMessage().getChatId(),hello);
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/start":
