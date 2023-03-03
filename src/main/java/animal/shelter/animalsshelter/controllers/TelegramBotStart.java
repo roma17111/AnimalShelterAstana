@@ -1,34 +1,21 @@
 package animal.shelter.animalsshelter.controllers;
 
+import animal.shelter.animalsshelter.config.Config;
 import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.*;
-import org.telegram.telegrambots.meta.api.methods.stickers.AddStickerToSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.CreateNewStickerSet;
-import org.telegram.telegrambots.meta.api.methods.stickers.SetStickerSetThumb;
-import org.telegram.telegrambots.meta.api.methods.stickers.UploadStickerFile;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
-import javax.swing.*;
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Log4j
 @Component
@@ -40,19 +27,21 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final static String CALL_VOLUNTEER = "CALL_VOLUNTEER";
     private final static String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
-    @Value("${bot.name}")
-    private String botName;
-    @Value("${bot.key}")
-    private String botKey;
+
+    final Config config;
+
+    public TelegramBotStart(Config config) {
+        this.config = config;
+    }
 
     @Override
     public String getBotUsername() {
-        return botName;
+        return config.getBotName();
     }
 
     @Override
     public String getBotToken() {
-        return botKey;
+        return config.getBotKey();
     }
 
     @Override
@@ -126,6 +115,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
+
     }
 
     private void sendPhoto(long id) {
@@ -138,4 +128,5 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             log.error(e.getMessage());
         }
     }
+
 }
