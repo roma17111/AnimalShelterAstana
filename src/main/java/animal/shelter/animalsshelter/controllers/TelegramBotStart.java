@@ -47,23 +47,26 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
-        long id = update.getMessage().getChatId();
         if (update.hasMessage() && message.hasText()) {
             switch (message.getText()) {
                 case "/hello":
-                    sendBotMessage(id,"Привет - Это Asha)");
-                    sendPhoto(id);
-                    getBotStartUserMenu(id);
+                    sendBotMessage(update.getMessage().getChatId(),"Привет - Это Asha)");
+                    sendPhoto(update.getMessage().getChatId());
+                    getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/start":
-                    getBotStartUserMenu(id);
+                    getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 default:
-                    sendBotMessage(id, "Вы ввели - " + message.getText());
+                    sendBotMessage(update.getMessage().getChatId(), "Вы ввели - " + message.getText());
                     System.out.println(message.getText());
-                    log.info(id + " " + message.getText());
-                    break;
+                    log.info(update.getMessage().getChatId() + " " + message.getText());
+                   break;
             }
+        } else if (update.hasCallbackQuery()) {
+            sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),
+                    "пока в разработке)))");
+            getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId());
         }
     }
 
