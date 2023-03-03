@@ -57,7 +57,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             switch (message.getText()) {
                 case "/hello":
                     String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
+                    log.info(hello);
                     sendBotMessage(update.getMessage().getChatId(),"Привет - Это Asha)");
+                    log.info(update.getMessage().getChatId()+" Привет - Это Asha)");
                     sendPhoto(update.getMessage().getChatId());
                     sendBotMessage(update.getMessage().getChatId(),hello);
                     getBotStartUserMenu(update.getMessage().getChatId());
@@ -74,6 +76,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         } else if (update.hasCallbackQuery()) {
             sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),
                     "пока в разработке)))");
+            log.info(update.getCallbackQuery().getMessage().getChatId()+
+                    " пока в разработке)))");
             getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId());
         }
     }
