@@ -1,5 +1,7 @@
 package animal.shelter.animalsshelter.services;
 
+import org.springframework.format.number.PercentStyleFormatter;
+
 public class Emoji {
     public static final String GRINNING_FACE = ":grinning:";
     public static final String KISSING_FACE = ":kissing:";
@@ -27,6 +29,8 @@ public class Emoji {
     public static final String DOUBLE_BANG_MARK = ":bangbang:";
     public static final String BANG_QUESTION_MARK = ":interrobang:";
     public static final String QUESTION_MARK = ":question:";
+    public static final String check_mark = ":heavy_check_mark:";
+    public static final String cross_mark = ":x:";
     public static final String FEMALE_SIGN = ":female_sign:";
     public static final String MALE_SIGN = ":male_sign:";
     public static final String LOVE_LETTER = ":love_letter:";
@@ -50,4 +54,16 @@ public class Emoji {
     public static final String YELLOW_HEART = ":yellow_heart:";
     public static final String GREEN_HEART = ":green_heart:";
     public static final String BLUE_HEART = ":blue_heart:";
+    public static final String HI_HAND = ":waving_hand:";
+    public static final String OK_HAND = ":ok_hand:";
+    public static final String VICTORY_HAND = ":v:";
+    public static final String LOVE_YOU_HAND = ":love_you_gesture:";
+    public static final String HEART_HANDS = ":heart_hands:";
+    public static final String CALL_ME_HAND = ":call_me_hand:";
+    public static final String CLAPPING_HANDS = ":clap:";
+    public static final String HAND_SHAKE = ":handshake:";
+    public static final String UP_POINT_HAND = ":point_up:";
+    public static final String WRITING_HAND = ":writing_hand:";
+    public static final String FOLDED_HANDS = ":pray:";
+    public static final String BACK_POINT_HAND_LEFT = ":point_left:";
 }
