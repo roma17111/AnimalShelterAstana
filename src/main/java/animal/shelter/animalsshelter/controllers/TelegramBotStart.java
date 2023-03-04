@@ -1,6 +1,7 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
+import animal.shelter.animalsshelter.services.Emoji;
 import animal.shelter.animalsshelter.services.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
@@ -35,6 +36,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private static final String SEND_REPORT = "SEND_REPORT";
     private static final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
     private static final String GO_BACK = "GO_BACK";
+    private static final String BACK_ONE_POINT = "BACK_ONE";
     private static final String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
     private final Config config;
@@ -88,6 +90,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 startMenu1(chatId, messageId);
             } else if (dataCallback.equals(GO_BACK)) {
                 getBackMenu(chatId,messageId);
+            } else if (dataCallback.equals(BACK_ONE_POINT)) {
+                startMenu1(chatId, messageId);
+            } else if (dataCallback.equals(TELL_ABOUT_SHELTER)) {
+                getInfoAboutMe(chatId,messageId);
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
@@ -99,7 +105,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     log.error(e.getMessage());
                 }
                 Thread.sleep(400);
-                getBackMenu(chatId,messageId);
+                getBackMenu(chatId, messageId);
             }
         }
     }
@@ -197,7 +203,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         volunteerCall.setText("Вопрос к волонтёру");
         volunteerCall.setCallbackData(CALL_VOLUNTEER);
         InlineKeyboardButton back = new InlineKeyboardButton();
-        back.setText("назад");
+        back.setText( EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT)+"   назад");
         back.setCallbackData(GO_BACK);
         row1.add(tellMe);
         row2.add(cLockWork);
@@ -259,5 +265,28 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
+    }
+
+    private void getInfoAboutMe(long chatID, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(startMenu.getInfoAboutShelter());
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT)+"   назад");
+        backOne.setCallbackData(BACK_ONE_POINT);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+
     }
 }
