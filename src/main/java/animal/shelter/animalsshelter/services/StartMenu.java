@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class StartMenu {
-    public String hello;
 
     public String sayHello(){
         String hello = EmojiParser.parseToUnicode("Общаясь со мной, можно узнать:\n" +
