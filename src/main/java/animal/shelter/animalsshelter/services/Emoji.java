@@ -29,8 +29,8 @@ public class Emoji {
     public static final String DOUBLE_BANG_MARK = ":bangbang:";
     public static final String BANG_QUESTION_MARK = ":interrobang:";
     public static final String QUESTION_MARK = ":question:";
-    public static final String check_mark = ":heavy_check_mark:";
-    public static final String cross_mark = ":x:";
+    public static final String CHECK_MARK = ":heavy_check_mark:";
+    public static final String CROSS_MARK = ":x:";
     public static final String FEMALE_SIGN = ":female_sign:";
     public static final String MALE_SIGN = ":male_sign:";
     public static final String LOVE_LETTER = ":love_letter:";
