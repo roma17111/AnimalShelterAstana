@@ -89,11 +89,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(GO_BACK)) {
                 getBackMenu(chatId,messageId);
             } else {
-                sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),
-                        "пока в разработке)))");
-                log.info(update.getCallbackQuery().getMessage().getChatId() +
-                        " пока в разработке)))");
-                getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId());
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText("Пока в разработке)))");
+                try {
+                    execute(messageText);
+                } catch (TelegramApiException e) {
+                    log.error(e.getMessage());
+                }
+                Thread.sleep(400);
+                getBackMenu(chatId,messageId);
             }
         }
     }
