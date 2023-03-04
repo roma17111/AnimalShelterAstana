@@ -1,10 +1,8 @@
 package animal.shelter.animalsshelter.controllers;
 
-import animal.shelter.animalsshelter.model.TestEntity;
-import animal.shelter.animalsshelter.util.HibernateUtil;
+import animal.shelter.animalsshelter.repository.testJPA;
 import lombok.extern.log4j.Log4j;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -16,6 +14,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Log4j
 @Component
 public class TelegramBotStart extends TelegramLongPollingBot {
+
+    @Autowired
+    private testJPA repository;
 
     @Value("${bot.name}")
     private String botName;
@@ -35,36 +36,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         Message message = update.getMessage();
-
-        addTestEntity();
+        Long chatId = update.getMessage().getChatId();
 
         long id = update.getMessage().getChatId();
         if (update.hasMessage()&& message.hasText()) {
+            var ywop = repository.findById(1L);
             sendBotMessage(id,"Вы ввели - " + message.getText());
+            sendBotMessage(id,"Вы ввели - " + ywop.toString());
+            //sendBotMessage(id,"Id - " + chatId);
             System.out.println(message.getText());
             log.info(id+" "+message.getText());
         }
-    }
-
-    public void addTestEntity() {
-        TestEntity emp = new TestEntity();
-        emp.setName("David");
-        emp.setAge(15);
-
-        //Get Session
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
-        //start transaction
-        session.beginTransaction();
-        //Save the Model object
-        session.save(emp);
-        //Commit transaction
-        session.getTransaction().commit();
-
-        System.out.println("Test = ="+emp.getId());
-
-        //terminate session factory, otherwise program won't end
-        sessionFactory.close();
     }
 
     private void sendBotMessage(long id,String name) {

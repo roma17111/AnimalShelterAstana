@@ -13,16 +13,14 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="7b6b44aa-a26e-45e8-902f-69c14d983269">
-      <console name="Connection" type="STANDARD" schema="skypro_tg" session="Main" />
+      <console name="Connection" type="STANDARD" schema="public" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="7b6b44aa-a26e-45e8-902f-69c14d983269" object-ref="schemas/public/tables/test_table" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="7b6b44aa-a26e-45e8-902f-69c14d983269" dataset="public.test_table" active-filter-id="EMPTY_FILTER">
