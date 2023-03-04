@@ -14,7 +14,9 @@ public class StartMenu {
                 Emoji.BLUE_HEART + "Выбрать себе питомца\n" +
                 Emoji.RED_HEART + "Получать поддержку и консультации волонтёров\n" +
                 Emoji.YELLOW_HEART + "Узнать больше о способах помощи приюту.\n\n" +
-                Emoji.WHITE_HEART + "Давайте знакомиться!");
+                Emoji.GROWING_HEART + "Давайте знакомиться!");
         return hello;
     }
+
+
 }

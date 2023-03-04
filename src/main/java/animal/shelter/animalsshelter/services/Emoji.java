@@ -54,6 +54,7 @@ public class Emoji {
     public static final String YELLOW_HEART = ":yellow_heart:";
     public static final String GREEN_HEART = ":green_heart:";
     public static final String BLUE_HEART = ":blue_heart:";
+    public static final String GROWING_HEART = ":heartpulse:";
     public static final String HI_HAND = ":waving_hand:";
     public static final String OK_HAND = ":ok_hand:";
     public static final String VICTORY_HAND = ":v:";
