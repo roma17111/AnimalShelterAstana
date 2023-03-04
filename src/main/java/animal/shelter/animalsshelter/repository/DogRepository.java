@@ -2,6 +2,8 @@ package animal.shelter.animalsshelter.repository;
 
 import animal.shelter.animalsshelter.model.Dog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface DogRepository extends JpaRepository<Dog, Long> {
+@Repository
+public interface DogRepository extends JpaRepository<Dog, Integer> {
 }

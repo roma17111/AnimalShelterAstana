@@ -12,7 +12,7 @@ public class Dog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dog_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nickname", nullable = false)
     private String nickname;
