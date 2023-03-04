@@ -23,18 +23,14 @@ import java.util.List;
 @Component
 public class TelegramBotStart extends TelegramLongPollingBot {
 
-    private final static String INFO_BUTTON = "INFO_BUTTON";
-    private final static String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
-    private final static String SEND_REPORT = "SEND_REPORT";
-    private final static String CALL_VOLUNTEER = "CALL_VOLUNTEER";
-    private final static String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
+    private static final String INFO_BUTTON = "INFO_BUTTON";
+    private static final String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
+    private static final String SEND_REPORT = "SEND_REPORT";
+    public static final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
+    private static final String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
-
-   private final Config config;
-
+    private final Config config;
     private final StartMenu startMenu = new StartMenu();
-
-
 
     public TelegramBotStart(Config config) {
         this.config = config;
@@ -59,11 +55,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/hello":
                     String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
                     log.info(hello);
-                    sendBotMessage(update.getMessage().getChatId(),"Привет - Это Asha)");
-                    log.info(update.getMessage().getChatId()+" Привет - Это Asha)");
+                    sendBotMessage(update.getMessage().getChatId(), "Привет - Это Asha)");
+                    log.info(update.getMessage().getChatId() + " Привет - Это Asha)");
                     sendPhoto(update.getMessage().getChatId());
                     Thread.sleep(1200);
-                    sendBotMessage(update.getMessage().getChatId(),hello);
+                    sendBotMessage(update.getMessage().getChatId(), hello);
                     Thread.sleep(1200);
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
@@ -74,12 +70,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     sendBotMessage(update.getMessage().getChatId(), "Вы ввели - " + message.getText());
                     System.out.println(message.getText());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
-                   break;
+                    break;
             }
         } else if (update.hasCallbackQuery()) {
             sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),
                     "пока в разработке)))");
-            log.info(update.getCallbackQuery().getMessage().getChatId()+
+            log.info(update.getCallbackQuery().getMessage().getChatId() +
                     " пока в разработке)))");
             getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId());
         }
@@ -133,7 +129,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
-
     }
 
     private void sendPhoto(long id) {
@@ -146,5 +141,4 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             log.error(e.getMessage());
         }
     }
-
 }
