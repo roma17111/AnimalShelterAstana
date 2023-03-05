@@ -121,6 +121,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 getWorkTime(chatId, messageId);
             } else if (dataCallback.equals(ADDRESS)) {
                 getContactUs(chatId,messageId);
+            } else if (dataCallback.equals(SECURITY)) {
+                getSafeInformation(chatId,messageId);
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
@@ -371,6 +373,29 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         messageText.setChatId(chatID);
         messageText.setMessageId((int) messageId);
         messageText.setText(EmojiParser.parseToUnicode(startMenu.contactUs()));
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(BACK_ONE_POINT);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void getSafeInformation(long chatID,
+                              long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(EmojiParser.parseToUnicode(startMenu.toBeSafeRegulations()));
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
