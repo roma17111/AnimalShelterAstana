@@ -1,4 +1,4 @@
-package animal.shelter.animalsshelter.services;
+package animal.shelter.animalsshelter.service;
 
 import org.springframework.format.number.PercentStyleFormatter;
 

@@ -4,13 +4,10 @@ import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -23,7 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(long id) {
+    public User getUserById(Integer id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -33,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(long id) {
+    public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
 }

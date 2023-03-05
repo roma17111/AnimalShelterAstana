@@ -1,9 +1,7 @@
-package animal.shelter.animalsshelter.services;
+package animal.shelter.animalsshelter.service;
 
 import com.vdurmont.emoji.EmojiParser;
 import lombok.Data;
-
-import javax.ws.rs.HEAD;
 
 @Data
 public class StartMenu {

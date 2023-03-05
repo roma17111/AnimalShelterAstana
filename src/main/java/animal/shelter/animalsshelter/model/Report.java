@@ -12,7 +12,7 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "diet")
     private String diet;

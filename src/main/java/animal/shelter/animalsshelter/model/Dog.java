@@ -9,10 +9,16 @@ import javax.persistence.*;
 @Table(name = "dog")
 public class Dog {
 
+    public enum DogType {
+        PUPPY,
+        ADULT,
+        DISABLED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dog_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nickname", nullable = false)
     private String nickname;
@@ -27,7 +33,8 @@ public class Dog {
     private String transportationRecommendations;
 
     @Column(name = "dog_type", nullable = false)
-    private String dogType;
+    @Enumerated(EnumType.STRING)
+    private DogType dogType;
 
     @Column(name = "home_arrangement_recommendations", nullable = false)
     private String homeArrangementRecommendations;
