@@ -1,4 +1,4 @@
-package animal.shelter.animalsshelter.service;
+package animal.shelter.animalsshelter.util;
 
 import com.vdurmont.emoji.EmojiParser;
 import lombok.Data;
