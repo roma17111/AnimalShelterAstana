@@ -9,6 +9,12 @@ import javax.persistence.*;
 @Table(name = "dog")
 public class Dog {
 
+     private enum DogType {
+        PUPPY,
+        ADULT,
+        DISABLED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dog_id")
@@ -26,6 +32,7 @@ public class Dog {
     @Column(name = "transportation_recommendations", nullable = false)
     private String transportationRecommendations;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "dog_type", nullable = false)
     private String dogType;
 
