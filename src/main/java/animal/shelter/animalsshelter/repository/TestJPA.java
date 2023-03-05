@@ -7,9 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Component
-@Repository
-public interface    testJPA extends JpaRepository<TestEntity, Long> {
+
+public interface    TestJPA extends JpaRepository<TestEntity, Long> {
 
     Optional<TestEntity> findById(Long id);
 }

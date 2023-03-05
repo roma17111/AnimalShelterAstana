@@ -1,11 +1,16 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
+import animal.shelter.animalsshelter.model.TestEntity;
+import animal.shelter.animalsshelter.repository.TestJPA;
+import animal.shelter.animalsshelter.service.UserService;
+import animal.shelter.animalsshelter.service.impl.UserServiceImpl;
 import animal.shelter.animalsshelter.services.Emoji;
 import animal.shelter.animalsshelter.services.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -42,6 +47,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
 
+    @Autowired
+    private TestJPA testJPA;
     public TelegramBotStart(Config config) {
         this.config = config;
     }
@@ -76,14 +83,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/menu":
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
+                case "/test":
+                    List<TestEntity> tests = testJPA.findAll();
+                    for (TestEntity test : tests) {
+                        sendBotMessage(update.getMessage().getChatId(), test.toString());
+                    }
+                    break;
                 default:
-                        String msg = "Вопрос пользователя: \n"
-                                + update.getMessage().getChatId() + "\n"
-                                + update.getMessage().getChat().getFirstName() + "\n"
-                                + update.getMessage().getChat().getLastName() + "\n"
-                                + message.getText();
-                      //  sendBotMessage(453006669, msg);
-                        sendBotMessage(update.getMessage().getChatId(), msg);
+                    String msg = "Вопрос пользователя: \n"
+                            + update.getMessage().getChatId() + "\n"
+                            + update.getMessage().getChat().getFirstName() + "\n"
+                            + update.getMessage().getChat().getLastName() + "\n"
+                            + message.getText();
+                    sendBotMessage(453006669, msg);
+                    //  sendBotMessage(update.getMessage().getChatId(), msg);
                     System.out.println(message.getText());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
                     break;
@@ -105,7 +118,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 EditMessageText text = new EditMessageText();
                 Message message1 = new Message();
             } else if (dataCallback.equals(WORK_TIME)) {
-                getWorkTime(chatId,messageId);
+                getWorkTime(chatId, messageId);
+            } else if (dataCallback.equals(ADDRESS)) {
+                getContactUs(chatId,messageId);
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
@@ -328,11 +343,34 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     }
 
     private void getWorkTime(long chatID,
-                               long messageId) {
+                             long messageId) {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatID);
         messageText.setMessageId((int) messageId);
         messageText.setText(EmojiParser.parseToUnicode(startMenu.workTime()));
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(BACK_ONE_POINT);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void getContactUs(long chatID,
+                             long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(EmojiParser.parseToUnicode(startMenu.contactUs()));
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();

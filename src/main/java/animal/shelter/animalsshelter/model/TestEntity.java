@@ -37,4 +37,11 @@ public class TestEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "id - " + id + "\n"+
+                " name -" + name + '\n' +
+                " age - " + age +'\n';
+    }
 }
