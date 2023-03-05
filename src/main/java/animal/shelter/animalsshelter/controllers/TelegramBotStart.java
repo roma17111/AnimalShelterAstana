@@ -77,7 +77,13 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 default:
-                    sendBotMessage(update.getMessage().getChatId(), "Вы ввели - " + message.getText());
+                        String msg = "Вопрос пользователя: \n"
+                                + update.getMessage().getChatId() + "\n"
+                                + update.getMessage().getChat().getFirstName() + "\n"
+                                + update.getMessage().getChat().getLastName() + "\n"
+                                + message.getText();
+                      //  sendBotMessage(453006669, msg);
+                        sendBotMessage(update.getMessage().getChatId(), msg);
                     System.out.println(message.getText());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
                     break;
@@ -89,11 +95,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             if (dataCallback.equals(INFO_BUTTON)) {
                 startMenu1(chatId, messageId);
             } else if (dataCallback.equals(GO_BACK)) {
-                getBackMenu(chatId,messageId);
+                getBackMenu(chatId, messageId);
             } else if (dataCallback.equals(BACK_ONE_POINT)) {
                 startMenu1(chatId, messageId);
             } else if (dataCallback.equals(TELL_ABOUT_SHELTER)) {
-                getInfoAboutMe(chatId,messageId);
+                getInfoAboutMe(chatId, messageId);
+            } else if (dataCallback.equals(CALL_VOLUNTEER)) {
+                callVolunteer(chatId, messageId);
+                EditMessageText text = new EditMessageText();
+                Message message1 = new Message();
+            } else if (dataCallback.equals(WORK_TIME)) {
+                getWorkTime(chatId,messageId);
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
@@ -108,6 +120,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 getBackMenu(chatId, messageId);
             }
         }
+    }
+
+    private void editMessageText() {
     }
 
     private void sendBotMessage(long id, String name) {
@@ -203,7 +218,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         volunteerCall.setText("Вопрос к волонтёру");
         volunteerCall.setCallbackData(CALL_VOLUNTEER);
         InlineKeyboardButton back = new InlineKeyboardButton();
-        back.setText( EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT)+"   назад");
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         back.setCallbackData(GO_BACK);
         row1.add(tellMe);
         row2.add(cLockWork);
@@ -276,7 +291,53 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
         InlineKeyboardButton backOne = new InlineKeyboardButton();
-        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT)+"   назад");
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(BACK_ONE_POINT);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void callVolunteer(long chatID,
+                               long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText("Какой у вас вопрос?");
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(GO_BACK);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void getWorkTime(long chatID,
+                               long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(EmojiParser.parseToUnicode(startMenu.workTime()));
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         backOne.setCallbackData(BACK_ONE_POINT);
         row.add(backOne);
         rows.add(row);
