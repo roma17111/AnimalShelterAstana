@@ -1,6 +1,8 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.repository.testJPA;
+import animal.shelter.animalsshelter.service.ImageParser;
+import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     @Autowired
     private testJPA repository;
 
+    private final ImageParser imageParser = new ImageParserImpl(this);
+
     @Value("${bot.name}")
     private String botName;
     @Value("${bot.key}")
@@ -45,52 +49,24 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     }
 
-    private void sendBotMessage(long id,String name) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(String.valueOf(id));
-        sendMessage.setText(name);
+    private void getPhoto(Update update) {
         try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    public void getMassagePhoto(Update update){
-        if (update.hasMessage() && update.getMessage().hasPhoto()) {
-            Message message = update.getMessage();
-            Long chatId = message.getChatId();
-            PhotoSize photo = getLargestPhoto(message.getPhoto());
-            byte[] byteCode = getImageByteCode(photo);
-            sendPhoto(chatId, byteCode);
-        }
-    }
-
-    private PhotoSize getLargestPhoto(List<PhotoSize> photos) {
-        return photos.stream().max(Comparator.comparing(PhotoSize::getFileSize)).orElse(null);
-    }
-
-    private byte[] getImageByteCode(PhotoSize photo) {
-        GetFile getFileMethod = new GetFile();
-        getFileMethod.setFileId(photo.getFileId());
-        try {
-            File file = execute(getFileMethod);
-            String filePath = file.getFilePath();
-            URL url = new URL("https://api.telegram.org/file/bot" + getBotToken() + "/" + filePath);
-            InputStream inputStream = url.openConnection().getInputStream();
-            return IOUtils.toByteArray(inputStream);
+            if (update.hasMessage() && update.getMessage().hasPhoto()) {
+                Message message = update.getMessage();
+                Long chatId = message.getChatId();
+                PhotoSize photo = imageParser.getLargestPhoto(message.getPhoto());
+                byte[] byteCode = imageParser.imageToByteCode(photo);
+                // sendPhoto(update.getMessage().getChatId(), byteCode);
+                // Отправка данных будет производиться на сервер
+            }
         } catch (TelegramApiException | IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    private void sendPhoto(Long chatId, byte[] byteCode) {
-        SendPhoto sendPhotoRequest = new SendPhoto();
-        sendPhotoRequest.setChatId(String.valueOf(chatId));
-        sendPhotoRequest.setPhoto(new InputFile(new ByteArrayInputStream(byteCode), "photo.jpg"));
+    private void sendPhoto(Long chatId, byte[] byteCode){
         try {
-            execute(sendPhotoRequest);
+            execute(imageParser.byteCodeToImage(chatId, byteCode));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
