@@ -217,7 +217,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         List<InlineKeyboardButton> row5 = new ArrayList<>();
         List<InlineKeyboardButton> row6 = new ArrayList<>();
         InlineKeyboardButton tellMe = new InlineKeyboardButton();
-        tellMe.setText("Расскажи о себе");
+        tellMe.setText("Информация о нас");
         tellMe.setCallbackData(TELL_ABOUT_SHELTER);
         InlineKeyboardButton cLockWork = new InlineKeyboardButton();
         cLockWork.setText("Часы работы");
