@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ReportService {
     Report saveReport(Report report);
-    Report getReportById(long id);
+    Report getReportById(Integer id);
     List<Report> getAllReports();
-    void deleteReport(long id);
+    void deleteReport(Integer id);
 }
 

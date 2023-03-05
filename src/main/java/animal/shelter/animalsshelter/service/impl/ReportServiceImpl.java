@@ -4,13 +4,10 @@ import animal.shelter.animalsshelter.model.Report;
 import animal.shelter.animalsshelter.repository.ReportRepository;
 import animal.shelter.animalsshelter.service.ReportService;
 import lombok.RequiredArgsConstructor;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
 
@@ -23,7 +20,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Report getReportById(long id) {
+    public Report getReportById(Integer id) {
         return reportRepository.findById(id).orElse(null);
     }
 
@@ -33,7 +30,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void deleteReport(long id) {
+    public void deleteReport(Integer id) {
         reportRepository.deleteById(id);
     }
 }

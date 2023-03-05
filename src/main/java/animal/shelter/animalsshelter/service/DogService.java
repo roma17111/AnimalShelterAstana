@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DogService {
     Dog saveDog(Dog dog);
-    Dog getDogById(long id);
+    Dog getDogById(Integer id);
     List<Dog> getAllDogs();
-    void deleteDog(long id);
+    void deleteDog(Integer id);
 }

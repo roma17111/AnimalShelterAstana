@@ -4,13 +4,10 @@ import animal.shelter.animalsshelter.model.Dog;
 import animal.shelter.animalsshelter.repository.DogRepository;
 import animal.shelter.animalsshelter.service.DogService;
 import lombok.RequiredArgsConstructor;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
 public class DogServiceImpl implements DogService {
 
@@ -23,8 +20,8 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public Dog getDogById(long id) {
-        return dogRepository.findById(Long.valueOf(id)).orElse(null);
+    public Dog getDogById(Integer id) {
+        return dogRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -33,7 +30,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public void deleteDog(long id) {
+    public void deleteDog(Integer id) {
         dogRepository.deleteById(id);
     }
 }

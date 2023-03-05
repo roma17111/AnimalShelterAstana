@@ -3,10 +3,10 @@ package animal.shelter.animalsshelter.controllers;
 import animal.shelter.animalsshelter.config.Config;
 import animal.shelter.animalsshelter.model.TestEntity;
 import animal.shelter.animalsshelter.repository.TestJPA;
-import animal.shelter.animalsshelter.service.UserService;
-import animal.shelter.animalsshelter.service.impl.UserServiceImpl;
-import animal.shelter.animalsshelter.services.Emoji;
-import animal.shelter.animalsshelter.services.StartMenu;
+import animal.shelter.animalsshelter.service.ImageParser;
+import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
+import animal.shelter.animalsshelter.util.Emoji;
+import animal.shelter.animalsshelter.util.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
@@ -17,12 +17,14 @@ import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
+    private final ImageParser imageParser = new ImageParserImpl(this);
 
     @Autowired
     private TestJPA testJPA;
@@ -410,6 +413,28 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             execute(messageText);
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
+        }
+    }
+
+    private void getPhotoFromMessage(Message message) {
+        try {
+            if (message.hasPhoto()) {
+                Long chatId = message.getChatId();
+                PhotoSize photo = imageParser.getLargestPhoto(message.getPhoto());
+                byte[] byteCode = imageParser.imageToByteCode(photo);
+                // sendPhoto(chatId, byteCode);
+                // Отправка данных будет производиться на сервер
+            }
+        } catch (TelegramApiException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendPhotoFromByteCode(Long chatId, byte[] byteCode){
+        try {
+            execute(imageParser.byteCodeToImage(chatId, byteCode));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 }
