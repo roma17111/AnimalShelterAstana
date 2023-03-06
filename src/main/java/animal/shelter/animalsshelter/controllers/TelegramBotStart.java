@@ -66,6 +66,13 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         return config.getBotKey();
     }
 
+    /**
+     * Метод обновления, который вызывается, когда бот получает новое сообщение.
+     * Если сообщение содержит текст, то выполняется один из кейсов.
+     * В кейсах происходит отправка сообщений, вызов различных методов бота и логирование действий.
+     * Если сообщение содержит callback-запрос, то выполняется соответствующее действие в зависимости от полученных данных.
+     * Метод использует аннотацию @SneakyThrows для удобной обработки исключений.
+     */
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
@@ -145,6 +152,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private void editMessageText() {
     }
 
+    /**
+     * Отправляет сообщение пользователю в Telegram боте.
+     * @param id идентификатор чата
+     * @param name текст сообщения для отправки
+     */
     private void sendBotMessage(long id, String name) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(id));
@@ -156,6 +168,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки пользователю главного меню бота при старте бота.
+     * @param id ID чата с пользователем
+     */
     private void getBotStartUserMenu(long id) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(id));
@@ -195,6 +211,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки фото из url адресса проекта.
+     * @param id - id чата, куда будет отправлено фото.
+     */
     private void sendPhoto(long id) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(String.valueOf(id));
@@ -206,6 +226,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для вывода меню при старте бота
+     * @param chatId - идентификатор чата
+     * @param messageId - идентификатор сообщения
+     */
     private void startMenu1(long chatId, long messageId) {
         EditMessageText editMessageText = new EditMessageText();
         editMessageText.setChatId(chatId);
@@ -262,6 +287,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод отображает главное меню бота, куда можно вернуться из других разделов.
+     * @param id идентификатор чата в телеграм
+     * @param messageId идентификатор сообщения в чате
+     */
     private void getBackMenu(long id, long messageId) {
         EditMessageText sendMessage = new EditMessageText();
         sendMessage.setChatId(id);
@@ -302,6 +332,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки сообщения с информацией о приюте в чат.
+     * @param chatID ID чата.
+     * @param messageId ID сообщения.
+     */
     private void getInfoAboutMe(long chatID, long messageId) {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatID);
@@ -324,6 +359,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для вызова волонтера.
+     * @param chatID - идентификатор чата в Телеграме
+     * @param messageId - идентификатор сообщения в чате
+     */
     private void callVolunteer(long chatID,
                                long messageId) {
         EditMessageText messageText = new EditMessageText();
@@ -347,6 +387,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки пользователю сообщения о рабочем времени.
+     * @param chatID ID чата, в котором отправляется сообщение.
+     * @param messageId ID сообщения, которое нужно отредактировать.
+     */
     private void getWorkTime(long chatID,
                              long messageId) {
         EditMessageText messageText = new EditMessageText();
@@ -370,6 +415,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод, отправляющий сообщение с информацией о контактах бота и кнопкой "назад".
+     * @param chatID - идентификатор чата
+     * @param messageId - идентификатор сообщения
+     */
     private void getContactUs(long chatID,
                              long messageId) {
         EditMessageText messageText = new EditMessageText();
@@ -393,6 +443,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет пользователю сообщение с инструкцией по обеспечению безопасности
+     * в EditMessageText формате с соответствующей клавиатурой InlineKeyboardMarkup.
+     * @param chatID id чата
+     * @param messageId id сообщения
+     */
     private void getSafeInformation(long chatID,
                               long messageId) {
         EditMessageText messageText = new EditMessageText();
@@ -416,6 +472,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Сделать чуть позже
+     */
     private void getPhotoFromMessage(Message message) {
         try {
             if (message.hasPhoto()) {
@@ -430,6 +489,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод отправляет фотографию в формате байтового кода пользователю в чате
+     * @param chatId идентификатор чата
+     * @param byteCode байтовый код фотографии
+     */
     private void sendPhotoFromByteCode(Long chatId, byte[] byteCode){
         try {
             execute(imageParser.byteCodeToImage(chatId, byteCode));

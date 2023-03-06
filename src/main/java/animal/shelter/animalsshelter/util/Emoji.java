@@ -2,6 +2,10 @@ package animal.shelter.animalsshelter.util;
 
 import org.springframework.format.number.PercentStyleFormatter;
 
+/**
+ * Класс содержит список строковых констант, представляющих эмодзи.
+ * Каждая константа названа в честь соответствующего эмодзи и имеет код эмодзи в качестве значения.
+ * */
 public class Emoji {
     public static final String GRINNING_FACE = ":grinning:";
     public static final String KISSING_FACE = ":kissing:";
