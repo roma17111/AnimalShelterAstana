@@ -3,9 +3,18 @@ package animal.shelter.animalsshelter.util;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.Data;
 
+/**
+ * Класс StartMenu используется для формирования главного меню программы
+ * и предоставления информации о приюте животных.
+ * Класс содержит методы для отображения информации о приюте.
+ */
 @Data
 public class StartMenu {
 
+    /**
+     * Метод sayHello() формирует приветственное сообщение с информацией о функционале приюта.
+     * @return строку с приветственным сообщением.
+     */
     public String sayHello() {
         String hello = EmojiParser.parseToUnicode("Общаясь со мной, можно узнать:\n" +
                 Emoji.PURPLE_HEART + " Миссию и историю приюта\n" +
@@ -18,6 +27,10 @@ public class StartMenu {
         return hello;
     }
 
+    /**
+     * Метод getInfoAboutShelter() формирует информацию о миссии, ценностях, команде и истории приюта.
+     * @return строку с информацией о приюте.
+     */
     public String getInfoAboutShelter() {
         String info = EmojiParser.parseToUnicode(Emoji.LOVE_YOU_HAND + " Миссия: \n" +
                 "Мы любим людей и животных, поэтому помогаем друг другу " +
@@ -43,6 +56,10 @@ public class StartMenu {
         return info;
     }
 
+    /**
+     * Метод возвращает расписание работы приюта.
+     * @return строка с расписанием работы приюта в виде Unicode-символов
+     */
     public String workTime() {
         String time = EmojiParser.parseToUnicode("Мы работаем : \n" +
                 Emoji.ALARM_CLOCK + "Пн-Пт - с 09:30 до 19;30\n" +
@@ -52,6 +69,10 @@ public class StartMenu {
         return time;
     }
 
+    /**
+     * Метод возвращает контактную информацию приюта.
+     * @return строка с контактной информацией в виде Unicode-символов
+     */
     public String contactUs() {
         String contact = EmojiParser.parseToUnicode("С нами можно связаться:\n" +
                 Emoji.PHONE_RECEIVER + " +7-708-899-78-78\n" +
@@ -62,6 +83,10 @@ public class StartMenu {
         return contact;
     }
 
+    /**
+     * Метод возвращает правила поведения на территории приюта.
+     * @return строка с правилами поведения на территории приюта в виде Unicode-символов
+     */
     public String toBeSafeRegulations() {
         String regulations = EmojiParser.parseToUnicode("На территории приюта ОБЯЗАТЕЛЬНО соблюдать следующие правила:^\n" +
                 Emoji.DOUBLE_BANG_MARK + " На территории приюта можно находиться только в сопровождении волонтёра\n" +
