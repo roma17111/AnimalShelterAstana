@@ -1,9 +1,9 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
-import animal.shelter.animalsshelter.model.TestEntity;
-import animal.shelter.animalsshelter.repository.TestJPA;
+import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.service.ImageParser;
+import animal.shelter.animalsshelter.service.UserService;
 import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
 import animal.shelter.animalsshelter.util.Emoji;
 import animal.shelter.animalsshelter.util.StartMenu;
@@ -12,6 +12,7 @@ import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -31,6 +32,7 @@ import java.util.List;
 
 @Log4j
 @Component
+@RestController
 public class TelegramBotStart extends TelegramLongPollingBot {
     private static final String TELL_ABOUT_SHELTER = "TELL_ME";
     private static final String WORK_TIME = "TIME_BUTTON";
@@ -51,7 +53,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final ImageParser imageParser = new ImageParserImpl(this);
 
     @Autowired
-    private TestJPA testJPA;
+    private UserService userService;
+
     public TelegramBotStart(Config config) {
         this.config = config;
     }
@@ -94,8 +97,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/test":
-                    List<TestEntity> tests = testJPA.findAll();
-                    for (TestEntity test : tests) {
+                    List<User> users = userService.getAllUsers();
+                    for (User test : users) {
                         sendBotMessage(update.getMessage().getChatId(), test.toString());
                     }
                     break;
