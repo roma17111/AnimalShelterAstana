@@ -1,0 +1,8 @@
+animal.shelter.animalsshelter
+animal.shelter.animalsshelter.config
+animal.shelter.animalsshelter.controllers
+animal.shelter.animalsshelter.model
+animal.shelter.animalsshelter.repository
+animal.shelter.animalsshelter.service
+animal.shelter.animalsshelter.service.impl
+animal.shelter.animalsshelter.util

@@ -1,29 +1,39 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
-import animal.shelter.animalsshelter.services.Emoji;
-import animal.shelter.animalsshelter.services.StartMenu;
+import animal.shelter.animalsshelter.model.User;
+import animal.shelter.animalsshelter.repository.UserRepository;
+import animal.shelter.animalsshelter.service.ImageParser;
+import animal.shelter.animalsshelter.service.UserService;
+import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
+import animal.shelter.animalsshelter.util.Emoji;
+import animal.shelter.animalsshelter.util.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Log4j
 @Component
+@RestController
 public class TelegramBotStart extends TelegramLongPollingBot {
     private static final String TELL_ABOUT_SHELTER = "TELL_ME";
     private static final String WORK_TIME = "TIME_BUTTON";
@@ -41,6 +51,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
+    private final ImageParser imageParser = new ImageParserImpl(this);
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     public TelegramBotStart(Config config) {
         this.config = config;
@@ -56,6 +71,13 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         return config.getBotKey();
     }
 
+    /**
+     * Метод обновления, который вызывается, когда бот получает новое сообщение.
+     * Если сообщение содержит текст, то выполняется один из кейсов.
+     * В кейсах происходит отправка сообщений, вызов различных методов бота и логирование действий.
+     * Если сообщение содержит callback-запрос, то выполняется соответствующее действие в зависимости от полученных данных.
+     * Метод использует аннотацию @SneakyThrows для удобной обработки исключений.
+     */
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
@@ -76,8 +98,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/menu":
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
+                case "/test":
+                    List<User> users = userRepository.findAll();
+                    for (User test : users) {
+                        sendBotMessage(update.getMessage().getChatId(), test.toString());
+                    }
+                    break;
                 default:
-                    sendBotMessage(update.getMessage().getChatId(), "Вы ввели - " + message.getText());
+                    String msg = "Вопрос пользователя: \n"
+                            + update.getMessage().getChatId() + "\n"
+                            + update.getMessage().getChat().getFirstName() + "\n"
+                            + update.getMessage().getChat().getLastName() + "\n"
+                            + message.getText();
+                    sendBotMessage(453006669, msg);
+                    //  sendBotMessage(update.getMessage().getChatId(), msg);
                     System.out.println(message.getText());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
                     break;
@@ -89,11 +123,21 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             if (dataCallback.equals(INFO_BUTTON)) {
                 startMenu1(chatId, messageId);
             } else if (dataCallback.equals(GO_BACK)) {
-                getBackMenu(chatId,messageId);
+                getBackMenu(chatId, messageId);
             } else if (dataCallback.equals(BACK_ONE_POINT)) {
                 startMenu1(chatId, messageId);
             } else if (dataCallback.equals(TELL_ABOUT_SHELTER)) {
-                getInfoAboutMe(chatId,messageId);
+                getInfoAboutMe(chatId, messageId);
+            } else if (dataCallback.equals(CALL_VOLUNTEER)) {
+                callVolunteer(chatId, messageId);
+                EditMessageText text = new EditMessageText();
+                Message message1 = new Message();
+            } else if (dataCallback.equals(WORK_TIME)) {
+                getWorkTime(chatId, messageId);
+            } else if (dataCallback.equals(ADDRESS)) {
+                getContactUs(chatId, messageId);
+            } else if (dataCallback.equals(SECURITY)) {
+                getSafeInformation(chatId, messageId);
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
@@ -110,6 +154,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    private void editMessageText() {
+    }
+
+    /**
+     * Отправляет сообщение пользователю в Telegram боте.
+     *
+     * @param id   идентификатор чата
+     * @param name текст сообщения для отправки
+     */
     private void sendBotMessage(long id, String name) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(id));
@@ -121,6 +174,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки пользователю главного меню бота при старте бота.
+     *
+     * @param id ID чата с пользователем
+     */
     private void getBotStartUserMenu(long id) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(id));
@@ -160,6 +218,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки фото из url адресса проекта.
+     *
+     * @param id - id чата, куда будет отправлено фото.
+     */
     private void sendPhoto(long id) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(String.valueOf(id));
@@ -171,6 +234,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для вывода меню при старте бота
+     *
+     * @param chatId    - идентификатор чата
+     * @param messageId - идентификатор сообщения
+     */
     private void startMenu1(long chatId, long messageId) {
         EditMessageText editMessageText = new EditMessageText();
         editMessageText.setChatId(chatId);
@@ -185,7 +254,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         List<InlineKeyboardButton> row5 = new ArrayList<>();
         List<InlineKeyboardButton> row6 = new ArrayList<>();
         InlineKeyboardButton tellMe = new InlineKeyboardButton();
-        tellMe.setText("Расскажи о себе");
+        tellMe.setText("Информация о нас");
         tellMe.setCallbackData(TELL_ABOUT_SHELTER);
         InlineKeyboardButton cLockWork = new InlineKeyboardButton();
         cLockWork.setText("Часы работы");
@@ -203,7 +272,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         volunteerCall.setText("Вопрос к волонтёру");
         volunteerCall.setCallbackData(CALL_VOLUNTEER);
         InlineKeyboardButton back = new InlineKeyboardButton();
-        back.setText( EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT)+"   назад");
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         back.setCallbackData(GO_BACK);
         row1.add(tellMe);
         row2.add(cLockWork);
@@ -227,6 +296,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод отображает главное меню бота, куда можно вернуться из других разделов.
+     *
+     * @param id        идентификатор чата в телеграм
+     * @param messageId идентификатор сообщения в чате
+     */
     private void getBackMenu(long id, long messageId) {
         EditMessageText sendMessage = new EditMessageText();
         sendMessage.setChatId(id);
@@ -267,6 +342,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки сообщения с информацией о приюте в чат.
+     *
+     * @param chatID    ID чата.
+     * @param messageId ID сообщения.
+     */
     private void getInfoAboutMe(long chatID, long messageId) {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatID);
@@ -276,7 +357,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
         InlineKeyboardButton backOne = new InlineKeyboardButton();
-        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT)+"   назад");
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         backOne.setCallbackData(BACK_ONE_POINT);
         row.add(backOne);
         rows.add(row);
@@ -286,6 +367,154 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             execute(messageText);
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Метод для вызова волонтера.
+     *
+     * @param chatID    - идентификатор чата в Телеграме
+     * @param messageId - идентификатор сообщения в чате
+     */
+    private void callVolunteer(long chatID,
+                               long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText("Какой у вас вопрос?");
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(GO_BACK);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Метод для отправки пользователю сообщения о рабочем времени.
+     *
+     * @param chatID    ID чата, в котором отправляется сообщение.
+     * @param messageId ID сообщения, которое нужно отредактировать.
+     */
+    private void getWorkTime(long chatID,
+                             long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(EmojiParser.parseToUnicode(startMenu.workTime()));
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(BACK_ONE_POINT);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Метод, отправляющий сообщение с информацией о контактах бота и кнопкой "назад".
+     *
+     * @param chatID    - идентификатор чата
+     * @param messageId - идентификатор сообщения
+     */
+    private void getContactUs(long chatID,
+                              long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(EmojiParser.parseToUnicode(startMenu.contactUs()));
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(BACK_ONE_POINT);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Отправляет пользователю сообщение с инструкцией по обеспечению безопасности
+     * в EditMessageText формате с соответствующей клавиатурой InlineKeyboardMarkup.
+     *
+     * @param chatID    id чата
+     * @param messageId id сообщения
+     */
+    private void getSafeInformation(long chatID,
+                                    long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatID);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(EmojiParser.parseToUnicode(startMenu.toBeSafeRegulations()));
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton backOne = new InlineKeyboardButton();
+        backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backOne.setCallbackData(BACK_ONE_POINT);
+        row.add(backOne);
+        rows.add(row);
+        keyboardMarkup.setKeyboard(rows);
+        messageText.setReplyMarkup(keyboardMarkup);
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Сделать чуть позже
+     */
+    private void getPhotoFromMessage(Message message) {
+        try {
+            if (message.hasPhoto()) {
+                Long chatId = message.getChatId();
+                PhotoSize photo = imageParser.getLargestPhoto(message.getPhoto());
+                byte[] byteCode = imageParser.imageToByteCode(photo);
+                // sendPhoto(chatId, byteCode);
+                // Отправка данных будет производиться на сервер
+            }
+        } catch (TelegramApiException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Метод отправляет фотографию в формате байтового кода пользователю в чате
+     *
+     * @param chatId   идентификатор чата
+     * @param byteCode байтовый код фотографии
+     */
+    private void sendPhotoFromByteCode(Long chatId, byte[] byteCode) {
+        try {
+            execute(imageParser.byteCodeToImage(chatId, byteCode));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 }

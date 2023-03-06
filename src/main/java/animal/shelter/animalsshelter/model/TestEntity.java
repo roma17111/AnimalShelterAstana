@@ -17,7 +17,7 @@ public class TestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -36,5 +36,12 @@ public class TestEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "id - " + id + "\n"+
+                " name -" + name + '\n' +
+                " age - " + age +'\n';
     }
 }
