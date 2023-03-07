@@ -1,9 +1,13 @@
 package animal.shelter.animalsshelter.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "volunteer")
@@ -26,7 +30,7 @@ public class Volunteer {
     private String email;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "msg_id", referencedColumnName = "msg_id")
+    @JoinColumn(name = "report_id", referencedColumnName = "report_id")
     private Report report;
 
     public Integer getId() {
