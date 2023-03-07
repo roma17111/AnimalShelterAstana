@@ -1,6 +1,9 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
+import animal.shelter.animalsshelter.controllers.stateTest.BotContext;
+import animal.shelter.animalsshelter.controllers.stateTest.BotState;
+import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
 import animal.shelter.animalsshelter.model.TestEntity;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
@@ -84,6 +87,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
         if (update.hasMessage() && message.hasText()) {
+            TestUser user = new TestUser(update.getMessage().getChatId(),0);
             switch (message.getText()) {
                 case "/start":
                     String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
@@ -100,15 +104,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/test":
-                    testReg(update);
+                    testReg(update,user);
                     break;
                 default:
-                    String msg = "Вопрос пользователя: \n"
+                 /*   String msg = "Вопрос пользователя: \n"
                             + update.getMessage().getChatId() + "\n"
                             + update.getMessage().getChat().getFirstName() + "\n"
                             + update.getMessage().getChat().getLastName() + "\n"
                             + message.getText();
-                    sendBotMessage(453006669, msg);
+                    sendBotMessage(453006669, msg);*/
                     //  sendBotMessage(update.getMessage().getChatId(), msg);
                     System.out.println(message.getText());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
@@ -152,15 +156,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    private void testReg(Update update) {
-        TestEntity entity = new TestEntity();
-        sendBotMessage(update.getMessage().getChatId(), "Введите ид");
-        Message message1 = update.getMessage();
-        sendBotMessage(update.getMessage().getChatId(), "Введите имя");
-        entity.setName(message1.getText());
-        sendBotMessage(update.getMessage().getChatId(), "Введите возраст");
-        sendBotMessage(update.getMessage().getChatId(), entity.toString());
-
+    private void testReg(Update update, TestUser user) {
+        BotContext context;
+        BotState state;
+        state = BotState.getInitialState();
+        user = new TestUser(update.getMessage().getChatId(), state.ordinal());
+        context = BotContext.of(this, user, update.getMessage().getText());
+        state.enter(context);
+        state.handleInput(context);
+        do {
+            state = state.nextState();
+            state.enter(context);
+        } while (!state.isInputNeeded());
+        user.setStateId(state.ordinal());
+        log.info("New user registered: " + user.getChatId() + user.getName());
     }
 
     /**
