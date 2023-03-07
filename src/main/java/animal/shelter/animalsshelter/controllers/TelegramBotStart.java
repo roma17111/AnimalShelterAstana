@@ -1,6 +1,7 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
+import animal.shelter.animalsshelter.model.TestEntity;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.ImageParser;
@@ -99,10 +100,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/test":
-                    List<User> users = userRepository.findAll();
-                    for (User test : users) {
-                        sendBotMessage(update.getMessage().getChatId(), test.toString());
-                    }
+                    testReg(update);
                     break;
                 default:
                     String msg = "Вопрос пользователя: \n"
@@ -154,7 +152,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    private void editMessageText() {
+    private void testReg(Update update) {
+        TestEntity entity = new TestEntity();
+        sendBotMessage(update.getMessage().getChatId(), "Введите ид");
+        Message message1 = update.getMessage();
+        sendBotMessage(update.getMessage().getChatId(), "Введите имя");
+        entity.setName(message1.getText());
+        sendBotMessage(update.getMessage().getChatId(), "Введите возраст");
+        sendBotMessage(update.getMessage().getChatId(), entity.toString());
+
     }
 
     /**
