@@ -58,6 +58,14 @@ public class AddController {
     }
 
     @PostMapping("/givedog")
+    @Operation(summary = "передать собаку новому хозяину",
+            description = "Данный запрос позволяет передать собаку новому владельцу")
+    @ApiResponse(responseCode = "200",
+            description = "Операция успешна")
+    @ApiResponse(responseCode = "400",
+            description = "параметры запроса отсутствуют или имеют некорректный формат;")
+    @ApiResponse(responseCode = "500",
+            description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public User addDogToUser(@RequestParam Integer userId,
                              @RequestParam Integer dogId) {
         return userService.addDogToUser(userId, dogId);
