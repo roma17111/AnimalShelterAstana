@@ -25,6 +25,8 @@ public class CallVolunteerMsg {
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
 
+    @Column(name = "chat_id", nullable = false, unique = true)
+    private Long chatId;
     public long getId() {
         return id;
     }
@@ -55,5 +57,13 @@ public class CallVolunteerMsg {
 
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
     }
 }
