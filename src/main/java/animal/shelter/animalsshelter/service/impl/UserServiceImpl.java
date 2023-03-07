@@ -67,4 +67,12 @@ public class UserServiceImpl implements UserService {
         saveUser(user);
         return user;
     }
+
+    @Override
+    public User takeDogfromUser(Integer userId) {
+        User user = getUserById(userId);
+        user.setDog(null);
+        saveUser(user);
+        return user;
+    }
 }

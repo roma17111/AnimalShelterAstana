@@ -32,4 +32,6 @@ public interface UserService {
     void deleteUser(Integer id);
 
     User addDogToUser(Integer userId, Integer dogId);
+
+    User takeDogfromUser(Integer userId);
 }
