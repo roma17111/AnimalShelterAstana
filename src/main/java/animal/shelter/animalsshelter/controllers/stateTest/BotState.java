@@ -29,24 +29,9 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return EnterAge;
+            return Approved;
         }
     },
-
-    EnterAge {
-        private BotState next;
-
-        @Override
-        public void enter(BotContext context) {
-            sendMessage(context, "Введите возраст");
-        }
-
-        @Override
-        public BotState nextState() {
-            return next;
-        }
-    },
-
     Approved(false) {
         @Override
         public void enter(BotContext context) {
@@ -84,7 +69,7 @@ public enum BotState {
 
     protected void sendMessage(BotContext context, String text) {
         SendMessage message = new SendMessage();
-        message.setChatId(Long.valueOf(context.getUser().getId()));
+        message.setChatId(context.getUser().getChatId());
         message.setText(text);
         try {
             context.getBot().execute(message);
