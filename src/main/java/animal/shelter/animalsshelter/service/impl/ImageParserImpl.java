@@ -21,7 +21,7 @@ public class ImageParserImpl implements ImageParser {
 
     private final TelegramLongPollingBot telegramLongPollingBot;
 
-    public ImageParserImpl(TelegramLongPollingBot options) {
+    public ImageParserImpl(TelegramLongPollingBot options)   {
         this.telegramLongPollingBot = options;
     }
 
