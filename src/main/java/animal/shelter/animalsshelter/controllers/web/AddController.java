@@ -1,10 +1,13 @@
 package animal.shelter.animalsshelter.controllers.web;
 
 import animal.shelter.animalsshelter.model.Dog;
+import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.TestJPA;
 import animal.shelter.animalsshelter.service.DogService;
 import animal.shelter.animalsshelter.service.ReportService;
 import animal.shelter.animalsshelter.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +27,14 @@ public class AddController {
     }
 
     @PostMapping("/dog")
+    @Operation(summary = "Добавить собаку",
+            description = "Данный запрос позволяет поставить на учёт новую собаку")
+    @ApiResponse(responseCode = "200",
+            description = "Операция успешна")
+    @ApiResponse(responseCode = "400",
+            description = "параметры запроса отсутствуют или имеют некорректный формат;")
+    @ApiResponse(responseCode = "500",
+            description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public Dog addDog(@RequestParam String nickname,
                       @RequestParam String introductionRules,
                       @RequestParam String requiredDocuments,
@@ -44,5 +55,11 @@ public class AddController {
         dog.setRecommendedKynologists(recommendedKynologists);
         dog.setRefusalReasons(refusalReasons);
         return dogService.saveDog(dog);
+    }
+
+    @PostMapping("/givedog")
+    public User addDogToUser(@RequestParam Integer userId,
+                             @RequestParam Integer dogId) {
+        return userService.addDogToUser(userId, dogId);
     }
 }
