@@ -1,6 +1,8 @@
 animal.shelter.animalsshelter
 animal.shelter.animalsshelter.config
 animal.shelter.animalsshelter.controllers
+animal.shelter.animalsshelter.controllers.stateTest
+animal.shelter.animalsshelter.controllers.web
 animal.shelter.animalsshelter.model
 animal.shelter.animalsshelter.repository
 animal.shelter.animalsshelter.service

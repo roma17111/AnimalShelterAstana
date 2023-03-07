@@ -5,59 +5,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "callVolunteerMsg")
+@Table(name = "call_volunteer_msg")
 public class CallVolunteerMsg {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "msg_id")
-    private long id;
+    private Long id;
 
     @Column(name = "msg_date")
-    private LocalDateTime msgDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp msgDate;
 
     @Column(name = "msg_text")
     private String msgText;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "volunteer_id")
     private Volunteer volunteer;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getMsgDate() {
-        return msgDate;
-    }
-
-    public void setMsgDate(LocalDateTime msgDate) {
-        this.msgDate = msgDate;
-    }
-
-    public String getMsgText() {
-        return msgText;
-    }
-
-    public void setMsgText(String msgText) {
-        this.msgText = msgText;
-    }
-
-    public Volunteer getVolunteer() {
-        return volunteer;
-    }
-
-    public void setVolunteer(Volunteer volunteer) {
-        this.volunteer = volunteer;
-    }
 }

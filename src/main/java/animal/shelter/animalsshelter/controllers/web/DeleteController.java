@@ -9,6 +9,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Контроллер для удаления сущностей из базы данных.
+ */
 @RestController
 public class DeleteController {
 
