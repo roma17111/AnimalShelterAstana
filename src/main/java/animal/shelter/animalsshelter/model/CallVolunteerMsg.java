@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -20,8 +21,7 @@ public class CallVolunteerMsg {
     private Long id;
 
     @Column(name = "msg_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date msgDate;
+    private Timestamp msgDate;
 
     @Column(name = "msg_text")
     private String msgText;
