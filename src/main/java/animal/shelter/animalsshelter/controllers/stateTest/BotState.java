@@ -82,6 +82,17 @@ public enum BotState {
         return states[id];
     }
 
+    protected void sendMessage(BotContext context, String text) {
+        SendMessage message = new SendMessage();
+        message.setChatId(Long.valueOf(context.getUser().getId()));
+        message.setText(text);
+        try {
+            context.getBot().execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean isInputNeeded() {
         return inputNeeded;
     }
