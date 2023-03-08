@@ -23,7 +23,7 @@ public class Report {
     @Column(name = "behavior_change")
     private String behaviorChange;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }
