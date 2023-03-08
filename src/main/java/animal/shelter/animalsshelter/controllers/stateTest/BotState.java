@@ -65,7 +65,7 @@ public enum BotState {
         }
     },
 
-    Approved(false) {
+    Approved {
         @Override
         public void enter(BotContext context) {
             sendMessage(context, "Спасибо за регистрацию");
@@ -74,7 +74,33 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return null;
+            return End;
+        }
+    },
+    End{
+        @Override
+        public void enter(BotContext context) {
+            sendMessage(context, "Вы уже зарегистрированы!!!");
+            sendMessage(context, "Вот ваши данные");
+            sendMessage(context, context.getUser().toString());
+        }
+
+        @Override
+        public BotState nextState() {
+            return EndBack;
+        }
+    },
+    EndBack {
+        @Override
+        public void enter(BotContext context) {
+            sendMessage(context, "Вы уже зарегистрированы!!!");
+            sendMessage(context, "Вот ваши данные");
+            sendMessage(context, context.getUser().toString());
+        }
+
+        @Override
+        public BotState nextState() {
+            return End;
         }
     };
 
