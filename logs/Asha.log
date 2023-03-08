@@ -1556,3 +1556,409 @@
 
 💗 Давайте знакомиться!
 2023-03-07 14:18:47 INFO  TelegramBotStart:96 - 1235552300 Привет - Это Asha)
+2023-03-07 18:36:09 INFO  TelegramBotStart:94 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-07 18:36:10 INFO  TelegramBotStart:96 - 1235552300 Привет - Это Asha)
+2023-03-07 18:36:22 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:36:28 INFO  TelegramBotStart:118 - 1235552300 Роман
+2023-03-07 18:55:01 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:55:01 INFO  TelegramBotStart:94 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-07 18:55:01 INFO  TelegramBotStart:96 - 1235552300 Привет - Это Asha)
+2023-03-07 18:55:13 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:55:13 INFO  TelegramBotStart:118 - 1235552300 роман
+2023-03-07 18:55:20 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:55:20 INFO  TelegramBotStart:118 - 1235552300 роман
+2023-03-07 18:56:26 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-07 18:56:26 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-07 18:56:29 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:56:33 INFO  TelegramBotStart:118 - 1235552300 Ромаг
+2023-03-07 18:58:14 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 18:58:17 INFO  TelegramBotStart:117 - 1235552300 Hjjj
+2023-03-07 18:59:34 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 18:59:44 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 18:59:51 INFO  TelegramBotStart:117 - 1235552300 ggg
+2023-03-07 19:01:30 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 19:01:34 INFO  TelegramBotStart:117 - 1235552300 Hjjj
+2023-03-07 19:02:29 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 19:02:33 INFO  TelegramBotStart:117 - 1235552300 fffff
+2023-03-07 19:36:30 INFO  TelegramBotStart:120 - 1235552300 Роман
+2023-03-07 19:38:43 INFO  TelegramBotStart:120 - 1235552300 Роман
+2023-03-07 19:40:12 INFO  TelegramBotStart:120 - 1235552300 sss
+2023-03-07 19:41:57 INFO  TelegramBotStart:120 - 1235552300 Роман
+2023-03-07 19:54:20 INFO  TelegramBotStart:121 - 1235552300 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @Temporal should only be set on a java.util.Date or java.util.Calendar property: animal.shelter.animalsshelter.model.CallVolunteerMsg.msgDate
+ at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1804) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1154) ~[spring-context-5.3.21.jar:5.3.21]
+ at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:908) ~[spring-context-5.3.21.jar:5.3.21]
+ at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) ~[spring-context-5.3.21.jar:5.3.21]
+ at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.run(SpringApplication.java:308) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295) ~[spring-boot-2.7.1.jar:2.7.1]
+ at animal.shelter.animalsshelter.ShelterAnimalsRun.main(ShelterAnimalsRun.java:10) ~[classes/:na]
+ at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+ at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+ at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+ at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+ at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.7.1.jar:2.7.1]
+Caused by: org.hibernate.AnnotationException: @Temporal should only be set on a java.util.Date or java.util.Calendar property: animal.shelter.animalsshelter.model.CallVolunteerMsg.msgDate
+ at org.hibernate.cfg.annotations.SimpleValueBinder.setType(SimpleValueBinder.java:188) ~[hibernate-core-5.6.9.Final.jar:5.6.9.Final]
+ at org.hibernate.cfg.annotations.PropertyBinder.makePropertyAndValue(PropertyBinder.java:185) ~[hibernate-core-5.6.9.Final.jar:5.6.9.Final]
+ at org.hibernate.cfg.annotations.PropertyBinder.makePropertyValueAndBind(PropertyBinder.java:205) ~[hibernate-core-5.6.9.Final.jar:5.6.9.Final]
+ at org.hiber
+2023-03-07 18:36:09 INFO  TelegramBotStart:94 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-07 18:36:10 INFO  TelegramBotStart:96 - 1235552300 Привет - Это Asha)
+2023-03-07 18:36:22 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:36:28 INFO  TelegramBotStart:118 - 1235552300 Роман
+2023-03-07 18:55:01 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:55:01 INFO  TelegramBotStart:94 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-07 18:55:01 INFO  TelegramBotStart:96 - 1235552300 Привет - Это Asha)
+2023-03-07 18:55:13 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:55:13 INFO  TelegramBotStart:118 - 1235552300 роман
+2023-03-07 18:55:20 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:55:20 INFO  TelegramBotStart:118 - 1235552300 роман
+2023-03-07 18:56:26 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-07 18:56:26 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-07 18:56:29 INFO  TelegramBotStart:172 - New user registered: 1235552300null
+2023-03-07 18:56:33 INFO  TelegramBotStart:118 - 1235552300 Ромаг
+2023-03-07 18:58:14 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 18:58:17 INFO  TelegramBotStart:117 - 1235552300 Hjjj
+2023-03-07 18:59:34 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 18:59:44 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 18:59:51 INFO  TelegramBotStart:117 - 1235552300 ggg
+2023-03-07 19:01:30 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 19:01:34 INFO  TelegramBotStart:117 - 1235552300 Hjjj
+2023-03-07 19:02:29 INFO  TelegramBotStart:171 - New user registered: 1235552300null
+2023-03-07 19:02:33 INFO  TelegramBotStart:117 - 1235552300 fffff
+2023-03-07 19:36:30 INFO  TelegramBotStart:120 - 1235552300 Роман
+2023-03-07 19:38:43 INFO  TelegramBotStart:120 - 1235552300 Роман
+2023-03-07 19:40:12 INFO  TelegramBotStart:120 - 1235552300 sss
+2023-03-07 19:41:57 INFO  TelegramBotStart:120 - 1235552300 Роман
+2023-03-07 19:54:20 INFO  TelegramBotStart:121 - 1235552300 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @Temporal should only be set on a java.util.Date or java.util.Calendar property: animal.shelter.animalsshelter.model.CallVolunteerMsg.msgDate
+ at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1804) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.21.jar:5.3.21]
+ at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1154) ~[spring-context-5.3.21.jar:5.3.21]
+ at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:908) ~[spring-context-5.3.21.jar:5.3.21]
+ at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) ~[spring-context-5.3.21.jar:5.3.21]
+ at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:147) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.run(SpringApplication.java:308) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306) ~[spring-boot-2.7.1.jar:2.7.1]
+ at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295) ~[spring-boot-2.7.1.jar:2.7.1]
+ at animal.shelter.animalsshelter.ShelterAnimalsRun.main(ShelterAnimalsRun.java:10) ~[classes/:na]
+ at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+ at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+ at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+ at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+ at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.7.1.jar:2.7.1]
+Caused by: org.hibernate.AnnotationException: @Temporal should only be set on a java.util.Date or java.util.Calendar property: animal.shelter.animalsshelter.model.CallVolunteerMsg.msgDate
+ at org.hibernate.cfg.annotations.SimpleValueBinder.setType(SimpleValueBinder.java:188) ~[hibernate-core-5.6.9.Final.jar:5.6.9.Final]
+ at org.hibernate.cfg.annotations.PropertyBinder.makePropertyAndValue(PropertyBinder.java:185) ~[hibernate-core-5.6.9.Final.jar:5.6.9.Final]
+ at org.hibernate.cfg.annotations.PropertyBinder.makePropertyValueAndBind(PropertyBinder.java:205) ~[hibernate-core-5.6.9.Final.jar:5.6.9.Final]
+ at org.hiber
+2023-03-07 21:29:10 INFO  TelegramBotStart:122 - 1235552300 ssssssss
+2023-03-07 21:29:53 INFO  TelegramBotStart:122 - 1235552300 dddddddddddddddd
+2023-03-07 21:29:57 INFO  TelegramBotStart:122 - 1235552300 ssss
+2023-03-08 13:53:58 INFO  TelegramBotStart:92 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 13:53:59 INFO  TelegramBotStart:94 - 1235552300 Привет - Это Asha)
+2023-03-08 13:54:25 INFO  TelegramBotStart:167 - New user registered: 0null0
+2023-03-08 13:54:30 INFO  TelegramBotStart:117 - 1235552300 Роман
+2023-03-08 13:55:48 INFO  TelegramBotStart:167 - New user registered: 1235552300null0
+2023-03-08 13:55:53 INFO  TelegramBotStart:117 - 1235552300 Роман
+2023-03-08 13:57:14 INFO  TelegramBotStart:167 - New user registered: 1235552300null0
+2023-03-08 13:57:18 INFO  TelegramBotStart:117 - 1235552300 Hjjj
+2023-03-08 13:59:41 INFO  TelegramBotStart:168 - New user registered: 1235552300null0
+2023-03-08 13:59:41 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 13:59:41 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-08 13:59:49 INFO  TelegramBotStart:168 - New user registered: 1235552300null0
+2023-03-08 13:59:49 INFO  TelegramBotStart:118 - 1235552300 Ромаг
+2023-03-08 13:59:53 INFO  TelegramBotStart:168 - New user registered: 1235552300null0
+2023-03-08 13:59:53 INFO  TelegramBotStart:118 - 1235552300 ромаг
+2023-03-08 14:27:03 INFO  TelegramBotStart:167 - New user registered: 1235552300null0
+2023-03-08 14:27:10 INFO  TelegramBotStart:117 - 1235552300 Роман
+2023-03-08 14:29:43 INFO  TelegramBotStart:167 - New user registered: 1235552300null0
+2023-03-08 14:29:47 INFO  TelegramBotStart:117 - 1235552300 Hjvfu
+2023-03-08 14:30:29 INFO  TelegramBotStart:167 - New user registered: 1235552300null0
+2023-03-08 14:30:33 INFO  TelegramBotStart:117 - 1235552300 Роман
+2023-03-08 14:44:49 INFO  TelegramBotStart:168 - New user registered: 1235552300null0
+2023-03-08 14:44:53 INFO  TelegramBotStart:117 - 1235552300 123
+2023-03-08 14:51:54 INFO  TelegramBotStart:168 - New user registered: 1235552300null0nullnull
+2023-03-08 14:51:58 INFO  TelegramBotStart:119 - 1235552300 Роман
+2023-03-08 15:10:16 INFO  TelegramBotStart:169 - New user registered: 1235552300
+2023-03-08 15:10:19 INFO  TelegramBotStart:119 - 1235552300 123
+2023-03-08 15:10:36 INFO  TelegramBotStart:119 - 1235552300 sss
+2023-03-08 15:10:36 INFO  TelegramBotStart:119 - 1235552300 s
+2023-03-08 15:10:37 INFO  TelegramBotStart:119 - 1235552300 s
+2023-03-08 15:10:38 INFO  TelegramBotStart:119 - 1235552300 sss
+2023-03-08 15:10:40 INFO  TelegramBotStart:119 - 1235552300 ss
+2023-03-08 15:10:40 INFO  TelegramBotStart:119 - 1235552300 s
+2023-03-08 15:27:12 INFO  TelegramBotStart:169 - New user registered: 1235552300
+2023-03-08 15:27:15 INFO  TelegramBotStart:117 - 1235552300 Роман
+2023-03-08 15:32:35 INFO  TelegramBotStart:91 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 15:32:35 INFO  TelegramBotStart:93 - 1235552300 Привет - Это Asha)
+2023-03-08 15:32:47 INFO  TelegramBotStart:155 - New user registered: 1235552300
+2023-03-08 15:38:06 INFO  TelegramBotStart:157 - New user registered: 1235552300
+2023-03-08 15:39:59 INFO  TelegramBotStart:157 - New user registered: 1235552300
+2023-03-08 15:47:56 INFO  TelegramBotStart:169 - New user registered: 1235552300
+2023-03-08 15:48:01 INFO  TelegramBotStart:119 - 1235552300 11111111
+2023-03-08 15:49:11 INFO  TelegramBotStart:169 - New user registered: 1235552300
+2023-03-08 15:49:16 INFO  TelegramBotStart:119 - 1235552300 aaaaaaaaaa
+2023-03-08 16:07:31 INFO  TelegramBotStart:174 - New user registered: 1235552300
+2023-03-08 16:07:34 INFO  TelegramBotStart:118 - 1235552300 12345
+2023-03-08 16:08:03 INFO  TelegramBotStart:118 - 1235552300 ddd
+2023-03-08 16:08:04 INFO  TelegramBotStart:118 - 1235552300 d
+2023-03-08 16:10:54 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:11:08 INFO  TelegramBotStart:118 - 1235552300 romanze1706
+2023-03-08 16:11:17 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:11:56 INFO  TelegramBotStart:118 - 1235552300 romanze1706@gmail.com
+2023-03-08 16:12:01 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:12:29 INFO  TelegramBotStart:118 - 1235552300 romanze1706@gmail.com
+2023-03-08 16:12:32 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:18:28 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:28 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:29 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:29 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:29 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:30 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:30 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:30 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:31 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:31 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:31 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:32 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:32 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:32 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:33 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:33 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:33 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:34 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:18:34 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:26:39 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:26:40 INFO  TelegramBotStart:178 - Update received for user in state: Start
+2023-03-08 16:26:40 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:26:41 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:26:41 INFO  TelegramBotStart:178 - Update received for user in state: Start
+2023-03-08 16:26:42 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:26:42 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:26:42 INFO  TelegramBotStart:178 - Update received for user in state: Start
+2023-03-08 16:26:43 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:26:43 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:26:44 INFO  TelegramBotStart:178 - Update received for user in state: Start
+2023-03-08 16:26:44 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:26:44 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:26:45 INFO  TelegramBotStart:178 - Update received for user in state: Start
+2023-03-08 16:26:45 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:26:46 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:26:46 INFO  TelegramBotStart:178 - Update received for user in state: Start
+2023-03-08 16:26:46 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:26:47 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:26:48 INFO  TelegramBotStart:178 - Update received for user in state: Start
+2023-03-08 16:26:48 INFO  TelegramBotStart:178 - Update received for user in state: EnterPhone
+2023-03-08 16:26:48 INFO  TelegramBotStart:178 - Update received for user in state: EnterEmail
+2023-03-08 16:31:38 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 16:31:38 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-08 16:31:41 INFO  TelegramBotStart:172 - New user registered: 1235552300
+2023-03-08 16:31:41 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 16:31:42 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 16:31:42 INFO  TelegramBotStart:177 - Update received for user in state: Start
+2023-03-08 16:31:43 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 16:31:43 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 16:31:43 INFO  TelegramBotStart:177 - Update received for user in state: Start
+2023-03-08 16:31:44 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 16:31:44 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 16:31:45 INFO  TelegramBotStart:177 - Update received for user in state: Start
+2023-03-08 16:31:45 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 16:31:45 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 16:31:46 INFO  TelegramBotStart:177 - Update received for user in state: Start
+2023-03-08 16:31:46 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 16:31:47 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 16:31:47 INFO  TelegramBotStart:177 - Update received for user in state: Start
+2023-03-08 16:32:29 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 16:32:30 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-08 16:32:34 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 16:32:41 INFO  TelegramBotStart:117 - 1235552300 Роооо
+2023-03-08 16:35:01 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 16:35:02 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-08 16:35:04 INFO  TelegramBotStart:172 - New user registered: 1235552300
+2023-03-08 16:35:14 INFO  TelegramBotStart:117 - 1235552300 12345
+2023-03-08 16:38:06 INFO  TelegramBotStart:117 - 1235552300 ыы
+2023-03-08 16:38:41 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 16:38:42 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-08 16:38:44 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 16:38:47 INFO  TelegramBotStart:117 - 1235552300 ыыыыыыыыы
+2023-03-08 16:38:51 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 16:38:51 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-08 16:38:53 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 16:41:15 INFO  TelegramBotStart:174 - New user registered: 1235552300
+2023-03-08 16:41:15 INFO  TelegramBotStart:119 - 1235552300 пкк
+2023-03-08 16:41:23 INFO  TelegramBotStart:179 - Update received for user in state: EnterPhone
+2023-03-08 16:41:23 INFO  TelegramBotStart:119 - 1235552300 12345
+2023-03-08 16:41:28 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:41:28 INFO  TelegramBotStart:119 - 1235552300 12345
+2023-03-08 16:49:22 INFO  TelegramBotStart:174 - New user registered: 1235552300
+2023-03-08 16:49:22 INFO  TelegramBotStart:119 - 1235552300 а
+2023-03-08 16:49:32 INFO  TelegramBotStart:179 - Update received for user in state: EnterPhone
+2023-03-08 16:49:32 INFO  TelegramBotStart:119 - 1235552300 9187483964
+2023-03-08 16:49:42 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:49:42 INFO  TelegramBotStart:119 - 1235552300 romanze1706@gmail.com
+2023-03-08 16:50:04 INFO  TelegramBotStart:179 - Update received for user in state: Approved
+2023-03-08 16:50:31 INFO  TelegramBotStart:179 - Update received for user in state: Approved
+2023-03-08 16:52:14 INFO  TelegramBotStart:179 - Update received for user in state: Approved
+2023-03-08 16:52:28 INFO  TelegramBotStart:179 - Update received for user in state: Approved
+2023-03-08 16:55:35 INFO  TelegramBotStart:174 - New user registered: 1235552300
+2023-03-08 16:55:35 INFO  TelegramBotStart:119 - 1235552300 sssss
+2023-03-08 16:55:39 INFO  TelegramBotStart:179 - Update received for user in state: EnterPhone
+2023-03-08 16:55:40 INFO  TelegramBotStart:119 - 1235552300 123456
+2023-03-08 16:55:45 INFO  TelegramBotStart:179 - Update received for user in state: EnterEmail
+2023-03-08 16:55:45 INFO  TelegramBotStart:119 - 1235552300 roma@ma
+2023-03-08 17:00:15 INFO  TelegramBotStart:180 - Update received for user in state: Approved
+2023-03-08 17:01:13 INFO  TelegramBotStart:180 - Update received for user in state: Approved
+2023-03-08 17:03:17 INFO  TelegramBotStart:178 - Update received for user in state: Approved
+2023-03-08 17:03:44 INFO  TelegramBotStart:177 - Update received for user in state: Approved
+2023-03-08 17:03:55 INFO  TelegramBotStart:93 - Общаясь со мной, можно узнать:
+💜 Миссию и историю приюта
+💚 Наши ценности и принципы работы
+🧡 Общую информацию для желающих взять питомца из приюта
+💙 Выбрать себе питомца
+❤ Получать поддержку и консультации волонтёров
+💛 Узнать больше о способах помощи приюту.
+
+💗 Давайте знакомиться!
+2023-03-08 17:03:55 INFO  TelegramBotStart:95 - 1235552300 Привет - Это Asha)
+2023-03-08 17:04:00 INFO  TelegramBotStart:177 - Update received for user in state: Approved
+2023-03-08 17:04:50 INFO  TelegramBotStart:172 - New user registered: 1235552300
+2023-03-08 17:04:51 INFO  TelegramBotStart:119 - 1235552300 s
+2023-03-08 17:05:01 INFO  TelegramBotStart:177 - Update received for user in state: EnterPhone
+2023-03-08 17:05:02 INFO  TelegramBotStart:119 - 1235552300 12345
+2023-03-08 17:05:04 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 17:05:04 INFO  TelegramBotStart:119 - 1235552300 ee
+2023-03-08 17:05:17 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 17:05:28 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 17:05:28 INFO  TelegramBotStart:119 - 1235552300 s
+2023-03-08 17:05:33 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
+2023-03-08 17:05:33 INFO  TelegramBotStart:119 - 1235552300 s
+2023-03-08 17:05:43 INFO  TelegramBotStart:177 - Update received for user in state: EnterEmail
