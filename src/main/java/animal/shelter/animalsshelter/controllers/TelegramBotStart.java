@@ -4,11 +4,9 @@ import animal.shelter.animalsshelter.config.Config;
 import animal.shelter.animalsshelter.controllers.stateTest.BotContext;
 import animal.shelter.animalsshelter.controllers.stateTest.BotState;
 import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
-import animal.shelter.animalsshelter.model.TestEntity;
-import animal.shelter.animalsshelter.model.User;
+import animal.shelter.animalsshelter.controllers.stateTest.TestUserService;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.ImageParser;
-import animal.shelter.animalsshelter.service.UserService;
 import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
 import animal.shelter.animalsshelter.util.Emoji;
 import animal.shelter.animalsshelter.util.StartMenu;
@@ -44,7 +42,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private static final String ADDRESS = "ADDRESS_BUTTON";
     private static final String SECURITY = "SECURITY_BUTTON";
     private static final String REGISTRATION = "REGISTRATION_BUTTON";
-
     private static final String INFO_BUTTON = "INFO_BUTTON";
     private static final String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
     private static final String SEND_REPORT = "SEND_REPORT";
@@ -60,9 +57,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     @Autowired
     private UserRepository userRepository;
 
+    private final TestUserService userService;
 
-    public TelegramBotStart(Config config) {
+
+    public TelegramBotStart(Config config, TestUserService userService) {
         this.config = config;
+        this.userService = userService;
     }
 
     @Override
@@ -87,7 +87,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
         if (update.hasMessage() && message.hasText()) {
-            TestUser user = new TestUser(update.getMessage().getChatId(),0);
             switch (message.getText()) {
                 case "/start":
                     String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
@@ -104,7 +103,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/test":
-                    testReg(update,user);
                     break;
                 default:
                  /*   String msg = "Вопрос пользователя: \n"
@@ -114,7 +112,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                             + message.getText();
                     sendBotMessage(453006669, msg);*/
                     //  sendBotMessage(update.getMessage().getChatId(), msg);
+
+                    testReg(update);
                     System.out.println(message.getText());
+                    System.out.println(message.getMessageId());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
                     break;
             }
@@ -156,20 +157,34 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    private void testReg(Update update, TestUser user) {
+    private void testReg(Update update) {
+        final String text = update.getMessage().getText();
+        final long chatId = update.getMessage().getChatId();
+        TestUser user = userService.findByChatId(chatId);
         BotContext context;
         BotState state;
-        state = BotState.getInitialState();
-        user = new TestUser(update.getMessage().getChatId(), state.ordinal());
-        context = BotContext.of(this, user, update.getMessage().getText());
-        state.enter(context);
+        if (user == null) {
+            state = BotState.getInitialState();
+            user = new TestUser(update.getMessage().getChatId(), state.ordinal());
+            userService.addUser(user);
+            context = BotContext.of(this, user, text);
+            state.enter(context);
+            log.info("New user registered: " + chatId);
+            user.setName(update.getMessage().getChat().getFirstName());
+        } else {
+            context = BotContext.of(this, user, text);
+            state = BotState.byId(user.getStateId());
+
+            log.info("Update received for user in state: " + state);
+        }
         state.handleInput(context);
+
         do {
             state = state.nextState();
             state.enter(context);
         } while (!state.isInputNeeded());
         user.setStateId(state.ordinal());
-        log.info("New user registered: " + user.getChatId() + user.getName());
+        userService.updateUser(user);
     }
 
     /**
