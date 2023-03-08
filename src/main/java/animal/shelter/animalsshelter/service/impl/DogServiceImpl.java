@@ -5,15 +5,12 @@ import animal.shelter.animalsshelter.repository.DogRepository;
 import animal.shelter.animalsshelter.service.DogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class DogServiceImpl implements DogService {
 
-    @Autowired
     private final DogRepository dogRepository;
 
     /**

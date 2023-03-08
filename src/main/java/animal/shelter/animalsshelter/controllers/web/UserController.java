@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Контроллер для получения списков данных.
+ * Контроллер для проведения операция с пользователями.
  */
 @RestController
 @RequestMapping("/user")

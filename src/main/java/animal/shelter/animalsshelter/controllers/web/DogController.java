@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Контроллер контроллера для добавления новых сущностей.
+ * Контроллер для операций с собаками
  */
 @RestController
 @RequestMapping("/dog")

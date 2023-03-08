@@ -5,15 +5,12 @@ import animal.shelter.animalsshelter.repository.ReportRepository;
 import animal.shelter.animalsshelter.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
 
-    @Autowired
     private final ReportRepository reportRepository;
 
     /**
