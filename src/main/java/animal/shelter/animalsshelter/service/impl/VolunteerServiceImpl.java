@@ -5,15 +5,12 @@ import animal.shelter.animalsshelter.repository.VolunteerRepository;
 import animal.shelter.animalsshelter.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
 import org.jvnet.hk2.annotations.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class VolunteerServiceImpl implements VolunteerService {
 
-    @Autowired
     private final VolunteerRepository volunteerRepository;
 
     /**

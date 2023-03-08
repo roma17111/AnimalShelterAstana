@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
+/**
+ * Контроллер для операция с отчётами хазяев собак
+ * **/
 @RestController
 @RequestMapping("/report")
 public class ReportController {

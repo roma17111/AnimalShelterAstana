@@ -5,15 +5,12 @@ import animal.shelter.animalsshelter.model.CallVolunteerMsg;
 import animal.shelter.animalsshelter.repository.CallVolunteerMsgRepository;
 import lombok.RequiredArgsConstructor;
 import org.jvnet.hk2.annotations.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CallVolunteerMsgServiceImpl implements CallVolunteerMsgService {
 
-    @Autowired
     private final CallVolunteerMsgRepository repository;
 
     /**

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-
+// Репозиторий для доступа к тестовой таблице БД
 @Repository
 public interface    TestJPA extends JpaRepository<TestEntity, Integer> {
 
