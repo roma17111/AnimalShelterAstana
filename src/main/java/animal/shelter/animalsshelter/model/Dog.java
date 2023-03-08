@@ -51,7 +51,7 @@ public class Dog {
     @Column(name = "dog_photo")
     private byte[] dogPhoto;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 }
