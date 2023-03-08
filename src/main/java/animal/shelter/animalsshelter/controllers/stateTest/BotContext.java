@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class BotContext {
-
     private final TelegramBotStart bot;
     private final TestUser user;
     private final String input;

@@ -23,7 +23,7 @@ public class TestUser {
 
     private String email;
     private String name;
-    private Boolean admin;
+    private boolean admin;
     private boolean notified = false;
 
     public TestUser(Long chatId, int stateId) {
