@@ -31,7 +31,4 @@ public class Volunteer {
     @Column(name = "email")
     private String email;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "report_id", referencedColumnName = "report_id")
-    private Report report;
 }
