@@ -55,9 +55,6 @@ public class User {
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "report_id")
-    private List<Report> reportList;
     private boolean notified = false;
 
     public User() {
