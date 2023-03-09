@@ -26,7 +26,7 @@ public class Report {
     @OneToOne
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }

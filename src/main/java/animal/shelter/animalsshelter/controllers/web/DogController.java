@@ -24,7 +24,7 @@ public class DogController {
         this.dogService = dogService;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/")
     @Operation(summary = "Добавить собаку",
             description = "Данный запрос позволяет поставить на учёт новую собаку")
     @ApiResponse(responseCode = "200",
