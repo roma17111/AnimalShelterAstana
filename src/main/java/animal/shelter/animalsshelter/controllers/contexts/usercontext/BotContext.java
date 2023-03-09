@@ -1,7 +1,6 @@
-package animal.shelter.animalsshelter.controllers.usercontext;
+package animal.shelter.animalsshelter.controllers.contexts.usercontext;
 
 import animal.shelter.animalsshelter.controllers.TelegramBotStart;
-import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
 import animal.shelter.animalsshelter.model.User;
 import lombok.Data;
 
