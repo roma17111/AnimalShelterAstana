@@ -120,8 +120,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 getInfoAboutMe(chatId, messageId);
             } else if (dataCallback.equals(CALL_VOLUNTEER)) {
                 callVolunteer(chatId, messageId);
-                EditMessageText text = new EditMessageText();
-                Message message1 = new Message();
+                System.out.println(update.getCallbackQuery().getMessage().getChatId());
             } else if (dataCallback.equals(WORK_TIME)) {
                 getWorkTime(chatId, messageId);
             } else if (dataCallback.equals(ADDRESS)) {

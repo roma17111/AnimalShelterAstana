@@ -19,6 +19,7 @@ public class CallVolunteerMsg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "msg_id")
     private long id;
+    private long chatID;
     private long stateId;
     @Column(name = "msg_date")
     private Timestamp msgDate;
