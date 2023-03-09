@@ -21,6 +21,8 @@ public enum BotState {
     },
 
     EnterPhone {
+
+        private BotState next;
         @Override
         public void enter(BotContext context) {
             sendMessage(context, "Введите номер телефона");
@@ -28,12 +30,17 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setPhoneNumber(context.getInput());
+            if (context.getInput().equals("/test")) {
+                next = EnterPhone;
+            } else {
+                context.getUser().setPhoneNumber(context.getInput());
+                next = EnterEmail;
+            }
         }
 
         @Override
         public BotState nextState() {
-            return EnterEmail;
+            return next;
         }
     },
 
