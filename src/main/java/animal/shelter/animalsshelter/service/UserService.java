@@ -30,4 +30,8 @@ public interface UserService {
      * @param id идентификатор пользователя.
      */
     void deleteUser(Integer id);
+
+    User addDogToUser(Integer userId, Integer dogId);
+
+    User takeDogfromUser(Integer userId);
 }

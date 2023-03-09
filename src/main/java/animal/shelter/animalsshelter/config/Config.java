@@ -9,7 +9,6 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 @PropertySource("application.properties")
 public class Config {
-
     @Value("${bot.name}")
     String botName;
     @Value("${bot.key}")

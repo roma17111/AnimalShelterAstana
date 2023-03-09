@@ -1,10 +1,11 @@
 package animal.shelter.animalsshelter.service.impl;
 
+import animal.shelter.animalsshelter.model.Dog;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
+import animal.shelter.animalsshelter.service.DogService;
 import animal.shelter.animalsshelter.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private final UserRepository userRepository;
+    private final DogService dogService;
 
     /**
      * Метод сохраняет нового пользователя в базу данных.
@@ -52,5 +53,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User addDogToUser(Integer userId, Integer dogId) {
+        Dog dog = dogService.getDogById(dogId);
+        User user = getUserById(userId);
+        user.setDog(dog);
+        saveUser(user);
+        return user;
+    }
+
+    @Override
+    public User takeDogfromUser(Integer userId) {
+        User user = getUserById(userId);
+        user.setDog(null);
+        saveUser(user);
+        return user;
     }
 }
