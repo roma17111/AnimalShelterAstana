@@ -37,7 +37,7 @@ public class DogController {
         return dogService.saveDog(dog);
     }
 
-    @PostMapping("/broadcast/{userId}/{dogId}")
+    @PutMapping("/broadcast/{userId}/{dogId}")
     @ResponseBody
     @Operation(summary = "передать собаку новому хозяину",
             description = "Данный запрос позволяет передать собаку новому владельцу")
