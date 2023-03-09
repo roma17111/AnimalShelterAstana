@@ -18,15 +18,12 @@ public class CallVolunteerMsg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "msg_id")
-    private Long id;
-
+    private long id;
+    private long stateId;
     @Column(name = "msg_date")
     private Timestamp msgDate;
 
     @Column(name = "msg_text")
     private String msgText;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "volunteer_id")
-    private Volunteer volunteer;
 }
