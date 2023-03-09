@@ -102,7 +102,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/menu":
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
-                case "/test":
+                case "/registration":
                     testReg(update);
                     break;
                 default:
@@ -116,9 +116,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         if (msg.getStateId()==1) {
                             msg.setMsgText(update.getMessage().getText());
                             msg.setStateId(2);
+                            log.info("Вопрос " + msg);
                             callVolunteerMsg.saveCallVolunteerMsg(msg);
                             sendBotMessage(update.getMessage().getChatId(), "Ваш вопрос отправлен");
                             sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
+                            Thread.sleep(1000);
+                            getBotStartUserMenu(update.getMessage().getChatId());
                         }
                     }
                     System.out.println(message.getText());
@@ -139,8 +142,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(TELL_ABOUT_SHELTER)) {
                 getInfoAboutMe(chatId, messageId);
             } else if (dataCallback.equals(CALL_VOLUNTEER)) {
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText("Вас приветствует служба поддержки пользователей");
+                execute(messageText);
                 askQuestion(update);
-                System.out.println(update.getCallbackQuery().getMessage().getChatId());
             } else if (dataCallback.equals(WORK_TIME)) {
                 getWorkTime(chatId, messageId);
             } else if (dataCallback.equals(ADDRESS)) {

@@ -30,7 +30,7 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            if (context.getInput().equals("/test")) {
+            if (context.getInput().equals("/registration")) {
                 next = EnterPhone;
             } else {
                 context.getUser().setPhoneNumber(context.getInput());
