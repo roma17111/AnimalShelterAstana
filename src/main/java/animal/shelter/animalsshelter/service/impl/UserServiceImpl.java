@@ -1,6 +1,5 @@
 package animal.shelter.animalsshelter.service.impl;
 
-import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
 import animal.shelter.animalsshelter.model.Dog;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
@@ -74,11 +73,13 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
     @Transactional(readOnly = true)
     public User findByChatId(long id) {
         return userRepository.findByChatId(id);
     }
 
+    @Override
     @Transactional
     public List<User> findNewUsers() {
         List<User> users = userRepository.findNewUsers();

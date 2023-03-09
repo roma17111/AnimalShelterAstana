@@ -28,7 +28,7 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setNumberPhone(context.getInput());
+            context.getUser().setPhoneNumber(context.getInput());
         }
 
         @Override
