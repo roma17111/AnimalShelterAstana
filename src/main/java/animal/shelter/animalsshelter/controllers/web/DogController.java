@@ -37,7 +37,8 @@ public class DogController {
         return dogService.saveDog(dog);
     }
 
-    @PostMapping("/broadcast")
+    @PostMapping("/broadcast/{userId}/{dogId}")
+    @ResponseBody
     @Operation(summary = "передать собаку новому хозяину",
             description = "Данный запрос позволяет передать собаку новому владельцу")
     @ApiResponse(responseCode = "200",
@@ -46,8 +47,8 @@ public class DogController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User addDogToUser(@RequestParam Integer userId,
-                             @RequestParam Integer dogId) {
+    public User addDogToUser(@PathVariable Integer userId,
+                             @PathVariable Integer dogId) {
         return userService.addDogToUser(userId, dogId);
     }
 
@@ -65,7 +66,8 @@ public class DogController {
         return dogService.getAllDogs();
     }
 
-    @PutMapping("/withdrawaldog")
+    @PutMapping("/withdrawal/{id}")
+    @ResponseBody
     @Operation(summary = "Отобрать собаку у недобросовестного хозяина",
             description = "Данный запрос позволяет обнулить поле Dog у User")
     @ApiResponse(responseCode = "200",
@@ -74,7 +76,7 @@ public class DogController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User takeDogFromBadUser(@RequestParam Integer id) {
+    public User takeDogFromBadUser(@PathVariable Integer id) {
         return userService.takeDogfromUser(id);
     }
 }
