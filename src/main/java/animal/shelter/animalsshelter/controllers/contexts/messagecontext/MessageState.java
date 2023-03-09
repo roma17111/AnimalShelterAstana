@@ -1,12 +1,11 @@
 package animal.shelter.animalsshelter.controllers.contexts.messagecontext;
 
-import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotState;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public enum MessageState {
 
-    EnterQuestion {
+    EnterQuestion (false){
 
         @Override
         public void enter(MessageContext context) {
@@ -20,23 +19,23 @@ public enum MessageState {
 
         @Override
         public MessageState nextState() {
-            return ApprovedMsg;
+            return End;
         }
     },
-    ApprovedMsg(false){
+
+    End {
         @Override
         public void enter(MessageContext context) {
-            sendMessage(context, "Ваш вопрос отправлен");
-            sendMessage(context, "С вами свяжутся в ближайшее время");
+
         }
 
         @Override
         public MessageState nextState() {
-            return null;
+            return End;
         }
     };
 
-    private static BotState[] states;
+    private static MessageState[] states;
     private final boolean inputNeeded;
 
     MessageState() {
@@ -47,13 +46,13 @@ public enum MessageState {
         this.inputNeeded = inputNeeded;
     }
 
-    public static BotState getInitialState() {
+    public static MessageState getInitialState() {
         return byId(0);
     }
 
-    public static BotState byId(int id) {
+    public static MessageState byId(int id) {
         if (states == null) {
-            states = BotState.values();
+            states = MessageState.values();
         }
 
         return states[id];
