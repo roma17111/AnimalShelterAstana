@@ -54,6 +54,8 @@ public class User {
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
 
+    private boolean notified = false;
+
     public User() {
 
     }

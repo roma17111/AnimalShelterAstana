@@ -1,7 +1,7 @@
-package animal.shelter.animalsshelter.controllers.stateTest;
+package animal.shelter.animalsshelter.controllers.usercontext;
 
 import animal.shelter.animalsshelter.controllers.TelegramBotStart;
-import animal.shelter.animalsshelter.model.TestEntity;
+import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
 import lombok.Data;
 
 @Data

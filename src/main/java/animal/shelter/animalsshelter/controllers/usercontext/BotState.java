@@ -1,7 +1,6 @@
-package animal.shelter.animalsshelter.controllers.stateTest;
+package animal.shelter.animalsshelter.controllers.usercontext;
 
 import animal.shelter.animalsshelter.util.Utils;
-import lombok.Data;
 import lombok.extern.log4j.Log4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
