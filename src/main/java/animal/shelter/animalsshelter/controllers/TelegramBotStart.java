@@ -37,7 +37,6 @@ import java.util.List;
 
 @Log4j
 @Component
-@RestController
 public class TelegramBotStart extends TelegramLongPollingBot {
     private static final String TELL_ABOUT_SHELTER = "TELL_ME";
     private static final String WORK_TIME = "TIME_BUTTON";
@@ -55,9 +54,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
-
-    @Autowired
-    private UserRepository userRepository;
 
     private final UserService userService;
 
