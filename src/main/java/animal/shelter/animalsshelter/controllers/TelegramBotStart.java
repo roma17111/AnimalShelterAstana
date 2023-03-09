@@ -197,7 +197,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    public void sendReportQuerry(Update update) {
+    public void sendReportQuerry(Update update) throws InterruptedException {
 
        /* if (user.getDog() == null) {
             sendBotMessage(update.getMessage().getChatId(), "У вас нет собаки!!!");
@@ -207,17 +207,21 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         report.setStateId(1);
         reportService.saveReport(report);
         sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Мы рады, что вы забрали у нас собакена)))");
+        Thread.sleep(800);
         sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Как поживает наш друг?");
+        Thread.sleep(800);
         sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Какая диета у собаки?");
+        Thread.sleep(800);
 
     }
 
-    public void sendReport(Update update, Report report) {
+    public void sendReport(Update update, Report report) throws InterruptedException {
         switch (report.getStateId()) {
             case 1:
                 report.setDiet(update.getMessage().getText());
                 sendBotMessage(update.getMessage().getChatId(), "Как самочувствие у питомца?");
-                sendBotMessage(update.getMessage().getChatId(), "Есть ли жалобы на здоровье");
+                Thread.sleep(800);
+                sendBotMessage(update.getMessage().getChatId(), "Есть ли жалобы на здоровье?");
                 report.setStateId(2);
                 reportService.saveReport(report);
                 break;
@@ -232,8 +236,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 User user = userService.findByChatId(update.getMessage().getChatId());
                 report.setUserInfo(user.toString());
                 sendBotMessage(update.getMessage().getChatId(), "Отчёт отправлен");
+                Thread.sleep(1200);
                 report.setStateId(4);
                 reportService.saveReport(report);
+                getBotStartUserMenu(update.getMessage().getChatId());
                 break;
         }
     }
