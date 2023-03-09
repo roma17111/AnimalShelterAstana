@@ -6,9 +6,11 @@ import animal.shelter.animalsshelter.controllers.contexts.messagecontext.Message
 import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotContext;
 import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotState;
 import animal.shelter.animalsshelter.model.CallVolunteerMsg;
+import animal.shelter.animalsshelter.model.Report;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.service.CallVolunteerMsgService;
 import animal.shelter.animalsshelter.service.ImageParser;
+import animal.shelter.animalsshelter.service.ReportService;
 import animal.shelter.animalsshelter.service.UserService;
 import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
 import animal.shelter.animalsshelter.util.Emoji;
@@ -56,11 +58,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
     private final UserService userService;
+
+    private final ReportService reportService;
     private final CallVolunteerMsgService callVolunteerMsg;
 
-    public TelegramBotStart(Config config, UserService userService, CallVolunteerMsgService callVolunteerMsg) {
+    public TelegramBotStart(Config config,
+                            UserService userService,
+                            ReportService reportService,
+                            CallVolunteerMsgService callVolunteerMsg) {
         this.config = config;
         this.userService = userService;
+        this.reportService = reportService;
         this.callVolunteerMsg = callVolunteerMsg;
     }
 
@@ -107,13 +115,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     break;
                 default:
                     User user = userService.findByChatId(update.getMessage().getChatId());
-                    if (user.getStateID() <3) {
+                    if (user.getStateID() < 3) {
                         testReg(update);
                     }
                     List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
-                    System.out.println(msgList);
                     for (CallVolunteerMsg msg : msgList) {
-                        if (msg.getStateId()==1) {
+                        if (msg.getStateId() == 1) {
                             msg.setMsgText(update.getMessage().getText());
                             msg.setStateId(2);
                             log.info("Вопрос " + msg);
@@ -122,6 +129,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                             sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
                             Thread.sleep(1000);
                             getBotStartUserMenu(update.getMessage().getChatId());
+                        }
+                    }
+                    List<Report> reports = reportService.getAllReports();
+                    for (Report report : reports) {
+                        if (report.getStateId() < 4) {
+                            sendReport(update, report);
                         }
                     }
                     System.out.println(message.getText());
@@ -154,6 +167,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 getContactUs(chatId, messageId);
             } else if (dataCallback.equals(SECURITY)) {
                 getSafeInformation(chatId, messageId);
+            } else if (dataCallback.equals(SEND_REPORT)) {
+                User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
+                if (user == null) {
+                    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
+                            "зарегистрированные пользователи!!!");
+                } else {
+                    EditMessageText messageText = new EditMessageText();
+                    messageText.setChatId(chatId);
+                    messageText.setMessageId((int) messageId);
+                    messageText.setText("Отправить отчёт:");
+                    execute(messageText);
+                    sendReportQuerry(update);
+                }
+
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
@@ -170,14 +197,55 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    public void sendReportQuerry(Update update) {
+
+       /* if (user.getDog() == null) {
+            sendBotMessage(update.getMessage().getChatId(), "У вас нет собаки!!!");
+            return;
+        }*/
+        Report report = new Report();
+        report.setStateId(1);
+        reportService.saveReport(report);
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Мы рады, что вы забрали у нас собакена)))");
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Как поживает наш друг?");
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Какая диета у собаки?");
+
+    }
+
+    public void sendReport(Update update, Report report) {
+        switch (report.getStateId()) {
+            case 1:
+                report.setDiet(update.getMessage().getText());
+                sendBotMessage(update.getMessage().getChatId(), "Как самочувствие у питомца?");
+                sendBotMessage(update.getMessage().getChatId(), "Есть ли жалобы на здоровье");
+                report.setStateId(2);
+                reportService.saveReport(report);
+                break;
+            case 2:
+                report.setGeneralHealth(update.getMessage().getText());
+                sendBotMessage(update.getMessage().getChatId(), "Расскажите о поведении животного на новом месте");
+                report.setStateId(3);
+                reportService.saveReport(report);
+                break;
+            case 3:
+                report.setBehaviorChange(update.getMessage().getText());
+                User user = userService.findByChatId(update.getMessage().getChatId());
+                report.setUserInfo(user.toString());
+                sendBotMessage(update.getMessage().getChatId(), "Отчёт отправлен");
+                report.setStateId(4);
+                reportService.saveReport(report);
+                break;
+        }
+    }
+
     private void askQuestion(Update update) {
         final long chatId = update.getCallbackQuery().getMessage().getChatId();
         MessageContext context = null;
         MessageState state;
         User user = userService.findByChatId(chatId);
         if (user == null) {
-           sendBotMessage(chatId,"Задавать вопросы могут только зарегистрированные пользователи");
-           return;
+            sendBotMessage(chatId, "Задавать вопросы могут только зарегистрированные пользователи");
+            return;
         }
         state = MessageState.getInitialState();
         CallVolunteerMsg msg = new CallVolunteerMsg(state.ordinal());
@@ -562,18 +630,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     /**
      * Сделать чуть позже
      */
-    private void getPhotoFromMessage(Message message) {
+    private byte[] getPhotoFromMessage(Update update) {
         try {
-            if (message.hasPhoto()) {
-                Long chatId = message.getChatId();
-                PhotoSize photo = imageParser.getLargestPhoto(message.getPhoto());
+            if (update.getMessage().hasPhoto()) {
+                long chatId = update.getMessage().getChatId();
+                PhotoSize photo = imageParser.getLargestPhoto(update.getMessage().getPhoto());
                 byte[] byteCode = imageParser.imageToByteCode(photo);
-                // sendPhoto(chatId, byteCode);
+                //sendPhoto(chatId, byteCode);
                 // Отправка данных будет производиться на сервер
+                return byteCode;
             }
         } catch (TelegramApiException | IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -582,7 +652,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      * @param chatId   идентификатор чата
      * @param byteCode байтовый код фотографии
      */
-    private void sendPhotoFromByteCode(Long chatId, byte[] byteCode) {
+    private void sendPhotoFromByteCode(long chatId, byte[] byteCode) {
         try {
             execute(imageParser.byteCodeToImage(chatId, byteCode));
         } catch (TelegramApiException e) {
