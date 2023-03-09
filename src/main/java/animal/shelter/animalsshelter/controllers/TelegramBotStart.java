@@ -1,12 +1,13 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
-import animal.shelter.animalsshelter.controllers.usercontext.BotContext;
-import animal.shelter.animalsshelter.controllers.usercontext.BotState;
-import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
-import animal.shelter.animalsshelter.controllers.stateTest.TestUserService;
+import animal.shelter.animalsshelter.controllers.contexts.messagecontext.MessageContext;
+import animal.shelter.animalsshelter.controllers.contexts.messagecontext.MessageState;
+import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotContext;
+import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotState;
+import animal.shelter.animalsshelter.model.CallVolunteerMsg;
 import animal.shelter.animalsshelter.model.User;
-import animal.shelter.animalsshelter.repository.UserRepository;
+import animal.shelter.animalsshelter.service.CallVolunteerMsgService;
 import animal.shelter.animalsshelter.service.ImageParser;
 import animal.shelter.animalsshelter.service.UserService;
 import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
@@ -15,9 +16,7 @@ import animal.shelter.animalsshelter.util.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -31,6 +30,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,12 +56,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
     private final UserService userService;
+    private final CallVolunteerMsgService callVolunteerMsg;
 
-
-    public TelegramBotStart(Config config,UserService userService) {
+    public TelegramBotStart(Config config, UserService userService, CallVolunteerMsgService callVolunteerMsg) {
         this.config = config;
         this.userService = userService;
+        this.callVolunteerMsg = callVolunteerMsg;
     }
+
 
     @Override
     public String getBotUsername() {
@@ -103,8 +106,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     testReg(update);
                     break;
                 default:
-                    if (userService.findByChatId(update.getMessage().getChatId()).getStateID()<4) {
+                    User user = userService.findByChatId(update.getMessage().getChatId());
+                    if (user.getStateID() <3) {
                         testReg(update);
+                    }
+                    List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
+                    System.out.println(msgList);
+                    for (CallVolunteerMsg msg : msgList) {
+                        if (msg.getStateId()==1) {
+                            msg.setMsgText(update.getMessage().getText());
+                            msg.setStateId(2);
+                            callVolunteerMsg.saveCallVolunteerMsg(msg);
+                            sendBotMessage(update.getMessage().getChatId(), "Ваш вопрос отправлен");
+                            sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
+                        }
                     }
                     System.out.println(message.getText());
                     System.out.println(message.getMessageId());
@@ -124,9 +139,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(TELL_ABOUT_SHELTER)) {
                 getInfoAboutMe(chatId, messageId);
             } else if (dataCallback.equals(CALL_VOLUNTEER)) {
-                callVolunteer(chatId, messageId);
-                EditMessageText text = new EditMessageText();
-                Message message1 = new Message();
+                askQuestion(update);
+                System.out.println(update.getCallbackQuery().getMessage().getChatId());
             } else if (dataCallback.equals(WORK_TIME)) {
                 getWorkTime(chatId, messageId);
             } else if (dataCallback.equals(ADDRESS)) {
@@ -147,6 +161,34 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 getBackMenu(chatId, messageId);
             }
         }
+    }
+
+    private void askQuestion(Update update) {
+        final long chatId = update.getCallbackQuery().getMessage().getChatId();
+        MessageContext context = null;
+        MessageState state;
+        User user = userService.findByChatId(chatId);
+        if (user == null) {
+           sendBotMessage(chatId,"Задавать вопросы могут только зарегистрированные пользователи");
+           return;
+        }
+        state = MessageState.getInitialState();
+        CallVolunteerMsg msg = new CallVolunteerMsg(state.ordinal());
+        msg.setMsgDate(Timestamp.valueOf(LocalDateTime.now()));
+        msg.setChatID(chatId);
+        msg.setEmail(user.getEmail());
+        msg.setNumberPhone(user.getPhoneNumber());
+        String text = update.getCallbackQuery().getMessage().getText();
+        context = MessageContext.of(this, msg, text);
+        state.enter(context);
+        state.handleInput(context);
+        callVolunteerMsg.saveCallVolunteerMsg(msg);
+        do {
+            state = state.nextState();
+            state.enter(context);
+        } while (!state.isInputNeeded());
+        msg.setStateId(state.ordinal());
+        callVolunteerMsg.saveCallVolunteerMsg(msg);
     }
 
     private void testReg(Update update) {

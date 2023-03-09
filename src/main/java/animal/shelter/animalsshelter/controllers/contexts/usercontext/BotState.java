@@ -1,4 +1,4 @@
-package animal.shelter.animalsshelter.controllers.usercontext;
+package animal.shelter.animalsshelter.controllers.contexts.usercontext;
 
 import animal.shelter.animalsshelter.util.Utils;
 import lombok.extern.log4j.Log4j;
