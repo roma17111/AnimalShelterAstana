@@ -11,7 +11,7 @@ public enum BotState {
     Start {
         @Override
         public void enter(BotContext context) {
-            sendMessage(context, "Привет. Тестовая регистрация");
+            sendMessage(context, "Добро пожаловать! ");
         }
 
         @Override
