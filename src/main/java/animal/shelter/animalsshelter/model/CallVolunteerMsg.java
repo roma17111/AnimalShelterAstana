@@ -21,10 +21,15 @@ public class CallVolunteerMsg {
     private long id;
     private long chatID;
     private long stateId;
+    private String numberPhone;
+    private String email;
     @Column(name = "msg_date")
     private Timestamp msgDate;
 
     @Column(name = "msg_text")
     private String msgText;
 
+    public CallVolunteerMsg(long stateId) {
+        this.stateId = stateId;
+    }
 }

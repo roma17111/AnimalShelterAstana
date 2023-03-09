@@ -1,6 +1,7 @@
 package animal.shelter.animalsshelter.service;
 
 import animal.shelter.animalsshelter.model.CallVolunteerMsg;
+import animal.shelter.animalsshelter.model.User;
 
 import java.util.List;
 
@@ -31,4 +32,5 @@ public interface CallVolunteerMsgService {
      * @param id - id объекта сообщения для удаления.
      */
     void deleteCallVolunteerMsg(Long id);
+
 }
