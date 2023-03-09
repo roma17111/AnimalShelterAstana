@@ -1,6 +1,10 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
+import animal.shelter.animalsshelter.controllers.usercontext.BotContext;
+import animal.shelter.animalsshelter.controllers.usercontext.BotState;
+import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
+import animal.shelter.animalsshelter.controllers.stateTest.TestUserService;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.ImageParser;
@@ -40,7 +44,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private static final String ADDRESS = "ADDRESS_BUTTON";
     private static final String SECURITY = "SECURITY_BUTTON";
     private static final String REGISTRATION = "REGISTRATION_BUTTON";
-
     private static final String INFO_BUTTON = "INFO_BUTTON";
     private static final String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
     private static final String SEND_REPORT = "SEND_REPORT";
@@ -56,9 +59,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     @Autowired
     private UserRepository userRepository;
 
+    private final UserService userService;
 
-    public TelegramBotStart(Config config) {
+
+    public TelegramBotStart(Config config,UserService userService) {
         this.config = config;
+        this.userService = userService;
     }
 
     @Override
@@ -99,20 +105,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/test":
-                    List<User> users = userRepository.findAll();
-                    for (User test : users) {
-                        sendBotMessage(update.getMessage().getChatId(), test.toString());
-                    }
+                    testReg(update);
                     break;
                 default:
-                    String msg = "Вопрос пользователя: \n"
-                            + update.getMessage().getChatId() + "\n"
-                            + update.getMessage().getChat().getFirstName() + "\n"
-                            + update.getMessage().getChat().getLastName() + "\n"
-                            + message.getText();
-                    sendBotMessage(453006669, msg);
-                    //  sendBotMessage(update.getMessage().getChatId(), msg);
+                    if (userService.findByChatId(update.getMessage().getChatId()) != null) {
+                        testReg(update);
+                    }
                     System.out.println(message.getText());
+                    System.out.println(message.getMessageId());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
                     break;
             }
@@ -154,7 +154,35 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    private void editMessageText() {
+    private void testReg(Update update) {
+        final String text = update.getMessage().getText();
+        final long chatId = update.getMessage().getChatId();
+        User user = userService.findByChatId(chatId);
+        BotContext context;
+        BotState state;
+        if (user == null) {
+            state = BotState.getInitialState();
+            user = new User(update.getMessage().getChatId(), state.ordinal());
+            userService.saveUser(user);
+            context = BotContext.of(this, user, text);
+            state.enter(context);
+            log.info("New user registered: " + chatId);
+            user.setFirstName(update.getMessage().getChat().getFirstName());
+            user.setLastName(update.getMessage().getChat().getLastName());
+        } else {
+            context = BotContext.of(this, user, text);
+            state = BotState.byId(user.getStateID());
+
+            log.info("Update received for user in state: " + state);
+        }
+        state.handleInput(context);
+
+        do {
+            state = state.nextState();
+            state.enter(context);
+        } while (!state.isInputNeeded());
+        user.setStateID(state.ordinal());
+        userService.saveUser(user);
     }
 
     /**

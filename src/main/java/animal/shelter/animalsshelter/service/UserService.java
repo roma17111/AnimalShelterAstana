@@ -1,6 +1,7 @@
 package animal.shelter.animalsshelter.service;
 
 import animal.shelter.animalsshelter.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,4 +31,14 @@ public interface UserService {
      * @param id идентификатор пользователя.
      */
     void deleteUser(Integer id);
+
+    User addDogToUser(Integer userId, Integer dogId);
+
+    User takeDogfromUser(Integer userId);
+
+    @Transactional(readOnly = true)
+    User findByChatId(long id);
+
+    @Transactional
+    List<User> findNewUsers();
 }

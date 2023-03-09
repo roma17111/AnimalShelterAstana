@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +20,7 @@ public class ImageParserImpl implements ImageParser {
 
     private final TelegramLongPollingBot telegramLongPollingBot;
 
-    public ImageParserImpl(TelegramLongPollingBot options) {
+    public ImageParserImpl(TelegramLongPollingBot options)   {
         this.telegramLongPollingBot = options;
     }
 
