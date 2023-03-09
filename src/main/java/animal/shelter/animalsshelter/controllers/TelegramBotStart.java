@@ -54,7 +54,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
-
     private final UserService userService;
 
 
@@ -104,7 +103,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     testReg(update);
                     break;
                 default:
-                    if (userService.findByChatId(update.getMessage().getChatId()) != null) {
+                    if (userService.findByChatId(update.getMessage().getChatId()).getStateID()<4) {
                         testReg(update);
                     }
                     System.out.println(message.getText());
