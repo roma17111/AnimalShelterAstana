@@ -23,8 +23,11 @@ public class User {
     private Integer id;
     @Column(name = "chat_id", nullable = false, unique = true)
     private Long chatId;
+    @Column(name = "state_id")
+    private Long stateID;
+
     @Pattern(message = "Bad formed person first_name: ${validatedValue}",
-    regexp = "^[А-Я][а-я][A-Z][a-z]")// Проставила Кирилицу и латиницу
+            regexp = "^[А-Я][а-я][A-Z][a-z]")// Проставила Кирилицу и латиницу
     @Size(min = 3)
     @NonNull
     @Column(name = "first_name")
@@ -41,10 +44,10 @@ public class User {
     @NonNull
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Email( message = "Email address has invalid format: ${validatedValue}",
-    regexp = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")
+    @Email(message = "Email address has invalid format: ${validatedValue}",
+            regexp = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")
     @NonNull
-    @Size(min = 7,max = 130)
+    @Size(min = 7, max = 130)
     @Column(name = "email")
     private String email;
     @OneToOne(cascade = CascadeType.ALL)
@@ -53,5 +56,14 @@ public class User {
 
     public User() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "chatId: " + chatId + "\n" +
+                "Имя: " + firstName + '\n' +
+                "Фамилия: " + lastName + '\n' +
+                "Номер телефона:" + phoneNumber + '\n' +
+                "email:     " + email;
     }
 }
