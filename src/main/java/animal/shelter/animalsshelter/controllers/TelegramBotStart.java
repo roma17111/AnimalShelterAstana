@@ -1,8 +1,8 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
-import animal.shelter.animalsshelter.controllers.stateTest.BotContext;
-import animal.shelter.animalsshelter.controllers.stateTest.BotState;
+import animal.shelter.animalsshelter.controllers.usercontext.BotContext;
+import animal.shelter.animalsshelter.controllers.usercontext.BotState;
 import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
 import animal.shelter.animalsshelter.controllers.stateTest.TestUserService;
 import animal.shelter.animalsshelter.repository.UserRepository;

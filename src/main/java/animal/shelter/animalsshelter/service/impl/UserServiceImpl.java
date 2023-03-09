@@ -1,5 +1,6 @@
 package animal.shelter.animalsshelter.service.impl;
 
+import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
 import animal.shelter.animalsshelter.model.Dog;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
@@ -7,6 +8,7 @@ import animal.shelter.animalsshelter.service.DogService;
 import animal.shelter.animalsshelter.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -71,4 +73,18 @@ public class UserServiceImpl implements UserService {
         saveUser(user);
         return user;
     }
+
+    @Transactional(readOnly = true)
+    public User findByChatId(long id) {
+        return userRepository.findByChatId(id);
+    }
+
+    @Transactional
+    public List<User> findNewUsers() {
+        List<User> users = userRepository.findNewUsers();
+        users.forEach((user) -> user.setNotified(true));
+        userRepository.saveAll(users);
+        return users;
+    }
+
 }
