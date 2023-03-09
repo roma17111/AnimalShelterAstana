@@ -105,16 +105,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     getBotStartUserMenu(update.getMessage().getChatId());
                     break;
                 case "/test":
+                    testReg(update);
                     break;
                 default:
-                 /*   String msg = "Вопрос пользователя: \n"
-                            + update.getMessage().getChatId() + "\n"
-                            + update.getMessage().getChat().getFirstName() + "\n"
-                            + update.getMessage().getChat().getLastName() + "\n"
-                            + message.getText();
-                    sendBotMessage(453006669, msg);*/
-                    //  sendBotMessage(update.getMessage().getChatId(), msg);
-
                     testReg(update);
                     System.out.println(message.getText());
                     System.out.println(message.getMessageId());
