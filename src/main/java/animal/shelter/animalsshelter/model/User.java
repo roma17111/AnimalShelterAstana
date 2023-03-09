@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Getter
@@ -53,6 +54,10 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id")
+    private List<Report> reportList;
     private boolean notified = false;
 
     public User() {
