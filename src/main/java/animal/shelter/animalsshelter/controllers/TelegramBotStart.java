@@ -108,7 +108,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     testReg(update);
                     break;
                 default:
-                    testReg(update);
+                    if (userService.findByChatId(update.getMessage().getChatId()) != null) {
+                        testReg(update);
+                    }
                     System.out.println(message.getText());
                     System.out.println(message.getMessageId());
                     log.info(update.getMessage().getChatId() + " " + message.getText());
