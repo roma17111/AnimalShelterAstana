@@ -1,12 +1,9 @@
 package animal.shelter.animalsshelter.controllers;
 
 import animal.shelter.animalsshelter.config.Config;
-import animal.shelter.animalsshelter.controllers.usercontext.BotContext;
-import animal.shelter.animalsshelter.controllers.usercontext.BotState;
-import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
-import animal.shelter.animalsshelter.controllers.stateTest.TestUserService;
+import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotContext;
+import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotState;
 import animal.shelter.animalsshelter.model.User;
-import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.ImageParser;
 import animal.shelter.animalsshelter.service.UserService;
 import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
@@ -15,9 +12,7 @@ import animal.shelter.animalsshelter.util.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;

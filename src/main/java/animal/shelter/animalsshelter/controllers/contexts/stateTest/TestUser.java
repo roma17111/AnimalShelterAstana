@@ -1,4 +1,4 @@
-package animal.shelter.animalsshelter.controllers.stateTest;
+package animal.shelter.animalsshelter.controllers.contexts.stateTest;
 
 import lombok.*;
 
