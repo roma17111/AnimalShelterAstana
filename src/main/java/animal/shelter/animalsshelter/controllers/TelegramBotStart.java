@@ -5,8 +5,10 @@ import animal.shelter.animalsshelter.controllers.usercontext.BotContext;
 import animal.shelter.animalsshelter.controllers.usercontext.BotState;
 import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
 import animal.shelter.animalsshelter.controllers.stateTest.TestUserService;
+import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.ImageParser;
+import animal.shelter.animalsshelter.service.UserService;
 import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
 import animal.shelter.animalsshelter.util.Emoji;
 import animal.shelter.animalsshelter.util.StartMenu;
@@ -57,10 +59,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     @Autowired
     private UserRepository userRepository;
 
-    private final TestUserService userService;
+    private final UserService userService;
 
 
-    public TelegramBotStart(Config config, TestUserService userService) {
+    public TelegramBotStart(Config config,UserService userService) {
         this.config = config;
         this.userService = userService;
     }
@@ -160,20 +162,21 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private void testReg(Update update) {
         final String text = update.getMessage().getText();
         final long chatId = update.getMessage().getChatId();
-        TestUser user = userService.findByChatId(chatId);
+        User user = userService.findByChatId(chatId);
         BotContext context;
         BotState state;
         if (user == null) {
             state = BotState.getInitialState();
-            user = new TestUser(update.getMessage().getChatId(), state.ordinal());
-            userService.addUser(user);
+            user = new User(update.getMessage().getChatId(), state.ordinal());
+            userService.saveUser(user);
             context = BotContext.of(this, user, text);
             state.enter(context);
             log.info("New user registered: " + chatId);
-            user.setName(update.getMessage().getChat().getFirstName());
+            user.setFirstName(update.getMessage().getChat().getFirstName());
+            user.setLastName(update.getMessage().getChat().getLastName());
         } else {
             context = BotContext.of(this, user, text);
-            state = BotState.byId(user.getStateId());
+            state = BotState.byId(user.getStateID());
 
             log.info("Update received for user in state: " + state);
         }
@@ -183,8 +186,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             state = state.nextState();
             state.enter(context);
         } while (!state.isInputNeeded());
-        user.setStateId(state.ordinal());
-        userService.updateUser(user);
+        user.setStateID(state.ordinal());
+        userService.saveUser(user);
     }
 
     /**

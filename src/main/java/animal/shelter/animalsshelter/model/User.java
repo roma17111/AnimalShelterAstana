@@ -22,9 +22,9 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
     @Column(name = "chat_id", nullable = false, unique = true)
-    private Long chatId;
+    private long chatId;
     @Column(name = "state_id")
-    private Long stateID;
+    private int stateID;
 
     @Pattern(message = "Bad formed person first_name: ${validatedValue}",
             regexp = "^[А-Я][а-я][A-Z][a-z]")// Проставила Кирилицу и латиницу
@@ -53,11 +53,14 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
-
     private boolean notified = false;
 
     public User() {
+    }
 
+    public User(long chatId, int stateID) {
+        this.chatId = chatId;
+        this.stateID = stateID;
     }
 
     @Override
