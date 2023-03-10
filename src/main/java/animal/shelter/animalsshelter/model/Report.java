@@ -3,6 +3,7 @@ package animal.shelter.animalsshelter.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -15,6 +16,11 @@ public class Report {
     private Integer id;
 
     private int stateId;
+
+    private int chatId;
+
+    @Column(name = "msg_date")
+    private Timestamp msgDate;
 
     @Column(name = "diet")
     private String diet;
@@ -32,6 +38,8 @@ public class Report {
     private Dog dog;
 
     private String userInfo;
+
+
 
 }
 
