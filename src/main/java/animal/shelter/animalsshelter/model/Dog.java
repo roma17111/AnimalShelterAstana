@@ -54,4 +54,8 @@ public class Dog {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Dog(Integer id) {
+        this.id = id;
+    }
 }
