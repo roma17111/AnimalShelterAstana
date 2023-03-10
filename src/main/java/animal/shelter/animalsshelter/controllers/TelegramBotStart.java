@@ -115,17 +115,18 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     testReg(update);
                     break;
                 case "/allreports":
-                    if (userService.findByChatId(update.getMessage().getChatId()).isNotified() == true) {
-                        getAllReports(update);
-                        getBotStartUserMenu(update.getMessage().getChatId());
-                    } else {
+                    User user1 = userService.findByChatId(update.getMessage().getChatId());
+                    if (user1 == null || user1.isNotified() == false) {
                         sendBotMessage(update.getMessage().getChatId(), "смотреть отчёты могут только волонтёры");
                         Thread.sleep(1000);
+                        getBotStartUserMenu(update.getMessage().getChatId());
+                    } else {
+                        getAllReports(update);
                         getBotStartUserMenu(update.getMessage().getChatId());
                     }
                 default:
                     User user = userService.findByChatId(update.getMessage().getChatId());
-                    if (user.getStateID() < 3) {
+                    if (user.getStateID() < 3&& user.getChatId()==update.getMessage().getChatId()) {
                         testReg(update);
                     }
                     List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
@@ -217,7 +218,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public void getAllReports(Update update) {
         List<Report> reports = reportService.getAllReports();
         for (Report report : reports) {
-            sendBotMessage(update.getMessage().getChatId(), "Отчёт " + report.getId());
+            sendBotMessage(update.getMessage().getChatId(), "Отчёт: " + report.getId());
+            sendBotMessage(update.getMessage().getChatId(), "Дата: " + report.getMsgDate());
             sendBotMessage(update.getMessage().getChatId(),  report.getUserInfo());
             sendBotMessage(update.getMessage().getChatId(),  report.getDiet());
             sendBotMessage(update.getMessage().getChatId(),  report.getGeneralHealth());
