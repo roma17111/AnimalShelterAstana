@@ -271,9 +271,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         Thread.sleep(800);
         sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Как поживает наш друг?");
         Thread.sleep(800);
-        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Какая диета у собаки?");
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Какая диета у питомца?");
         Thread.sleep(800);
-
     }
 
     public void sendReport(Update update, Report report) throws InterruptedException {
@@ -766,6 +765,26 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(SAMPLE_REPORT)) {
                 getSampleReport(chatId, messageId, update);
+            } else if (dataCallback.equals(BACK_TWO)) {
+                execute(keyboards.WhatNeedToKnow(chatId, messageId));
+            } else if (dataCallback.equals(ACQUAINTANCE)) {
+                execute(keyboards.getWindowOne(chatId, messageId));
+            } else if (dataCallback.equals(DOCUMENTS)) {
+                execute(keyboards.getWindowTwo(chatId, messageId));
+            } else if (dataCallback.equals(TRAVEL)){
+                execute(keyboards.getWindowThree(chatId, messageId));
+            } else if (dataCallback.equals(HOME_PREPARATION_PUPPY)) {
+                execute(keyboards.getWindowFour(chatId, messageId));
+            } else if (dataCallback.equals(HOME_PREPARATION_DOG)) {
+                execute(keyboards.getWindowFive(chatId, messageId));
+            } else if (dataCallback.equals(HOME_PREPARATION_INVALID_DOG)) {
+                execute(keyboards.getWindowSix(chatId, messageId));
+            } else if (dataCallback.equals(TIPS_FROM_HANDLER)) {
+                execute(keyboards.getWindowSeven(chatId, messageId));
+            } else if (dataCallback.equals(CONTACT_HANDLER)) {
+                execute(keyboards.getWindowEight(chatId, messageId));
+            } else if (dataCallback.equals(REASONS)) {
+                execute(keyboards.getWindowNine(chatId, messageId));
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);

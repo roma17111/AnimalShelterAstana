@@ -1,5 +1,6 @@
 package animal.shelter.animalsshelter.controllers;
 
+import animal.shelter.animalsshelter.util.AdoptingDocumentsAndRules;
 import animal.shelter.animalsshelter.util.Emoji;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.log4j.Log4j;
@@ -30,6 +31,8 @@ public class Keyboards {
     public static final String CONTACT_HANDLER = "CHANDLER";
     public static final String REASONS = "REASONS";
     public static final String SAMPLE_REPORT = "SAMPLEREPORT";
+
+    public static final String BACK_TWO = "BACKTWO";
 
 
 
@@ -168,6 +171,168 @@ public class Keyboards {
         rows.add(row6);
         rows.add(row7);
         rows.add(row8);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowOne(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.MEETING_DOG_RULES);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowTwo(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.DOCUMENTS_FOR_ADOPTION);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowThree(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.TRAVELLING_WITH_PET);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowFour(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.PLACE_FOR_PUPPY);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowFive(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.PLACE_FOR_DOG);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowSix(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.PLACE_FOR_DISABLED_DOG);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowSeven(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.CYNOLOGIST_ADVISES);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowEight(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.LIST_OF_CYNOLOGISTS);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getWindowNine(long chatId, long messageId) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(AdoptingDocumentsAndRules.ADOPTING_DENY_REASONS);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> buttons = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_TWO);
+        buttons.add(back);
+        rows.add(buttons);
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
         return messageText;

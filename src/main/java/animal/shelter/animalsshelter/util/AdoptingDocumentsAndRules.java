@@ -47,7 +47,7 @@ public class AdoptingDocumentsAndRules {
             Emoji.CHECK_MARK + " Желательно приобрести лакомства для поощрения и тренировок с собакой,\n" +
             Emoji.CHECK_MARK + " Если в доме есть другие животные, продумайте варианты их временной изоляции от собаки,\n" +
             Emoji.CHECK_MARK + " Уберите с пола и с легкодоступных поверхностей все мелкие предметы и обувь.\n");
-    public static final String PLACE_FOR_DISABLED_DOG = EmojiParser.parseToUnicode(Emoji.GUIDE_DOG +
+    public static final String PLACE_FOR_DISABLED_DOG = EmojiParser.parseToUnicode(Emoji.DOG +
             "Как приспособить дом для особенной собаки:\n" +
             Emoji.CHECK_MARK + " Заранее определите все возможные легкодоступные варианты мест для собаки,\n" +
             Emoji.CHECK_MARK + " Подготовьте подстилку (если считаете нужным), чтобы она была обозначением места собаки,\n" +
