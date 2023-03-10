@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -194,7 +195,26 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 Thread.sleep(400);
                 getBackMenu(chatId, messageId);
             }
+        } else if (update.hasMessage()&& message.hasPhoto()) {
+            List<Report> reports = reportService.getAllReports();
+            for (Report report : reports) {
+                if (report.getStateId() == 4) {
+                    sendPhotoReport(update, report);
+                }
+            }
         }
+    }
+
+    public void sendPhotoReport(Update update,Report report) throws InterruptedException {
+        report.setPhoto(getPhotoFromMessage(update));
+        User user = userService.findByChatId(update.getMessage().getChatId());
+        report.setUserInfo(user.toString());
+        sendBotMessage(update.getMessage().getChatId(), "Отчёт отправлен");
+        Thread.sleep(1200);
+        report.setStateId(5);
+        reportService.saveReport(report);
+        getBotStartUserMenu(update.getMessage().getChatId());
+
     }
 
     public void sendReportQuerry(Update update) throws InterruptedException {
@@ -233,13 +253,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 break;
             case 3:
                 report.setBehaviorChange(update.getMessage().getText());
-                User user = userService.findByChatId(update.getMessage().getChatId());
-                report.setUserInfo(user.toString());
-                sendBotMessage(update.getMessage().getChatId(), "Отчёт отправлен");
-                Thread.sleep(1200);
+                sendBotMessage(update.getMessage().getChatId(), "Прикрепите фото питомца");
                 report.setStateId(4);
                 reportService.saveReport(report);
-                getBotStartUserMenu(update.getMessage().getChatId());
                 break;
         }
     }
