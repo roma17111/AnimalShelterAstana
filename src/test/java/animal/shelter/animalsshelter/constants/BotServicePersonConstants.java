@@ -1,12 +1,19 @@
 package animal.shelter.animalsshelter.constants;
 
 
-    public class BotServicePersonConstants {
+import animal.shelter.animalsshelter.model.Dog;
+
+public class BotServicePersonConstants {
         public static final Integer ID_DEFAULT = 1;
         public static final long CHAT_ID_DEFAULT = 1L;
+        public static final Integer STATE_ID_DEFAULT = 1;
+        public static final Integer ID_DEFAULT2 = 2;
+        public static final long CHAT_ID_DEFAULT2 = 2L;
+        public static final Integer STATE_ID_DEFAULT2 = 2;
 
         public static final String NAME_EMPTY = "";
         public static final String NAME_DEFAULT = "Имя";
+
         public static final String NAME_ONLY_SPACES = "  ";
         public static final String NAME_ILLEGAL_CHARACTERS = "Имя123";
         public static final String NAME_CORRECT = "Иван";

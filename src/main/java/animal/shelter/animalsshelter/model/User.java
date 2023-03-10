@@ -58,9 +58,30 @@ public class User {
     public User() {
     }
 
+    public User(Integer id, Dog dog) {
+        this.id = id;
+        this.dog = dog;
+    }
+
     public User(long chatId, int stateID) {
         this.chatId = chatId;
         this.stateID = stateID;
+    }
+
+    public User(Integer id,
+                long chatId,
+                int stateID,
+                @NonNull String firstName,
+                @NonNull String lastName,
+                @NonNull String phoneNumber,
+                @NonNull String email) {
+        this.id = id;
+        this.chatId = chatId;
+        this.stateID = stateID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     @Override
