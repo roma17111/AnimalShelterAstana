@@ -59,6 +59,12 @@ public class Keyboards {
         return sendMessage;
     }
 
+    /**
+     * Метод для отправки пользователю главного меню бота при старте бота.
+     *
+     * @param id ID чата с пользователем
+     */
+
     public SendMessage getBotStartUserMenu(long id) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(id));
