@@ -110,32 +110,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/allreports":
                     getAllReportsFromBot(update);
                 default:
-                    User user = userService.findByChatId(update.getMessage().getChatId());
-                    if (user.getStateID() < 3&& user.getChatId()==update.getMessage().getChatId()) {
-                        testReg(update);
-                    }
-                    List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
-                    for (CallVolunteerMsg msg : msgList) {
-                        if (msg.getStateId() == 1&& msg.getChatID()==update.getMessage().getChatId()) {
-                            msg.setMsgText(update.getMessage().getText());
-                            msg.setStateId(2);
-                            log.info("Вопрос " + msg);
-                            callVolunteerMsg.saveCallVolunteerMsg(msg);
-                            sendBotMessage(update.getMessage().getChatId(), "Ваш вопрос отправлен");
-                            sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
-                            Thread.sleep(1000);
-                            getBotStartUserMenu(update.getMessage().getChatId());
-                        }
-                    }
-                    List<Report> reports = reportService.getAllReports();
-                    for (Report report : reports) {
-                        if (report.getStateId() < 4 && user.getChatId() == report.getChatId()) {
-                            sendReport(update, report);
-                        }
-                    }
-                    System.out.println(message.getText());
-                    System.out.println(message.getMessageId());
-                    log.info(update.getMessage().getChatId() + " " + message.getText());
+                   getDefaultSwitchRealisation(update,message);
                     break;
             }
         } else if (update.hasCallbackQuery()) {
@@ -198,6 +173,35 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 }
             }
         }
+    }
+
+    public void getDefaultSwitchRealisation(Update update , Message message) throws InterruptedException {
+        User user = userService.findByChatId(update.getMessage().getChatId());
+        if (user.getStateID() < 3&& user.getChatId()==update.getMessage().getChatId()) {
+            testReg(update);
+        }
+        List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
+        for (CallVolunteerMsg msg : msgList) {
+            if (msg.getStateId() == 1&& msg.getChatID()==update.getMessage().getChatId()) {
+                msg.setMsgText(update.getMessage().getText());
+                msg.setStateId(2);
+                log.info("Вопрос " + msg);
+                callVolunteerMsg.saveCallVolunteerMsg(msg);
+                sendBotMessage(update.getMessage().getChatId(), "Ваш вопрос отправлен");
+                sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
+                Thread.sleep(1000);
+                getBotStartUserMenu(update.getMessage().getChatId());
+            }
+        }
+        List<Report> reports = reportService.getAllReports();
+        for (Report report : reports) {
+            if (report.getStateId() < 4 && user.getChatId() == report.getChatId()) {
+                sendReport(update, report);
+            }
+        }
+        System.out.println(message.getText());
+        System.out.println(message.getMessageId());
+        log.info(update.getMessage().getChatId() + " " + message.getText());
     }
 
     public void getAllReportsFromBot(Update update) throws InterruptedException {
