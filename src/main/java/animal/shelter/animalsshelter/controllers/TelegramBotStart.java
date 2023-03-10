@@ -38,8 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static animal.shelter.animalsshelter.controllers.Keyboards.CAT;
-import static animal.shelter.animalsshelter.controllers.Keyboards.DOG;
+import static animal.shelter.animalsshelter.controllers.Keyboards.*;
 import static animal.shelter.animalsshelter.util.Emoji.CAT_FACE;
 import static animal.shelter.animalsshelter.util.Emoji.DOG_FACE;
 
@@ -51,7 +50,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public static final String WORK_TIME = "TIME_BUTTON";
     public static final String ADDRESS = "ADDRESS_BUTTON";
     public static final String SECURITY = "SECURITY_BUTTON";
-    public static final String REGISTRATION = "REGISTRATION_BUTTON";
     public static final String INFO_BUTTON = "INFO_BUTTON";
     public static final String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
     public static final String SEND_REPORT = "SEND_REPORT";
@@ -347,11 +345,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
 
 
-    /**
-     * Метод для отправки пользователю главного меню бота при старте бота.
-     *
-     * @param id ID чата с пользователем
-     */
 
 
     /**
@@ -652,6 +645,27 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    public void getSampleReport(long chatId, long messageID, Update update) throws TelegramApiException, InterruptedException {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageID);
+        messageText.setText("Образец отчёта");
+        try {
+            execute(messageText);
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+        Report report = reportService.getReportById(7);
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Дата: " + report.getMsgDate());
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),  report.getUserInfo());
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),  report.getDiet());
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),  report.getGeneralHealth());
+        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),  report.getBehaviorChange());
+        sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(),report.getPhoto());
+        Thread.sleep(800);
+        execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+    }
+
     private void getIfCallbackQuery(Update update) throws TelegramApiException, InterruptedException {
          if (update.hasCallbackQuery()) {
             String dataCallback = update.getCallbackQuery().getData();
@@ -716,6 +730,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
             } else if (dataCallback.equals(NECESSARY)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
+            } else if (dataCallback.equals(SAMPLE_REPORT)) {
+                getSampleReport(chatId,messageId,update);
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
