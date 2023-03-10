@@ -66,6 +66,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getAdmin(Integer userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user.isNotified() == true) {
+            user.setNotified(false);
+            saveUser(user);
+        } else {
+            user.setNotified(true);
+            saveUser(user);
+        }
+
+
+        return user;
+    }
+
+    @Override
     public User takeDogfromUser(Integer userId) {
         User user = getUserById(userId);
         user.setDog(null);

@@ -6,9 +6,8 @@ import animal.shelter.animalsshelter.repository.TestJPA;
 import animal.shelter.animalsshelter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -53,5 +52,21 @@ public class UserController {
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/admin/{id}")
+    @ResponseBody
+    @Operation(summary = "Сделать пользователя волонтёром",
+            description = "Данный запрос позволяет выдать пользователю волонтёрские права" +
+                    "всех зарегистрированныз пользователей")
+    @ApiResponse(responseCode = "200",
+            description = "Операция успешна")
+    @ApiResponse(responseCode = "400",
+            description = "параметры запроса отсутствуют или имеют некорректный формат;")
+    @ApiResponse(responseCode = "500",
+            description = "произошла ошибка, не зависящая от вызывающей стороны.")
+    public User setAdminUser(@PathVariable Integer id) {
+        return userService.getAdmin(id);
+
     }
 }

@@ -34,6 +34,8 @@ public interface UserService {
 
     User addDogToUser(Integer userId, Integer dogId);
 
+    User getAdmin(Integer userId);
+
     User takeDogfromUser(Integer userId);
 
     @Transactional(readOnly = true)

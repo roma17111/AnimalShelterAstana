@@ -130,7 +130,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     }
                     List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
                     for (CallVolunteerMsg msg : msgList) {
-                        if (msg.getStateId() == 1) {
+                        if (msg.getStateId() == 1&& msg.getChatID()==update.getMessage().getChatId()) {
                             msg.setMsgText(update.getMessage().getText());
                             msg.setStateId(2);
                             log.info("Вопрос " + msg);
@@ -143,7 +143,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     }
                     List<Report> reports = reportService.getAllReports();
                     for (Report report : reports) {
-                        if (report.getStateId() < 4) {
+                        if (report.getStateId() < 4 && user.getChatId() == report.getChatId()) {
                             sendReport(update, report);
                         }
                     }
@@ -246,6 +246,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }*/
         Report report = new Report();
         report.setStateId(1);
+        report.setMsgDate(Timestamp.valueOf(LocalDateTime.now()));
+        report.setChatId(Math.toIntExact(update.getCallbackQuery().getMessage().getChatId()));
         reportService.saveReport(report);
         sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Мы рады, что вы забрали у нас собакена)))");
         Thread.sleep(800);
