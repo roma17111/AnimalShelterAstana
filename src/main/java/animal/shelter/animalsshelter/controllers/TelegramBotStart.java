@@ -108,15 +108,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     testReg(update);
                     break;
                 case "/allreports":
-                    User user1 = userService.findByChatId(update.getMessage().getChatId());
-                    if (user1 == null || user1.isNotified() == false) {
-                        sendBotMessage(update.getMessage().getChatId(), "смотреть отчёты могут только волонтёры");
-                        Thread.sleep(1000);
-                        getBotStartUserMenu(update.getMessage().getChatId());
-                    } else {
-                        getAllReports(update);
-                        getBotStartUserMenu(update.getMessage().getChatId());
-                    }
+                    getAllReportsFromBot(update);
                 default:
                     User user = userService.findByChatId(update.getMessage().getChatId());
                     if (user.getStateID() < 3&& user.getChatId()==update.getMessage().getChatId()) {
@@ -205,6 +197,18 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     sendPhotoReport(update, report);
                 }
             }
+        }
+    }
+
+    public void getAllReportsFromBot(Update update) throws InterruptedException {
+        User user1 = userService.findByChatId(update.getMessage().getChatId());
+        if (user1 == null || user1.isNotified() == false) {
+            sendBotMessage(update.getMessage().getChatId(), "смотреть отчёты могут только волонтёры");
+            Thread.sleep(1000);
+            getBotStartUserMenu(update.getMessage().getChatId());
+        } else {
+            getAllReports(update);
+            getBotStartUserMenu(update.getMessage().getChatId());
         }
     }
 
