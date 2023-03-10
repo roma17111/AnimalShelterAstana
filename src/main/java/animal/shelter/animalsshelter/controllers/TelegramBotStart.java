@@ -63,6 +63,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final ReportService reportService;
     private final CallVolunteerMsgService callVolunteerMsg;
 
+    private final Keyboards keyboards = new Keyboards();
     public TelegramBotStart(Config config,
                             UserService userService,
                             ReportService reportService,
@@ -106,7 +107,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     Thread.sleep(500);
                     sendBotMessage(update.getMessage().getChatId(), hello);
                     Thread.sleep(1200);
-                    getBotStartUserMenu(update.getMessage().getChatId());
+                    execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
                     break;
                 case "/menu":
                     getBotStartUserMenu(update.getMessage().getChatId());
@@ -360,6 +361,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             log.error(e.getMessage());
         }
     }
+
+
 
     /**
      * Метод для отправки пользователю главного меню бота при старте бота.
