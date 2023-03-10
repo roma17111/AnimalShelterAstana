@@ -118,78 +118,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                    getDefaultSwitchRealisation(update,message);
                     break;
             }
-        } else if (update.hasCallbackQuery()) {
-            String dataCallback = update.getCallbackQuery().getData();
-            long chatId = update.getCallbackQuery().getMessage().getChatId();
-            long messageId = update.getCallbackQuery().getMessage().getMessageId();
-            if (dataCallback.equals(INFO_BUTTON)) {
-                startMenu1(chatId, messageId);
-            } else if (dataCallback.equals(GO_BACK)) {
-                getBackMenu(chatId, messageId);
-            } else if (dataCallback.equals(BACK_ONE_POINT)) {
-                startMenu1(chatId, messageId);
-            } else if (dataCallback.equals(TELL_ABOUT_SHELTER)) {
-                getInfoAboutMe(chatId, messageId);
-            } else if (dataCallback.equals(CALL_VOLUNTEER)) {
-                EditMessageText messageText = new EditMessageText();
-                messageText.setChatId(chatId);
-                messageText.setMessageId((int) messageId);
-                messageText.setText("Вас приветствует служба поддержки пользователей");
-                execute(messageText);
-                askQuestion(update);
-            } else if (dataCallback.equals(WORK_TIME)) {
-                getWorkTime(chatId, messageId);
-            } else if (dataCallback.equals(ADDRESS)) {
-                getContactUs(chatId, messageId);
-            } else if (dataCallback.equals(SECURITY)) {
-                getSafeInformation(chatId, messageId);
-            } else if (dataCallback.equals(SEND_REPORT)) {
-                User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
-                if (user == null) {
-                    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
-                            "зарегистрированные пользователи!!!");
-                }
-                else {
-                    EditMessageText messageText = new EditMessageText();
-                    messageText.setChatId(chatId);
-                    messageText.setMessageId((int) messageId);
-                    messageText.setText("Отправить отчёт:");
-                    execute(messageText);
-                    sendReportQuerry(update);
-                }
-            }
-            else if (dataCallback.equals(DOG)) {
-                EditMessageText messageText = new EditMessageText();
-                messageText.setChatId(chatId);
-                messageText.setMessageId((int) messageId);
-                messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для собак " + DOG_FACE));
-                execute(messageText);
-                Thread.sleep(800);
-                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
-            }
-            else if (dataCallback.equals(CAT)) {
-                EditMessageText messageText = new EditMessageText();
-                messageText.setChatId(chatId);
-                messageText.setMessageId((int) messageId);
-                messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для кошек " + CAT_FACE));
-                execute(messageText);
-                Thread.sleep(800);
-                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
-            }
-            else {
-                EditMessageText messageText = new EditMessageText();
-                messageText.setChatId(chatId);
-                messageText.setMessageId((int) messageId);
-                messageText.setText("Пока в разработке)))");
-                try {
-                    execute(messageText);
-                } catch (TelegramApiException e) {
-                    log.error(e.getMessage());
-                }
-                Thread.sleep(400);
-                getBackMenu(chatId, messageId);
-            }
-        } else if (update.hasMessage()&& message.hasPhoto()) {
+        }
+        getIfCallbackQuery(update);
+        if (update.hasMessage()&& message.hasPhoto()) {
             List<Report> reports = reportService.getAllReports();
             for (Report report : reports) {
                 if (report.getStateId() == 4) {
@@ -470,9 +401,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         InlineKeyboardButton recommendations = new InlineKeyboardButton();
         recommendations.setText("Техника безопасности");
         recommendations.setCallbackData(SECURITY);
-        InlineKeyboardButton registerMe = new InlineKeyboardButton();
-        registerMe.setText("Оставить контактные данные");
-        registerMe.setCallbackData(REGISTRATION);
         InlineKeyboardButton volunteerCall = new InlineKeyboardButton();
         volunteerCall.setText("Вопрос к волонтёру");
         volunteerCall.setCallbackData(CALL_VOLUNTEER);
@@ -483,7 +411,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         row2.add(cLockWork);
         row2.add(addressShelter);
         row3.add(recommendations);
-        row4.add(registerMe);
         row5.add(volunteerCall);
         row6.add(back);
         rows.add(row1);
@@ -722,6 +649,86 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             execute(imageParser.byteCodeToImage(chatId, byteCode));
         } catch (TelegramApiException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void getIfCallbackQuery(Update update) throws TelegramApiException, InterruptedException {
+         if (update.hasCallbackQuery()) {
+            String dataCallback = update.getCallbackQuery().getData();
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
+            long messageId = update.getCallbackQuery().getMessage().getMessageId();
+            if (dataCallback.equals(INFO_BUTTON)) {
+                startMenu1(chatId, messageId);
+            } else if (dataCallback.equals(GO_BACK)) {
+                getBackMenu(chatId, messageId);
+            } else if (dataCallback.equals(BACK_ONE_POINT)) {
+                startMenu1(chatId, messageId);
+            } else if (dataCallback.equals(TELL_ABOUT_SHELTER)) {
+                getInfoAboutMe(chatId, messageId);
+            } else if (dataCallback.equals(CALL_VOLUNTEER)) {
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText("Вас приветствует служба поддержки пользователей");
+                execute(messageText);
+                askQuestion(update);
+            } else if (dataCallback.equals(WORK_TIME)) {
+                getWorkTime(chatId, messageId);
+            } else if (dataCallback.equals(ADDRESS)) {
+                getContactUs(chatId, messageId);
+            } else if (dataCallback.equals(SECURITY)) {
+                getSafeInformation(chatId, messageId);
+            } else if (dataCallback.equals(SEND_REPORT)) {
+                User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
+                if (user == null) {
+                    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
+                            "зарегистрированные пользователи!!!");
+                }
+                else {
+                    EditMessageText messageText = new EditMessageText();
+                    messageText.setChatId(chatId);
+                    messageText.setMessageId((int) messageId);
+                    messageText.setText("Отправить отчёт:");
+                    execute(messageText);
+                    try {
+                        sendReportQuerry(update);
+                    } catch (InterruptedException e) {
+                        log.error(e.getMessage());
+                    }
+                }
+            }
+            else if (dataCallback.equals(DOG)) {
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для собак " + DOG_FACE));
+                execute(messageText);
+                Thread.sleep(800);
+                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+            }
+            else if (dataCallback.equals(CAT)) {
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для кошек " + CAT_FACE));
+                execute(messageText);
+                Thread.sleep(800);
+                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+            } else if (dataCallback.equals(NECESSARY)) {
+                execute(keyboards.WhatNeedToKnow(chatId, messageId));
+            } else {
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText("Пока в разработке)))");
+                try {
+                    execute(messageText);
+                } catch (TelegramApiException e) {
+                    log.error(e.getMessage());
+                }
+                Thread.sleep(400);
+                getBackMenu(chatId, messageId);
+            }
         }
     }
 }
