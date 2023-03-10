@@ -38,22 +38,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static animal.shelter.animalsshelter.controllers.Keyboards.CAT;
+import static animal.shelter.animalsshelter.controllers.Keyboards.DOG;
+import static animal.shelter.animalsshelter.util.Emoji.CAT_FACE;
+import static animal.shelter.animalsshelter.util.Emoji.DOG_FACE;
+
 
 @Log4j
 @Component
 public class TelegramBotStart extends TelegramLongPollingBot {
-    private static final String TELL_ABOUT_SHELTER = "TELL_ME";
-    private static final String WORK_TIME = "TIME_BUTTON";
-    private static final String ADDRESS = "ADDRESS_BUTTON";
-    private static final String SECURITY = "SECURITY_BUTTON";
-    private static final String REGISTRATION = "REGISTRATION_BUTTON";
-    private static final String INFO_BUTTON = "INFO_BUTTON";
-    private static final String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
-    private static final String SEND_REPORT = "SEND_REPORT";
-    private static final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
-    private static final String GO_BACK = "GO_BACK";
-    private static final String BACK_ONE_POINT = "BACK_ONE";
-    private static final String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
+    public static final String TELL_ABOUT_SHELTER = "TELL_ME";
+    public static final String WORK_TIME = "TIME_BUTTON";
+    public static final String ADDRESS = "ADDRESS_BUTTON";
+    public static final String SECURITY = "SECURITY_BUTTON";
+    public static final String REGISTRATION = "REGISTRATION_BUTTON";
+    public static final String INFO_BUTTON = "INFO_BUTTON";
+    public static final String NECESSARY = "NECESSARY_TO_GET_ANIMAL";
+    public static final String SEND_REPORT = "SEND_REPORT";
+    public static final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
+    public static final String GO_BACK = "GO_BACK";
+    public static final String BACK_ONE_POINT = "BACK_ONE";
+    public static final String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
@@ -102,7 +107,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                   startBot(update);
                     break;
                 case "/menu":
-                    getBotStartUserMenu(update.getMessage().getChatId());
+                    execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
                     break;
                 case "/registration":
                     testReg(update);
@@ -143,7 +148,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 if (user == null) {
                     sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
                             "зарегистрированные пользователи!!!");
-                } else {
+                }
+                else {
                     EditMessageText messageText = new EditMessageText();
                     messageText.setChatId(chatId);
                     messageText.setMessageId((int) messageId);
@@ -151,8 +157,26 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     execute(messageText);
                     sendReportQuerry(update);
                 }
-
-            } else {
+            }
+            else if (dataCallback.equals(DOG)) {
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для собак " + DOG_FACE));
+                execute(messageText);
+                Thread.sleep(800);
+                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+            }
+            else if (dataCallback.equals(CAT)) {
+                EditMessageText messageText = new EditMessageText();
+                messageText.setChatId(chatId);
+                messageText.setMessageId((int) messageId);
+                messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для кошек " + CAT_FACE));
+                execute(messageText);
+                Thread.sleep(800);
+                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+            }
+            else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
                 messageText.setMessageId((int) messageId);
@@ -175,7 +199,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    public void getDefaultSwitchRealisation(Update update , Message message) throws InterruptedException {
+    public void getDefaultSwitchRealisation(Update update , Message message) throws InterruptedException, TelegramApiException {
         User user = userService.findByChatId(update.getMessage().getChatId());
         if (user.getStateID() < 3&& user.getChatId()==update.getMessage().getChatId()) {
             testReg(update);
@@ -190,7 +214,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 sendBotMessage(update.getMessage().getChatId(), "Ваш вопрос отправлен");
                 sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
                 Thread.sleep(1000);
-                getBotStartUserMenu(update.getMessage().getChatId());
+                execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
             }
         }
         List<Report> reports = reportService.getAllReports();
@@ -209,10 +233,18 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (user1 == null || user1.isNotified() == false) {
             sendBotMessage(update.getMessage().getChatId(), "смотреть отчёты могут только волонтёры");
             Thread.sleep(1000);
-            getBotStartUserMenu(update.getMessage().getChatId());
+            try {
+                execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
         } else {
             getAllReports(update);
-            getBotStartUserMenu(update.getMessage().getChatId());
+            try {
+                execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
         }
     }
 
@@ -253,7 +285,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         Thread.sleep(1200);
         report.setStateId(5);
         reportService.saveReport(report);
-        getBotStartUserMenu(update.getMessage().getChatId());
+        try {
+            execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
 
     }
 
@@ -385,44 +421,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      *
      * @param id ID чата с пользователем
      */
-    private void getBotStartUserMenu(long id) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(String.valueOf(id));
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
-        List<InlineKeyboardButton> row = new ArrayList<>();
-        List<InlineKeyboardButton> row1 = new ArrayList<>();
-        List<InlineKeyboardButton> row2 = new ArrayList<>();
-        List<InlineKeyboardButton> row3 = new ArrayList<>();
-        InlineKeyboardButton shelterInfoButton = new InlineKeyboardButton();
-        shelterInfoButton.setText("Информация о приюте");
-        shelterInfoButton.setCallbackData(INFO_BUTTON);
-        InlineKeyboardButton necessary = new InlineKeyboardButton();
-        necessary.setText("Хотите животное? Важно знать!");
-        necessary.setCallbackData(NECESSARY);
-        InlineKeyboardButton report = new InlineKeyboardButton();
-        report.setText("Отправить отчёт о животном");
-        report.setCallbackData(SEND_REPORT);
-        InlineKeyboardButton call = new InlineKeyboardButton();
-        call.setText("Вопрос к волонтёру");
-        call.setCallbackData(CALL_VOLUNTEER);
-        row.add(shelterInfoButton);
-        row1.add(necessary);
-        row2.add(report);
-        row3.add(call);
-        rows.add(row);
-        rows.add(row1);
-        rows.add(row2);
-        rows.add(row3);
-        inlineKeyboardMarkup.setKeyboard(rows);
-        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-        sendMessage.setText("Главное меню");
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            log.error(e.getMessage());
-        }
-    }
+
 
     /**
      * Метод для отправки фото из url адресса проекта.
