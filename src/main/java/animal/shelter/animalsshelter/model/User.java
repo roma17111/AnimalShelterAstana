@@ -60,6 +60,10 @@ public class User {
     public User() {
     }
 
+    public User(Integer id) {
+        this.id = id;
+    }
+
     public User(Integer id, Dog dog) {
         this.id = id;
         this.dog = dog;

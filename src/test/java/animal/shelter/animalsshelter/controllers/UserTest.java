@@ -1,12 +1,14 @@
 package animal.shelter.animalsshelter.controllers;
 
-import animal.shelter.animalsshelter.controllers.stateTest.TestRepository;
-import animal.shelter.animalsshelter.controllers.stateTest.TestUser;
-import animal.shelter.animalsshelter.controllers.stateTest.TestUserService;
+
+import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestRepository;
+import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestUser;
+import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestUserService;
 import animal.shelter.animalsshelter.model.User;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,10 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 public class UserTest {
-    @Autowired
+
     private MockMvc mockMvc;
+    @Mock
     private TestRepository userRepository;
-    @MockBean
+    @Mock
     private TestUserService testUserService;
 
     public UserTest(TestUserService testUserService) {

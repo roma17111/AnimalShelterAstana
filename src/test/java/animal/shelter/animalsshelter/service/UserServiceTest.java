@@ -63,7 +63,6 @@ public class UserServiceTest {
      */
     @Test
     public void findByChatIdTest() {
-        HashSet<User> expected = new HashSet<>();
 
         User testUser1 = new User(ID_DEFAULT,
                 CHAT_ID_DEFAULT,
@@ -72,23 +71,10 @@ public class UserServiceTest {
                 LASTNAME_CORRECT,
                 PHONE_CORRECT,
                 EMAIL_CORRECT);
-        expected.add(testUser1);
-
-        User testUser2 = new User(ID_DEFAULT2,
-                CHAT_ID_DEFAULT2,
-                STATE_ID_DEFAULT2,
-                NAME_DEFAULT,
-                LASTNAME_DEFAULT,
-                PHONE_DEFAULT,
-                EMAIL_DEFAULT);
-        expected.add(testUser2);
-
-//        Mockito.when(userRepositoryMock.findByChatId(any(Long.class))).thenReturn(expected);
-
-        Collection<User> actual = (Collection<User>) userService.findByChatId(ID_DEFAULT);
-
-        Assertions.assertThat(actual.size()).isEqualTo(expected.size());
-        Assertions.assertThat(actual).isEqualTo(expected);
+        userService.saveUser(testUser1);
+       Mockito.when(userRepositoryMock.findByChatId(any(Long.class))).thenReturn(testUser1);
+        User actual = userService.findByChatId(ID_DEFAULT);
+        Assertions.assertThat(actual).isEqualTo(testUser1);
     }
     /**
      * Тест метода <b>saveUser()</b> в UserService
@@ -142,12 +128,11 @@ public class UserServiceTest {
         User expectedUser = new User(ID_DEFAULT, null);
         Dog expectedDog = new Dog(ID_DEFAULT2);
 
-        when(dogRepositoryMock.save(any(Dog.class))).thenReturn(expectedDog);
-        when(userRepositoryMock.save(any(User.class))).thenReturn(expectedUser);
+        when(dogService.saveDog(any(Dog.class))).thenReturn(expectedDog);
+        when(userService.saveUser(any(User.class))).thenReturn(expectedUser);
 
-        User actual = userService.addDogToUser(expectedUser.getId(), expectedDog.getId());
-        Assertions.assertThat(actual.getId()).isEqualTo(expectedUser.getId());
-        Assertions.assertThat(actual.getDog()).isEqualTo(expectedUser.getDog());
+        userService.addDogToUser(expectedUser.getId(),expectedDog.getId());
+        Assertions.assertThat(expectedUser.getDog()).isNotNull();
     }
 
     /**

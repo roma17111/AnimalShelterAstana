@@ -1,10 +1,12 @@
 package animal.shelter.animalsshelter.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "dog")
 public class Dog {
