@@ -99,15 +99,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (update.hasMessage() && message.hasText()) {
             switch (message.getText()) {
                 case "/start":
-                    String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
-                    log.info(hello);
-                    sendBotMessage(update.getMessage().getChatId(), "Привет - Это Asha)");
-                    log.info(update.getMessage().getChatId() + " Привет - Это Asha)");
-                    sendPhoto(update.getMessage().getChatId());
-                    Thread.sleep(500);
-                    sendBotMessage(update.getMessage().getChatId(), hello);
-                    Thread.sleep(1200);
-                    execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+                  startBot(update);
                     break;
                 case "/menu":
                     getBotStartUserMenu(update.getMessage().getChatId());
@@ -213,6 +205,22 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     sendPhotoReport(update, report);
                 }
             }
+        }
+    }
+
+    public void startBot(Update update) throws InterruptedException {
+        String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
+        log.info(hello);
+        sendBotMessage(update.getMessage().getChatId(), "Привет - Это Asha)");
+        log.info(update.getMessage().getChatId() + " Привет - Это Asha)");
+        sendPhoto(update.getMessage().getChatId());
+        Thread.sleep(500);
+        sendBotMessage(update.getMessage().getChatId(), hello);
+        Thread.sleep(1200);
+        try {
+            execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
         }
     }
 
