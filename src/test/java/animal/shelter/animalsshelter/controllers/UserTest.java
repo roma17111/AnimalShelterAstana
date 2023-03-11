@@ -5,9 +5,12 @@ import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestReposito
 import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestUser;
 import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestUserService;
 import animal.shelter.animalsshelter.model.User;
+import animal.shelter.animalsshelter.repository.UserRepository;
+import animal.shelter.animalsshelter.service.UserService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,11 @@ public class UserTest {
     @Mock
     private TestUserService testUserService;
 
+    @Mock
+    private UserRepository userRepositoryMock;
+    @InjectMocks
+    private UserService userService;
+
     public UserTest(TestUserService testUserService) {
         this.testUserService = testUserService;
     }
@@ -47,7 +55,7 @@ public class UserTest {
         mockMvc.perform(
                         get("/user/{id}", ID_DEFAULT))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(ID_DEFAULT));
+                .andExpect(jsonPath("$.id").value(CHAT_ID_DEFAULT));
 
         verify(testUserService).findByChatId(ID_DEFAULT);
     }

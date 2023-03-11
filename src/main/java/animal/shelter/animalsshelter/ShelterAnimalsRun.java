@@ -11,6 +11,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class ShelterAnimalsRun {
     public static void main(String[] args) {
         SpringApplication.run(ShelterAnimalsRun.class);
-        User user = new User();
     }
 }

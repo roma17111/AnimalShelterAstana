@@ -67,6 +67,11 @@ public class UserController {
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public User setAdminUser(@PathVariable Integer id) {
         return userService.getAdmin(id);
+    }
 
+    @GetMapping("/{id}")
+    @ResponseBody
+    public User findByChatId(@PathVariable long id) {
+        return userService.findByChatId(id);
     }
 }

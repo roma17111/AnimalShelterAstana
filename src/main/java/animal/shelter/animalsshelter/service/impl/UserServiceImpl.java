@@ -57,10 +57,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User addDogToUser(Integer userId, Integer dogId) {
-        Dog dog = dogService.getDogById(dogId);
         User user = getUserById(userId);
-        user.setDog(dog);
+        user.setDog(dogService.getDogById(dogId));
         saveUser(user);
         return user;
     }
@@ -102,5 +102,4 @@ public class UserServiceImpl implements UserService {
         userRepository.saveAll(users);
         return users;
     }
-
 }

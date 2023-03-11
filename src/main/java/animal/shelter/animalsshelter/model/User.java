@@ -64,6 +64,20 @@ public class User {
         this.id = id;
     }
 
+    public User(long chatId,
+                int stateID,
+                @NonNull String firstName,
+                @NonNull String lastName,
+                @NonNull String phoneNumber,
+                @NonNull String email) {
+        this.chatId = chatId;
+        this.stateID = stateID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
     public User(Integer id, Dog dog) {
         this.id = id;
         this.dog = dog;
