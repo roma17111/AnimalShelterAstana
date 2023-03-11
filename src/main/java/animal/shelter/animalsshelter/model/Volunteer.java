@@ -1,13 +1,11 @@
 package animal.shelter.animalsshelter.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 @Data
 @Entity
@@ -31,4 +29,51 @@ public class Volunteer {
     @Column(name = "email")
     private String email;
 
+    public Volunteer(Integer id, long chatId, String givenName, String phoneNumber, String email) {
+        this.id = id;
+        this.chatId = chatId;
+        this.givenName = givenName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(long chatId) {
+        this.chatId = chatId;
+    }
+
+    public String getGivenName() {
+        return givenName;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

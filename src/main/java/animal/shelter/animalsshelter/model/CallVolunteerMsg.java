@@ -29,7 +29,10 @@ public class CallVolunteerMsg {
     @Column(name = "msg_text")
     private String msgText;
 
+
     public CallVolunteerMsg(long stateId) {
         this.stateId = stateId;
     }
+
+
 }
