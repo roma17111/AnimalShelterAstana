@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,5 +30,16 @@ public class CallVolunteerMsg {
 
     public CallVolunteerMsg(long stateId) {
         this.stateId = stateId;
+    }
+
+    @Override
+    public String toString() {
+        return  "Вопрос от пользователя? \n" +
+                "id:" + id + "\n" +
+                "chatID: " + chatID + "\n" +
+                "Номер телефона: " + numberPhone + "\n" +
+                "email: " + email + "\n" +
+                "Дата:" + msgDate + "\n" +
+                "Сообщение" + msgText + "\n";
     }
 }
