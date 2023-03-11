@@ -306,7 +306,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     }
 
-    public void sendReportQuerry(Update update) throws InterruptedException {
+    public void sendReportQuerry(Update update) throws InterruptedException, TelegramApiException {
 
        /* if (user.getDog() == null) {
             sendBotMessage(update.getMessage().getChatId(), "У вас нет собаки!!!");
@@ -321,29 +321,33 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         Thread.sleep(800);
         sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Как поживает наш друг?");
         Thread.sleep(800);
-        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Какая диета у питомца?");
+        execute(keyboards.getBackButtonForReport(update.getCallbackQuery().getMessage().getChatId(),
+                "Есть ли жалобы на здоровье?"));
         Thread.sleep(800);
     }
 
-    public void sendReport(Update update, Report report) throws InterruptedException {
+    public void sendReport(Update update, Report report) throws InterruptedException, TelegramApiException {
         switch (report.getStateId()) {
             case 1:
                 report.setDiet(update.getMessage().getText());
                 sendBotMessage(update.getMessage().getChatId(), "Как самочувствие у питомца?");
                 Thread.sleep(800);
-                sendBotMessage(update.getMessage().getChatId(), "Есть ли жалобы на здоровье?");
+                execute(keyboards.getBackButtonForReport(update.getMessage().getChatId(),
+                        "Есть ли жалобы на здоровье?"));
                 report.setStateId(2);
                 reportService.saveReport(report);
                 break;
             case 2:
                 report.setGeneralHealth(update.getMessage().getText());
-                sendBotMessage(update.getMessage().getChatId(), "Расскажите о поведении животного на новом месте");
+                execute(keyboards.getBackButtonForReport(update.getMessage().getChatId(),
+                        "Расскажите о поведении животного на новом месте"));
                 report.setStateId(3);
                 reportService.saveReport(report);
                 break;
             case 3:
                 report.setBehaviorChange(update.getMessage().getText());
-                sendBotMessage(update.getMessage().getChatId(), "Прикрепите фото питомца");
+                execute(keyboards.getBackButtonForReport(update.getMessage().getChatId(),
+                        "Прикрепите фото питомца"));
                 report.setStateId(4);
                 reportService.saveReport(report);
                 break;
@@ -772,15 +776,24 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 messageText.setText("Вас приветствует служба поддержки пользователей");
                 execute(messageText);
                 askQuestion(update);
+            } else if (dataCallback.equals(BACK_REPORT)) {
+                List<Report> reportList = reportService.getAllReports();
+                List<Report> reports = reportList
+                        .stream()
+                        .filter(report -> report.getChatId()==update.getCallbackQuery().getMessage().getChatId())
+                        .collect(Collectors.toList());
+                reportService.deleteReport(reports.get(reports.size()-1).getId());
+                Thread.sleep(400);
+                getBackMenu(chatId, messageId);
             } else if (dataCallback.equals(BACK_QUESTION)) {
                 List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
                 List<CallVolunteerMsg> msgs = msgList
                         .stream()
                         .filter(msg -> msg.getChatID() == update.getCallbackQuery().getMessage().getChatId())
                         .collect(Collectors.toList());
-                callVolunteerMsg.deleteCallVolunteerMsg(msgs.get(msgs.size()-1).getId());
+                callVolunteerMsg.deleteCallVolunteerMsg(msgs.get(msgs.size() - 1).getId());
                 Thread.sleep(400);
-                getBackMenu(chatId,messageId);
+                getBackMenu(chatId, messageId);
             } else if (dataCallback.equals(WORK_TIME)) {
                 getWorkTime(chatId, messageId);
             } else if (dataCallback.equals(ADDRESS)) {

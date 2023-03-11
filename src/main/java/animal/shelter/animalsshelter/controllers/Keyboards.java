@@ -341,12 +341,10 @@ public class Keyboards {
         return messageText;
     }
 
-    public EditMessageText getBackButtonForReport(long chatId,
-                                                  long messageId,
+    public SendMessage getBackButtonForReport(long chatId,
                                                   String text) {
-        EditMessageText messageText = new EditMessageText();
+        SendMessage messageText = new SendMessage();
         messageText.setChatId(chatId);
-        messageText.setMessageId((int) messageId);
         messageText.setText(text);
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
