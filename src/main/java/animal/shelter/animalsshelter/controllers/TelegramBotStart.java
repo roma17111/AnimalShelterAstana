@@ -178,6 +178,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
                 Thread.sleep(1000);
                 execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                if (user.isNotified()==true) {
+                    sendBotMessage(update.getMessage().getChatId(),msg.toString());
+                }
             }
         }
         List<Report> reports = reportService.getAllReports();
