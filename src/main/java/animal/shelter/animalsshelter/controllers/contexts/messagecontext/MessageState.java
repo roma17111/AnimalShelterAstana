@@ -1,7 +1,16 @@
 package animal.shelter.animalsshelter.controllers.contexts.messagecontext;
 
+import animal.shelter.animalsshelter.util.Emoji;
+import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static animal.shelter.animalsshelter.controllers.Keyboards.BACK_QUESTION;
 
 public enum MessageState {
 
@@ -62,6 +71,16 @@ public enum MessageState {
         SendMessage message = new SendMessage();
         message.setChatId(context.getMsg().getChatID());
         message.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        row.add(button);
+        rows.add(row);
+        button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        button.setCallbackData(BACK_QUESTION);
+        markup.setKeyboard(rows);
+        message.setReplyMarkup(markup);
         try {
             context.getBot().execute(message);
         } catch (TelegramApiException e) {

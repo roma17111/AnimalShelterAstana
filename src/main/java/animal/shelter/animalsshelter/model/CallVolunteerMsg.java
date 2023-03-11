@@ -34,12 +34,12 @@ public class CallVolunteerMsg {
 
     @Override
     public String toString() {
-        return  "Вопрос от пользователя? \n" +
+        return  "Вопрос от пользователя: \n" +
                 "id:" + id + "\n" +
                 "chatID: " + chatID + "\n" +
                 "Номер телефона: " + numberPhone + "\n" +
                 "email: " + email + "\n" +
                 "Дата:" + msgDate + "\n" +
-                "Сообщение" + msgText + "\n";
+                "Сообщение: \n" + msgText + "\n";
     }
 }

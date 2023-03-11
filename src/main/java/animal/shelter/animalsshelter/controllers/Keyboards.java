@@ -34,6 +34,9 @@ public class Keyboards {
 
     public static final String BACK_TWO = "BACKTWO";
 
+    public static final String BACK_REPORT = "BACKREPORT";
+    public static final String BACK_QUESTION = "BACKQUESTION";
+
 
 
     public Keyboards() {
@@ -333,6 +336,46 @@ public class Keyboards {
         back.setCallbackData(BACK_TWO);
         buttons.add(back);
         rows.add(buttons);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getBackButtonForReport(long chatId,
+                                                  long messageId,
+                                                  String text) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        row.add(button);
+        rows.add(row);
+        button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        button.setCallbackData(BACK_REPORT);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public EditMessageText getBackButtonForQuestion(long chatId,
+                                                  long messageId,
+                                                  String text) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        row.add(button);
+        rows.add(row);
+        button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        button.setCallbackData(BACK_QUESTION);
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
         return messageText;
