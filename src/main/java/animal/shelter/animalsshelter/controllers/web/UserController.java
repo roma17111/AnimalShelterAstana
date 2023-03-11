@@ -25,7 +25,10 @@ public class UserController {
         this.testJPA = testJPA;
     }
 
-    // запрос к тестовой таблице базы данных
+    /**
+     * Данный запрос позволяет
+     * получить данные из тестовой таблицы
+     * @return Возвращает коллекцию со списком из БД*/
     @GetMapping("/entities")
     @Operation(summary = "Получить все записи с тестовой таблицы",
             description = "Данный запрос позволяет проверить работоспособность базы данных")
@@ -39,6 +42,10 @@ public class UserController {
         List<TestEntity> entities = testJPA.findAll();
         return entities;
     }
+
+    /**
+     * При помощи этого запроса можно получить
+     * список реальных пользователей приюта*/
 
     @GetMapping("/all")
     @Operation(summary = "Получить список всех пользователей",
@@ -54,6 +61,12 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    /**
+     * При помощи этого запроса можно выдать волонтёрские
+     * права реальному пользователю
+     * @param id Данный метод принимает параметр на вход
+     * чат id telegram пользователя*/
+
     @PostMapping("/admin/{id}")
     @ResponseBody
     @Operation(summary = "Сделать пользователя волонтёром",
@@ -65,8 +78,21 @@ public class UserController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User setAdminUser(@PathVariable Integer id) {
+    public User setAdminUser(@PathVariable long id) {
         return userService.getAdmin(id);
+    }
 
+    /**
+     * При помощи этого запроса можно получить пользователя
+     * по id из базы данных
+     * @param id PRIMARY KEY - первичный ключ*/
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    @Operation(summary = "Найти пользоватетя по id телаграм чата",
+            description = "Данный запрос позволяет найти пользователя по id чата в телеграм" +
+                    "всех зарегистрированныз пользователей")
+    public User findByChatId(@PathVariable long id) {
+        return userService.findByChatId(id);
     }
 }
