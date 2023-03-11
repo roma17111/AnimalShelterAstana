@@ -24,6 +24,11 @@ public class DogController {
         this.dogService = dogService;
     }
 
+    /**
+     * При помощи этого запроса можно добавить собаку
+     * в новый приют
+     * @param dog  Параметром метода является объект класса Dog,
+     * который создаётся при отправлении запроса волонтёром на сервер*/
     @PostMapping("/")
     @Operation(summary = "Добавить собаку",
             description = "Данный запрос позволяет поставить на учёт новую собаку")
@@ -37,6 +42,11 @@ public class DogController {
         return dogService.saveDog(dog);
     }
 
+    /**
+     * При помощи этого запроса можно передать собаку хозяину
+     * из приюта
+     * @param dogId - id собаки из таблицы БД
+     * @param userId - id человека из БД*/
     @PutMapping("/broadcast/{userId}/{dogId}")
     @ResponseBody
     @Operation(summary = "передать собаку новому хозяину",
@@ -52,6 +62,9 @@ public class DogController {
         return userService.addDogToUser(userId, dogId);
     }
 
+    /**
+     * При помощи этого запроса можно посмотреть
+     * список собак из приюта*/
     @GetMapping("/all")
     @Operation(summary = "Список собак",
             description = "Данный запрос позволяет получить полный список" +
@@ -66,6 +79,10 @@ public class DogController {
         return dogService.getAllDogs();
     }
 
+    /**
+     * При помощи этого запроса можно забрать собаку
+     * у плохого хозяина
+     * @param id - id User из таблицы БД*/
     @PutMapping("/withdrawal/{id}")
     @ResponseBody
     @Operation(summary = "Отобрать собаку у недобросовестного хозяина",

@@ -34,7 +34,9 @@ public interface UserService {
 
     User addDogToUser(Integer userId, Integer dogId);
 
-    User getAdmin(Integer userId);
+
+
+    User getAdmin(long userId);
 
     User takeDogfromUser(Integer userId);
 
