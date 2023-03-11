@@ -124,15 +124,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     testReg(update);
                     break;
                 case "/allquestions":
+
+                    if (userService.findByChatId(update.getMessage().getChatId()) == null ||
+                            userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
+                        sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок вопросов " +
+                                "могут только волонтёры!");
+                        Thread.sleep(800);
+                        execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                    }
                     if (userService.findByChatId(update.getMessage().getChatId()).isNotified() == true) {
                         List<CallVolunteerMsg> msgs = callVolunteerMsg.getAllCallVolunteerMsgs();
                         for (CallVolunteerMsg msg : msgs) {
                             sendBotMessage(update.getMessage().getChatId(), msg.toString());
                         }
-                        execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
-                    } else {
-                        sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок вопросов " +
-                                "могут только волонтёры!");
+                        Thread.sleep(800);
                         execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
                     }
                     break;
