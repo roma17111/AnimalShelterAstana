@@ -3,7 +3,7 @@ package animal.shelter.animalsshelter.util;
 import com.vdurmont.emoji.EmojiParser;
 
 public class AdoptingDocumentsAndRules {
-    public static final String MEETING_DOG_RULES = EmojiParser.parseToUnicode(Emoji.DOG_FACE +
+    public static final String MEETING_DOG_RULES = EmojiParser.parseToUnicode(Emoji.DOG_FACE + Emoji.CAT_FACE +
             "Первая встреча с будущим питомцем:\n" +
             Emoji.CHECK_MARK + " Приходите в удобной одежде, которую не жалко испортить и легко стирать,\n" +
             Emoji.CHECK_MARK + " Настраивайтесь на позитивные эмоции,\n" +
@@ -115,7 +115,7 @@ public class AdoptingDocumentsAndRules {
             Emoji.CHECK_MARK + " Постарайтесь позаботиться о лёгком выходе собаки на улицу и входе в дом,\n" +
             Emoji.CHECK_MARK + " Не жалейте и не балуйте излишне питомца.\n");
 
-    public static final String PLACE_FOR_DISABLED_CAT = EmojiParser.parseToUnicode(Emoji.DOG +
+    public static final String PLACE_FOR_DISABLED_CAT = EmojiParser.parseToUnicode(Emoji.CAT +
             "Как приспособить дом для особенных котов:\n" +
             Emoji.CHECK_MARK + " Заранее определите несколько вариантов, возможных и легкодоступных мест для кота,\n" +
             Emoji.CHECK_MARK + " Закройте, заблокируйте все щели и углы, куда коту попадать не нужно,\n" +
