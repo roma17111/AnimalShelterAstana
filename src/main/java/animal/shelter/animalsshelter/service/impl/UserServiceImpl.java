@@ -1,6 +1,5 @@
 package animal.shelter.animalsshelter.service.impl;
 
-import animal.shelter.animalsshelter.model.Dog;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.DogService;
@@ -66,8 +65,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getAdmin(Integer userId) {
-        User user = userRepository.findById(userId).orElse(null);
+    public User getAdmin(long userId) {
+        User user = userRepository.findByChatId(userId);
         if (user.isNotified() == true) {
             user.setNotified(false);
             saveUser(user);
