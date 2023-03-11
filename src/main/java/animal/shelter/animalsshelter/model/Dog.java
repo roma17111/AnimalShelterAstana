@@ -8,6 +8,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "dog")
 public class Dog {
+    public Dog() {
+    }
 
     public enum DogType {
         PUPPY,
@@ -55,7 +57,5 @@ public class Dog {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Dog(Integer id) {
-        this.id = id;
-    }
+
 }
