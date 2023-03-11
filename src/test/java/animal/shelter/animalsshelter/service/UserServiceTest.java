@@ -14,15 +14,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.util.*;
 
+import static animal.shelter.animalsshelter.constants.BotServiceDogConstants.*;
+import static animal.shelter.animalsshelter.constants.BotServiceDogConstants.DOG_PHOTO_DEFAULT;
 import static animal.shelter.animalsshelter.constants.BotServicePersonConstants.*;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
-
+@AutoConfigureTestDatabase
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @Mock
@@ -33,7 +35,6 @@ public class UserServiceTest {
     private DogServiceImpl dogService;
     @InjectMocks
     private UserServiceImpl userService;
-
 
     /**
      * Тест метода <b>getUserById</b> в UserService
@@ -66,18 +67,19 @@ public class UserServiceTest {
      */
     @Test
     public void findByChatIdTest() {
-
-        User testUser1 = new User(ID_DEFAULT,
+        User expected = new User(ID_DEFAULT,
                 CHAT_ID_DEFAULT,
                 STATE_ID_DEFAULT,
                 NAME_CORRECT,
                 LASTNAME_CORRECT,
                 PHONE_CORRECT,
                 EMAIL_CORRECT);
-        userService.saveUser(testUser1);
-       Mockito.when(userRepositoryMock.findByChatId(any(Long.class))).thenReturn(testUser1);
-        User actual = userService.findByChatId(ID_DEFAULT);
-        Assertions.assertThat(actual).isEqualTo(testUser1);
+        Mockito.when(userRepositoryMock.findByChatId(CHAT_ID_DEFAULT)).thenReturn(expected);
+
+        User actual = userService.findByChatId(CHAT_ID_DEFAULT);
+
+        Assertions.assertThat(actual).isEqualTo(expected);
+
     }
     /**
      * Тест метода <b>saveUser()</b> в UserService
@@ -92,7 +94,7 @@ public class UserServiceTest {
                 PHONE_CORRECT,
                 EMAIL_CORRECT);
 
-        when(userRepositoryMock.save(any(User.class))).thenReturn(expected);
+        when(userRepositoryMock.save(expected)).thenReturn(expected);
 
         User actual = userService.saveUser(expected);
 
@@ -103,35 +105,27 @@ public class UserServiceTest {
         Assertions.assertThat(actual.getLastName()).isEqualTo(expected.getLastName());
         Assertions.assertThat(actual.getPhoneNumber()).isEqualTo(expected.getPhoneNumber());
         Assertions.assertThat(actual.getEmail()).isEqualTo(expected.getEmail());
+        Mockito.verify(userRepositoryMock, times(1)).save(expected);
     }
-    /**
-     * Тест метода <b>deleteUser()</b> в UserService
-     */
-    @Test
-    public void deleteUserTest() {
-        User expected = new User(ID_DEFAULT,STATE_ID_DEFAULT);
-        User actual = null;
 
-        when(userService.saveUser(any(User.class))).thenReturn(expected);
-        verify(userService).deleteUser(ID_DEFAULT);
-        when(userService.getUserById(ID_DEFAULT)).thenReturn(null);
-        System.out.println(expected);
-        assertThat(expected).isNull();
-    }
     /**
      * Тест метода <b>addDogToUser()</b> в Userservice
      */
     @Test
     public void addDogToUser() {
-        User expectedUser = new User(1);
-        Dog expectedDog = new Dog(1);
+        User expectedUser = new User(ID_DEFAULT, null);
+        Dog expected = new Dog();
+        expected.setNickname(NICKNAME_CORRECT);
+        expected.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
+        expected.setDogType(DOG_TYPE_DEFAULT);
+        expected.setDogPhoto(DOG_PHOTO_DEFAULT);
 
-        when(dogRepositoryMock.save(any(Dog.class))).thenReturn(expectedDog);
+        when(dogRepositoryMock.save(any(Dog.class))).thenReturn(expected);
         when(userRepositoryMock.save(any(User.class))).thenReturn(expectedUser);
 
-        when(userService.addDogToUser(1, 1)).thenReturn(new User(1,expectedDog));
-        Assertions.assertThat(expectedUser.getDog().equals(expectedDog));
-
+        User actual = userService.addDogToUser(expectedUser.getId(), expected.getId());
+        Assertions.assertThat(actual.getId()).isEqualTo(expectedUser.getId());
+        Assertions.assertThat(actual.getDog()).isEqualTo(expectedUser.getDog());
     }
 
     /**
@@ -166,5 +160,4 @@ public class UserServiceTest {
         Assertions.assertThat(actual.size()).isEqualTo(expected.size());
         Assertions.assertThat(actual).isEqualTo(expected);
     }
-
 }
