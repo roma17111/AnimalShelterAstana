@@ -975,16 +975,26 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 //    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
                 //            "волонтеры!!");
                 //} else {
+
+                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()).isNotified() == true) {
                     EditMessageText messageText = new EditMessageText();
                     messageText.setChatId(chatId);
                     messageText.setMessageId((int) messageId);
-                    messageText.setText("Отправить отчёт:");
+                    messageText.setText("Добавление собаки:");
                     execute(messageText);
                     try {
                         sendDogQuery(update);
                     } catch (InterruptedException e) {
                         log.error(e.getMessage());
                     }
+                }
+                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()) == null
+                        || userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()).isNotified() == false) {
+                    sendBotMessage(chatId,
+                            "Добавлять собак могут только волонтёры ");
+                    execute(keyboards.getBotStartUserMenu(chatId));
+                }
+
                 //}
             } else if (dataCallback.equals(PUPPY_TYPE)) {
                 setDogType(PUPPY_TYPE);
