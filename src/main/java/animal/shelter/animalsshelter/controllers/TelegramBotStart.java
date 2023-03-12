@@ -338,7 +338,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
         List<Report> reports = reportService.getAllReports();
         for (Report report : reports) {
-            if (report.getStateId() < 4 && user.getChatId() == report.getChatId()) {
+            if (report.getStateId() < 4 &&report.getChatId()== update.getMessage().getChatId()) {
                 sendReport(update, report);
             }
         }
@@ -965,7 +965,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 messageText.setMessageId((int) messageId);
                 messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для кошек " + CAT_FACE));
                 execute(messageText);
-                Thread.sleep(800);
                 execute(keyboards.getBotStartUserMenuCat(update.getCallbackQuery().getMessage().getChatId()));
             } else if (dataCallback.equals(ADD_DOG)) {
                 //Volunteer volunteer = volunteerService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
@@ -998,19 +997,16 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 setDogType(PUPPY_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - щенка. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                Thread.sleep(800);
                 setShouldBreak(true);
             } else if (dataCallback.equals(ADULT_TYPE)) {
                 setDogType(ADULT_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - взрослую собаку. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                Thread.sleep(800);
                 setShouldBreak(true);
             } else if (dataCallback.equals(DISABLED_TYPE)) {
                 setDogType(DISABLED_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - собаку с ограниченными возможностями. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                Thread.sleep(800);
                 setShouldBreak(true);
             }
             else if (dataCallback.equals(NECESSARY)) {
