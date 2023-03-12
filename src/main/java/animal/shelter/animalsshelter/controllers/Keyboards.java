@@ -37,7 +37,7 @@ public class Keyboards {
     public static final String BACK_REPORT = "BACKREPORT";
     public static final String BACK_ADD_DOG = "BACKDOG";
 
-    public static final String PUPPY_TYPE= "PUPPY";
+    public static final String PUPPY_TYPE = "PUPPY";
     public static final String ADULT_TYPE = "ADULT";
     public static final String DISABLED_TYPE = "DISABLED";
 
@@ -50,12 +50,19 @@ public class Keyboards {
     public static final String DOC_CAT = "DOCCAT";
     public static final String BACK_CAT_ONE = "BACK_CAT_ONE";
     public static final String BACK_CAT_TWO = "BACK_CAT_TWO";
+    public static final String HOME_PREPARATION_KITTEN = "HOME_PREPARATION_KITTEN";
+    public static final String ACQUAINTANCE_CAT = "ACQUAINTANCE_CAT";
+    public static final String TRAVEL_CAT = "TRAVEL_CAT";
+    public static final String HOME_PREPARATION_CAT = "HOME_PREPARATION_CAT ";
+    public static final String HOME_PREPARATION_INVALID_CAT = "HOME_PREPARATION_INVALID_CAT";
+    public static final String REASONS_CAT = "REASONS_CAT";
+    public static final String SAMPLE_REPORT_CAT = "SAMPLE_REPORT_CAT";
 
 
     public Keyboards() {
     }
 
-    public EditMessageText messageText(long chatId, long messageId , String text) {
+    public EditMessageText messageTextCatOne(long chatId, long messageId, String text) {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatId);
         messageText.setMessageId((int) messageId);
@@ -73,6 +80,23 @@ public class Keyboards {
         return messageText;
     }
 
+    public EditMessageText messageTextCatTwo(long chatId, long messageId, String text) {
+        EditMessageText messageText = new EditMessageText();
+        messageText.setChatId(chatId);
+        messageText.setMessageId((int) messageId);
+        messageText.setText(text);
+        InlineKeyboardMarkup m = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_CAT_TWO);
+        row.add(back);
+        rows.add(row);
+        m.setKeyboard(rows);
+        messageText.setReplyMarkup(m);
+        return messageText;
+    }
 
     public SendMessage getTypeOfShelter(long chatId) {
         SendMessage sendMessage = new SendMessage();
@@ -158,7 +182,7 @@ public class Keyboards {
         shelterInfoButton.setCallbackData(INFO_BUTTON_CAT);
         InlineKeyboardButton necessary = new InlineKeyboardButton();
         necessary.setText("Хотите Кошку? Важно знать!");
-        necessary.setCallbackData(CAT);
+        necessary.setCallbackData(NECESSARY_CAT);
         InlineKeyboardButton report = new InlineKeyboardButton();
         report.setText("Отправить отчёт о животном");
         report.setCallbackData(SEND_REPORT);
@@ -179,7 +203,43 @@ public class Keyboards {
         return sendMessage;
     }
 
-    public EditMessageText getCatMenu1(long chatId,long messageId) {
+    public EditMessageText getBotStartUserMenuCatBack(long id, long messageID) {
+        EditMessageText sendMessage = new EditMessageText();
+        sendMessage.setChatId(String.valueOf(id));
+        sendMessage.setMessageId((int) messageID);
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        List<InlineKeyboardButton> row1 = new ArrayList<>();
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        List<InlineKeyboardButton> row3 = new ArrayList<>();
+        InlineKeyboardButton shelterInfoButton = new InlineKeyboardButton();
+        shelterInfoButton.setText("Информация о приюте");
+        shelterInfoButton.setCallbackData(INFO_BUTTON_CAT);
+        InlineKeyboardButton necessary = new InlineKeyboardButton();
+        necessary.setText("Хотите Кошку? Важно знать!");
+        necessary.setCallbackData(NECESSARY_CAT);
+        InlineKeyboardButton report = new InlineKeyboardButton();
+        report.setText("Отправить отчёт о животном");
+        report.setCallbackData(SEND_REPORT);
+        InlineKeyboardButton call = new InlineKeyboardButton();
+        call.setText("Вопрос к волонтёру");
+        call.setCallbackData(CALL_VOLUNTEER);
+        row.add(shelterInfoButton);
+        row1.add(necessary);
+        row2.add(report);
+        row3.add(call);
+        rows.add(row);
+        rows.add(row1);
+        rows.add(row2);
+        rows.add(row3);
+        inlineKeyboardMarkup.setKeyboard(rows);
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        sendMessage.setText("Главное меню");
+        return sendMessage;
+    }
+
+    public EditMessageText getCatMenu1(long chatId, long messageId) {
         EditMessageText editMessageText = new EditMessageText();
         editMessageText.setChatId(chatId);
         editMessageText.setMessageId((int) messageId);
@@ -308,34 +368,28 @@ public class Keyboards {
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         InlineKeyboardButton button1 = new InlineKeyboardButton();
         button1.setText("Знакомство с будущим питомцем");
-        button1.setCallbackData(ACQUAINTANCE);
+        button1.setCallbackData(ACQUAINTANCE_CAT);
         InlineKeyboardButton button2 = new InlineKeyboardButton();
         button2.setText("Документы для оформления");
-        button2.setCallbackData(DOCUMENTS);
+        button2.setCallbackData(DOC_CAT);
         InlineKeyboardButton button3 = new InlineKeyboardButton();
         button3.setText("Путешествие с питомцем!");
-        button3.setCallbackData(TRAVEL);
+        button3.setCallbackData(TRAVEL_CAT);
         InlineKeyboardButton button4 = new InlineKeyboardButton();
-        button4.setText("Подготовить дом для щенка");
-        button4.setCallbackData(HOME_PREPARATION_PUPPY);
+        button4.setText("Подготовить дом для котёнка");
+        button4.setCallbackData(HOME_PREPARATION_KITTEN);
         InlineKeyboardButton button5 = new InlineKeyboardButton();
-        button5.setText("Подготовить дом для взрослой собаки");
-        button5.setCallbackData(HOME_PREPARATION_DOG);
+        button5.setText("Подготовить дом для взрослой кошки");
+        button5.setCallbackData(HOME_PREPARATION_CAT);
         InlineKeyboardButton button6 = new InlineKeyboardButton();
-        button6.setCallbackData(HOME_PREPARATION_INVALID_DOG);
-        button6.setText("Подготовиться к приему особенной собаки");
-        InlineKeyboardButton button7 = new InlineKeyboardButton();
-        button7.setCallbackData(TIPS_FROM_HANDLER);
-        button7.setText("Советы кинолога");
-        InlineKeyboardButton button8 = new InlineKeyboardButton();
-        button8.setText("К какому кинологу обратиться?");
-        button8.setCallbackData(CONTACT_HANDLER);
+        button6.setCallbackData(HOME_PREPARATION_INVALID_CAT);
+        button6.setText("Подготовиться к приему особенной кошки");
         InlineKeyboardButton button9 = new InlineKeyboardButton();
-        button9.setCallbackData(REASONS);
+        button9.setCallbackData(REASONS_CAT);
         button9.setText("Причины отказа в получении питомца ");
         InlineKeyboardButton button10 = new InlineKeyboardButton();
         button10.setText("Образец отчета");
-        button10.setCallbackData(SAMPLE_REPORT);
+        button10.setCallbackData(SAMPLE_REPORT_CAT);
         InlineKeyboardButton backOne = new InlineKeyboardButton();
         backOne.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         backOne.setCallbackData(BACK_CAT_ONE);
@@ -354,8 +408,6 @@ public class Keyboards {
         row3.add(button4);
         row4.add(button5);
         row5.add(button6);
-        row6.add(button7);
-        row6.add(button8);
         row7.add(button9);
         row8.add(button10);
         row8.add(backOne);
@@ -553,7 +605,7 @@ public class Keyboards {
     }
 
     public SendMessage getBackButtonForDog(long chatId,
-                                              String text) {
+                                           String text) {
         SendMessage messageText = new SendMessage();
         messageText.setChatId(chatId);
         messageText.setText(text);
@@ -570,7 +622,7 @@ public class Keyboards {
         return messageText;
     }
 
-    public SendMessage getDogTypeButton (long chatId, String text) {
+    public SendMessage getDogTypeButton(long chatId, String text) {
         SendMessage messageText = new SendMessage();
         messageText.setChatId(chatId);
         messageText.setText(text);
@@ -646,5 +698,53 @@ public class Keyboards {
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
         return messageText;
+    }
+
+    private EditMessageText getAboutShelterCat(long chatId, long messageId) {
+        EditMessageText editMessageText = new EditMessageText();
+        editMessageText.setChatId(chatId);
+        editMessageText.setMessageId((int) messageId);
+        editMessageText.setText("Привет - Я Asha. \n Чем могу помочь?");
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row1 = new ArrayList<>();
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        List<InlineKeyboardButton> row3 = new ArrayList<>();
+        List<InlineKeyboardButton> row4 = new ArrayList<>();
+        List<InlineKeyboardButton> row5 = new ArrayList<>();
+        List<InlineKeyboardButton> row6 = new ArrayList<>();
+        InlineKeyboardButton tellMe = new InlineKeyboardButton();
+        tellMe.setText("Информация о нас");
+        tellMe.setCallbackData(TELL_ABOUT_SHELTER);
+        InlineKeyboardButton cLockWork = new InlineKeyboardButton();
+        cLockWork.setText("Часы работы");
+        cLockWork.setCallbackData(WORK_TIME);
+        InlineKeyboardButton addressShelter = new InlineKeyboardButton();
+        addressShelter.setText("Адрес и схема проезда");
+        addressShelter.setCallbackData(ADDRESS);
+        InlineKeyboardButton recommendations = new InlineKeyboardButton();
+        recommendations.setText("Техника безопасности");
+        recommendations.setCallbackData(SECURITY);
+        InlineKeyboardButton volunteerCall = new InlineKeyboardButton();
+        volunteerCall.setText("Вопрос к волонтёру");
+        volunteerCall.setCallbackData(CALL_VOLUNTEER);
+        InlineKeyboardButton back = new InlineKeyboardButton();
+        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        back.setCallbackData(BACK_CAT_ONE);
+        row1.add(tellMe);
+        row2.add(cLockWork);
+        row2.add(addressShelter);
+        row3.add(recommendations);
+        row5.add(volunteerCall);
+        row6.add(back);
+        rows.add(row1);
+        rows.add(row2);
+        rows.add(row3);
+        rows.add(row4);
+        rows.add(row5);
+        rows.add(row6);
+        inlineKeyboardMarkup.setKeyboard(rows);
+        editMessageText.setReplyMarkup(inlineKeyboardMarkup);
+        return editMessageText;
     }
 }
