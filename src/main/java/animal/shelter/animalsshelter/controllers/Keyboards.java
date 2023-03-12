@@ -61,6 +61,7 @@ public class Keyboards {
     public static final String WORK_TIME_CAT = "WORK_TIME_CAT";
     public static final String ADDRESS_CAT = "ADDRESS_CAT";
     public static final String SECURITY_CAT = "SECURITY_CAT";
+    public static final String GO_START = "GO_START";
 
 
     public Keyboards() {
@@ -105,6 +106,30 @@ public class Keyboards {
     public SendMessage getTypeOfShelter(long chatId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
+        sendMessage.setText("Выберите приют");
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        InlineKeyboardButton catButton = new InlineKeyboardButton();
+        catButton.setCallbackData(CAT);
+        catButton.setText("Приют для кошек");
+        InlineKeyboardButton dogButton = new InlineKeyboardButton();
+        dogButton.setCallbackData(DOG);
+        dogButton.setText("Приют для собак");
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row1 = new ArrayList<>();
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        row1.add(catButton);
+        row2.add(dogButton);
+        rows.add(row1);
+        rows.add(row2);
+        markup.setKeyboard(rows);
+        sendMessage.setReplyMarkup(markup);
+        return sendMessage;
+    }
+
+    public EditMessageText getTypeOfShelterEdit(long chatId, long messageId) {
+        EditMessageText sendMessage = new EditMessageText();
+        sendMessage.setChatId(chatId);
+        sendMessage.setMessageId((int) messageId);
         sendMessage.setText("Выберите приют");
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         InlineKeyboardButton catButton = new InlineKeyboardButton();
@@ -642,15 +667,13 @@ public class Keyboards {
         List<InlineKeyboardButton> row = new ArrayList<>();
         InlineKeyboardButton button = new InlineKeyboardButton();
         button.setText("Нет");
-        button.setCallbackData(GO_BACK);
+        button.setCallbackData(GO_START);
         InlineKeyboardButton button1 = new InlineKeyboardButton();
         button1.setText("Да");
         button1.setCallbackData(CALL_VOLUNTEER);
         row.add(button1);
         row.add(button);
         rows.add(row);
-        button.setText("Нет");
-        button.setCallbackData(GO_BACK);
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
         return messageText;

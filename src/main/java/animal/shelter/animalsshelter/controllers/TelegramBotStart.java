@@ -214,7 +214,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     .getChat().getFirstName() + "\n" + text);
             callVolunteerMsg.deleteCallVolunteerMsg(id);
             try {
-                execute(keyboards.getTypeOfShelter(msg.getChatID()));
+                execute(keyboards.getMenuAfterAnswer(msg.getChatID()));
             } catch (TelegramApiException e) {
                 log.error(e.getMessage());
             }
@@ -1118,6 +1118,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.contactUs()));
             } else if (dataCallback.equals(SECURITY_CAT)) {
                 execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.toBeSafeRegulations()));
+            } else if (dataCallback.equals(GO_START)) {
+                execute(keyboards.getTypeOfShelterEdit(chatId,messageId));
             }
         }
     }
