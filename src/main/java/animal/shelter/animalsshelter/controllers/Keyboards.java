@@ -57,6 +57,10 @@ public class Keyboards {
     public static final String HOME_PREPARATION_INVALID_CAT = "HOME_PREPARATION_INVALID_CAT";
     public static final String REASONS_CAT = "REASONS_CAT";
     public static final String SAMPLE_REPORT_CAT = "SAMPLE_REPORT_CAT";
+    public static final String TELL_ABOUT_SHELTER_CAT = "TELL_ABOUT_SHELTER_CAT";
+    public static final String WORK_TIME_CAT = "WORK_TIME_CAT";
+    public static final String ADDRESS_CAT = "ADDRESS_CAT";
+    public static final String SECURITY_CAT = "SECURITY_CAT";
 
 
     public Keyboards() {
@@ -72,7 +76,7 @@ public class Keyboards {
         List<InlineKeyboardButton> row = new ArrayList<>();
         InlineKeyboardButton back = new InlineKeyboardButton();
         back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
-        back.setCallbackData(BACK_CAT_ONE);
+        back.setCallbackData(GO_BACK_CAT);
         row.add(back);
         rows.add(row);
         m.setKeyboard(rows);
@@ -237,54 +241,6 @@ public class Keyboards {
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         sendMessage.setText("Главное меню");
         return sendMessage;
-    }
-
-    public EditMessageText getCatMenu1(long chatId, long messageId) {
-        EditMessageText editMessageText = new EditMessageText();
-        editMessageText.setChatId(chatId);
-        editMessageText.setMessageId((int) messageId);
-        editMessageText.setText("Привет - Я Asha. \n Чем могу помочь?");
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
-        List<InlineKeyboardButton> row1 = new ArrayList<>();
-        List<InlineKeyboardButton> row2 = new ArrayList<>();
-        List<InlineKeyboardButton> row3 = new ArrayList<>();
-        List<InlineKeyboardButton> row4 = new ArrayList<>();
-        List<InlineKeyboardButton> row5 = new ArrayList<>();
-        List<InlineKeyboardButton> row6 = new ArrayList<>();
-        InlineKeyboardButton tellMe = new InlineKeyboardButton();
-        tellMe.setText("Информация о нас");
-        tellMe.setCallbackData(TELL_ABOUT_SHELTER);
-        InlineKeyboardButton cLockWork = new InlineKeyboardButton();
-        cLockWork.setText("Часы работы");
-        cLockWork.setCallbackData(WORK_TIME);
-        InlineKeyboardButton addressShelter = new InlineKeyboardButton();
-        addressShelter.setText("Адрес и схема проезда");
-        addressShelter.setCallbackData(ADDRESS);
-        InlineKeyboardButton recommendations = new InlineKeyboardButton();
-        recommendations.setText("Техника безопасности");
-        recommendations.setCallbackData(SECURITY);
-        InlineKeyboardButton volunteerCall = new InlineKeyboardButton();
-        volunteerCall.setText("Вопрос к волонтёру");
-        volunteerCall.setCallbackData(CALL_VOLUNTEER);
-        InlineKeyboardButton back = new InlineKeyboardButton();
-        back.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
-        back.setCallbackData(GO_BACK_CAT);
-        row1.add(tellMe);
-        row2.add(cLockWork);
-        row2.add(addressShelter);
-        row3.add(recommendations);
-        row5.add(volunteerCall);
-        row6.add(back);
-        rows.add(row1);
-        rows.add(row2);
-        rows.add(row3);
-        rows.add(row4);
-        rows.add(row5);
-        rows.add(row6);
-        inlineKeyboardMarkup.setKeyboard(rows);
-        editMessageText.setReplyMarkup(inlineKeyboardMarkup);
-        return editMessageText;
     }
 
     public EditMessageText WhatNeedToKnow(long chatId, long messageId) {
@@ -700,7 +656,7 @@ public class Keyboards {
         return messageText;
     }
 
-    private EditMessageText getAboutShelterCat(long chatId, long messageId) {
+    public EditMessageText getAboutShelterCat(long chatId, long messageId) {
         EditMessageText editMessageText = new EditMessageText();
         editMessageText.setChatId(chatId);
         editMessageText.setMessageId((int) messageId);
@@ -715,16 +671,16 @@ public class Keyboards {
         List<InlineKeyboardButton> row6 = new ArrayList<>();
         InlineKeyboardButton tellMe = new InlineKeyboardButton();
         tellMe.setText("Информация о нас");
-        tellMe.setCallbackData(TELL_ABOUT_SHELTER);
+        tellMe.setCallbackData(TELL_ABOUT_SHELTER_CAT);
         InlineKeyboardButton cLockWork = new InlineKeyboardButton();
         cLockWork.setText("Часы работы");
-        cLockWork.setCallbackData(WORK_TIME);
+        cLockWork.setCallbackData(WORK_TIME_CAT);
         InlineKeyboardButton addressShelter = new InlineKeyboardButton();
         addressShelter.setText("Адрес и схема проезда");
-        addressShelter.setCallbackData(ADDRESS);
+        addressShelter.setCallbackData(ADDRESS_CAT);
         InlineKeyboardButton recommendations = new InlineKeyboardButton();
         recommendations.setText("Техника безопасности");
-        recommendations.setCallbackData(SECURITY);
+        recommendations.setCallbackData(SECURITY_CAT);
         InlineKeyboardButton volunteerCall = new InlineKeyboardButton();
         volunteerCall.setText("Вопрос к волонтёру");
         volunteerCall.setCallbackData(CALL_VOLUNTEER);

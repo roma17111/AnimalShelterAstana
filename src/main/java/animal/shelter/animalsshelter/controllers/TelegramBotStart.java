@@ -950,7 +950,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         .filter(msg -> msg.getChatID() == update.getCallbackQuery().getMessage().getChatId())
                         .collect(Collectors.toList());
                 CallVolunteerMsg msg1 = msgs.get(msgs.size() - 1);
-                if (msg1.getStateId() < 2&& msg1.getChatID()==update.getMessage().getChatId()) {
+                if (msg1.getStateId() < 2&& msg1.getChatID()==update.getCallbackQuery().getMessage().getChatId()) {
                     callVolunteerMsg.deleteCallVolunteerMsg(msg1.getId());
                     execute(keyboards.getTypeOfShelter(chatId));
                 }
@@ -1074,15 +1074,23 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(REASONS)) {
                 execute(keyboards.getWindowNine(chatId, messageId));
             } else if (dataCallback.equals(GO_BACK_CAT)) {
-                execute(keyboards.getBotStartUserMenuCat(chatId));
+                execute(keyboards.getAboutShelterCat(chatId,messageId));
             } else if (dataCallback.equals(INFO_BUTTON_CAT)) {
-                execute(keyboards.getCatMenu1(chatId, messageId));
+                execute(keyboards.getAboutShelterCat(chatId, messageId));
             } else if (dataCallback.equals(NECESSARY_CAT)) {
                 execute(keyboards.WhatNeedToKnowAboutCat(chatId, messageId));
             } else if (dataCallback.equals(BACK_CAT_TWO)) {
                 execute(keyboards.WhatNeedToKnowAboutCat(chatId, messageId));
             } else if (dataCallback.equals(BACK_CAT_ONE)) {
                 execute(keyboards.getBotStartUserMenuCatBack(chatId,messageId));
+            } else if (dataCallback.equals(TELL_ABOUT_SHELTER_CAT)) {
+                execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.getInfoAboutShelter()));
+            } else if (dataCallback.equals(WORK_TIME_CAT)) {
+                execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.workTime()));
+            } else if (dataCallback.equals(ADDRESS_CAT)) {
+                execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.contactUs()));
+            } else if (dataCallback.equals(SECURITY_CAT)) {
+                execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.toBeSafeRegulations()));
             }
         }
     }
