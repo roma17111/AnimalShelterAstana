@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class Keyboards {
 
     public static final String BACK_REPORT = "BACKREPORT";
     public static final String BACK_QUESTION = "BACKQUESTION";
-
 
 
     public Keyboards() {
@@ -342,7 +342,7 @@ public class Keyboards {
     }
 
     public SendMessage getBackButtonForReport(long chatId,
-                                                  String text) {
+                                              String text) {
         SendMessage messageText = new SendMessage();
         messageText.setChatId(chatId);
         messageText.setText(text);
@@ -360,8 +360,8 @@ public class Keyboards {
     }
 
     public EditMessageText getBackButtonForQuestion(long chatId,
-                                                  long messageId,
-                                                  String text) {
+                                                    long messageId,
+                                                    String text) {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatId);
         messageText.setMessageId((int) messageId);
@@ -374,6 +374,29 @@ public class Keyboards {
         rows.add(row);
         button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         button.setCallbackData(BACK_QUESTION);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public SendMessage getMenuAfterAnswer(long chatId) {
+        SendMessage messageText = new SendMessage();
+        messageText.setChatId(chatId);
+        messageText.setText("Хотите ещё задать вопрос?");
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        button.setText("Нет");
+        button.setCallbackData(GO_BACK);
+        InlineKeyboardButton button1 = new InlineKeyboardButton();
+        button1.setText("Да");
+        button1.setCallbackData(CALL_VOLUNTEER);
+        row.add(button1);
+        row.add(button);
+        rows.add(row);
+        button.setText("Нет");
+        button.setCallbackData(GO_BACK);
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
         return messageText;

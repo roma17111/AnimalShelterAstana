@@ -12,7 +12,6 @@ import java.util.List;
 public class VolunteerServiceImpl implements VolunteerService {
 
     private final VolunteerRepository volunteerRepository;
-    private Volunteer volunteer;
 
     /**
      * Метод для сохранения волонтера в базу данных.
@@ -50,13 +49,5 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Override
     public void deleteVolunteer(Integer id) {
         volunteerRepository.deleteById(id);
-    }
-
-    public Volunteer getVolunteer() {
-        return volunteer;
-    }
-
-    public void setVolunteer(Volunteer volunteer) {
-        this.volunteer = volunteer;
     }
 }

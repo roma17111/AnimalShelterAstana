@@ -4,8 +4,6 @@ import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.service.CallVolunteerMsgService;
 import animal.shelter.animalsshelter.model.CallVolunteerMsg;
 import animal.shelter.animalsshelter.repository.CallVolunteerMsgRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.stereotype.Component;
@@ -14,13 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Component
 public class CallVolunteerMsgServiceImpl implements CallVolunteerMsgService {
 
-    private CallVolunteerMsgRepository repository;
-
+    private final CallVolunteerMsgRepository repository;
 
     /**
      * Метод для сохранения сообщения для добровольцев в базу данных.
@@ -59,4 +55,6 @@ public class CallVolunteerMsgServiceImpl implements CallVolunteerMsgService {
     public void deleteCallVolunteerMsg(Long id) {
         repository.deleteById(id);
     }
+
+
 }

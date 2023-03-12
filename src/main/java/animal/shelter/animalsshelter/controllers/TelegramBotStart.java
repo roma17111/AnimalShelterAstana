@@ -124,7 +124,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     testReg(update);
                     break;
                 case "/allquestions":
-
                     if (userService.findByChatId(update.getMessage().getChatId()) == null ||
                             userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
                         sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок вопросов " +
@@ -174,6 +173,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             sendBotMessage(msg.getChatID(), "Вам ответил волонтёр: " + update.getMessage()
                     .getChat().getFirstName() + "\n" + text);
             callVolunteerMsg.deleteCallVolunteerMsg(id);
+            try {
+                execute(keyboards.getMenuAfterAnswer(msg.getChatID()));
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
         }
     }
 
