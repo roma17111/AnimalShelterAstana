@@ -785,13 +785,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 List<Report> reports = reportList
                         .stream()
                         .filter(report -> report.getChatId()==update.getCallbackQuery().getMessage().getChatId())
+                        .filter(report -> report.getStateId()<5)
                         .collect(Collectors.toList());
-                Report report = reports.get(reports.size() - 1);
-                if (report.getStateId() < 4) {
-                    reportService.deleteReport(report.getId());
+                    reportService.deleteReport(reports.get(reports.size()-1).getId());
                     Thread.sleep(400);
                     getBackMenu(chatId, messageId);
-                }
+
 
             } else if (dataCallback.equals(BACK_QUESTION)) {
                 List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
