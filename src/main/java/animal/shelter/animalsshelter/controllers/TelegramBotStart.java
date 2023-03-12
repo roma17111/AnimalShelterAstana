@@ -918,8 +918,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         .collect(Collectors.toList());
                 dogService.deleteDog(dogList.get(dogs.size()-1).getId());
                 getBackMenu(chatId, messageId);
-                    reportService.deleteReport(dogs.get(dogs.size()-1).getId());
-                    getBackMenu(chatId, messageId);
             } else if (dataCallback.equals(BACK_QUESTION)) {
                 List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
                 List<CallVolunteerMsg> msgs = msgList
