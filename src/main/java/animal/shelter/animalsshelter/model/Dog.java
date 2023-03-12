@@ -1,6 +1,7 @@
 package animal.shelter.animalsshelter.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -8,6 +9,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "dog")
 public class Dog {
+    public Dog() {
+    }
 
     public enum DogType {
         PUPPY,
@@ -54,4 +57,6 @@ public class Dog {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+
 }

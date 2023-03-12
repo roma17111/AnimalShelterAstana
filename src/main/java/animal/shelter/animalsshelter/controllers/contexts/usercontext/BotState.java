@@ -1,7 +1,6 @@
-package animal.shelter.animalsshelter.controllers.stateTest;
+package animal.shelter.animalsshelter.controllers.contexts.usercontext;
 
 import animal.shelter.animalsshelter.util.Utils;
-import lombok.Data;
 import lombok.extern.log4j.Log4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -12,7 +11,7 @@ public enum BotState {
     Start {
         @Override
         public void enter(BotContext context) {
-            sendMessage(context, "Привет. Тестовая регистрация");
+            sendMessage(context, "Добро пожаловать! ");
         }
 
         @Override
@@ -22,6 +21,8 @@ public enum BotState {
     },
 
     EnterPhone {
+
+        private BotState next;
         @Override
         public void enter(BotContext context) {
             sendMessage(context, "Введите номер телефона");
@@ -29,12 +30,17 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setNumberPhone(context.getInput());
+            if (context.getInput().equals("/registration")) {
+                next = EnterPhone;
+            } else {
+                context.getUser().setPhoneNumber(context.getInput());
+                next = EnterEmail;
+            }
         }
 
         @Override
         public BotState nextState() {
-            return EnterEmail;
+            return next;
         }
     },
 

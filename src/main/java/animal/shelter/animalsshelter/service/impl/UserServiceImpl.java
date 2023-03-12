@@ -1,12 +1,12 @@
 package animal.shelter.animalsshelter.service.impl;
 
-import animal.shelter.animalsshelter.model.Dog;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.DogService;
 import animal.shelter.animalsshelter.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,11 +56,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User addDogToUser(Integer userId, Integer dogId) {
-        Dog dog = dogService.getDogById(dogId);
         User user = getUserById(userId);
-        user.setDog(dog);
+        user.setDog(dogService.getDogById(dogId));
         saveUser(user);
+        return user;
+    }
+
+    @Override
+    public User getAdmin(long userId) {
+        User user = userRepository.findByChatId(userId);
+        if (user.isNotified() == true) {
+            user.setNotified(false);
+            saveUser(user);
+        } else {
+            user.setNotified(true);
+            saveUser(user);
+        }
+
+
         return user;
     }
 
@@ -70,5 +85,20 @@ public class UserServiceImpl implements UserService {
         user.setDog(null);
         saveUser(user);
         return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User findByChatId(long id) {
+        return userRepository.findByChatId(id);
+    }
+
+    @Override
+    @Transactional
+    public List<User> findNewUsers() {
+        List<User> users = userRepository.findNewUsers();
+        users.forEach((user) -> user.setNotified(true));
+        userRepository.saveAll(users);
+        return users;
     }
 }

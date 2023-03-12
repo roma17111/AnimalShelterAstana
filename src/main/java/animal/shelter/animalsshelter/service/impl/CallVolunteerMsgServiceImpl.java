@@ -1,14 +1,19 @@
 package animal.shelter.animalsshelter.service.impl;
 
+import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.service.CallVolunteerMsgService;
 import animal.shelter.animalsshelter.model.CallVolunteerMsg;
 import animal.shelter.animalsshelter.repository.CallVolunteerMsgRepository;
 import lombok.RequiredArgsConstructor;
 import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Component
 public class CallVolunteerMsgServiceImpl implements CallVolunteerMsgService {
 
     private final CallVolunteerMsgRepository repository;
@@ -50,4 +55,6 @@ public class CallVolunteerMsgServiceImpl implements CallVolunteerMsgService {
     public void deleteCallVolunteerMsg(Long id) {
         repository.deleteById(id);
     }
+
+
 }

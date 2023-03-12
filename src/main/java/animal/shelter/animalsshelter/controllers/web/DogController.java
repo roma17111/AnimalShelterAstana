@@ -24,7 +24,12 @@ public class DogController {
         this.dogService = dogService;
     }
 
-    @PostMapping("/new")
+    /**
+     * При помощи этого запроса можно добавить собаку
+     * в новый приют
+     * @param dog  Параметром метода является объект класса Dog,
+     * который создаётся при отправлении запроса волонтёром на сервер*/
+    @PostMapping("/")
     @Operation(summary = "Добавить собаку",
             description = "Данный запрос позволяет поставить на учёт новую собаку")
     @ApiResponse(responseCode = "200",
@@ -37,7 +42,13 @@ public class DogController {
         return dogService.saveDog(dog);
     }
 
-    @PostMapping("/broadcast")
+    /**
+     * При помощи этого запроса можно передать собаку хозяину
+     * из приюта
+     * @param dogId - id собаки из таблицы БД
+     * @param userId - id человека из БД*/
+    @PutMapping("/broadcast/{userId}/{dogId}")
+    @ResponseBody
     @Operation(summary = "передать собаку новому хозяину",
             description = "Данный запрос позволяет передать собаку новому владельцу")
     @ApiResponse(responseCode = "200",
@@ -46,11 +57,14 @@ public class DogController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User addDogToUser(@RequestParam Integer userId,
-                             @RequestParam Integer dogId) {
+    public User addDogToUser(@PathVariable Integer userId,
+                             @PathVariable Integer dogId) {
         return userService.addDogToUser(userId, dogId);
     }
 
+    /**
+     * При помощи этого запроса можно посмотреть
+     * список собак из приюта*/
     @GetMapping("/all")
     @Operation(summary = "Список собак",
             description = "Данный запрос позволяет получить полный список" +
@@ -65,7 +79,12 @@ public class DogController {
         return dogService.getAllDogs();
     }
 
-    @PutMapping("/withdrawaldog")
+    /**
+     * При помощи этого запроса можно забрать собаку
+     * у плохого хозяина
+     * @param id - id User из таблицы БД*/
+    @PutMapping("/withdrawal/{id}")
+    @ResponseBody
     @Operation(summary = "Отобрать собаку у недобросовестного хозяина",
             description = "Данный запрос позволяет обнулить поле Dog у User")
     @ApiResponse(responseCode = "200",
@@ -74,7 +93,7 @@ public class DogController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User takeDogFromBadUser(@RequestParam Integer id) {
+    public User takeDogFromBadUser(@PathVariable Integer id) {
         return userService.takeDogfromUser(id);
     }
 }

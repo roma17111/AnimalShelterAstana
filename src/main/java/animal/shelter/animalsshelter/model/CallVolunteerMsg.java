@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,15 +17,29 @@ public class CallVolunteerMsg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "msg_id")
-    private Long id;
-
+    private long id;
+    private long chatID;
+    private long stateId;
+    private String numberPhone;
+    private String email;
     @Column(name = "msg_date")
     private Timestamp msgDate;
 
     @Column(name = "msg_text")
     private String msgText;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "volunteer_id")
-    private Volunteer volunteer;
+    public CallVolunteerMsg(long stateId) {
+        this.stateId = stateId;
+    }
+
+    @Override
+    public String toString() {
+        return  "Вопрос от пользователя: \n" +
+                "id:" + id + "\n" +
+                "chatID: " + chatID + "\n" +
+                "Номер телефона: " + numberPhone + "\n" +
+                "email: " + email + "\n" +
+                "Дата:" + msgDate + "\n" +
+                "Сообщение: \n" + msgText + "\n";
+    }
 }

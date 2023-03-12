@@ -1,4 +1,6 @@
-package animal.shelter.animalsshelter.controllers.stateTest;
+package animal.shelter.animalsshelter.controllers.contexts.stateTest;
+import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestRepository;
+import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;

@@ -1,6 +1,7 @@
 package animal.shelter.animalsshelter.repository;
 
 import animal.shelter.animalsshelter.model.CallVolunteerMsg;
+import animal.shelter.animalsshelter.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CallVolunteerMsgRepository extends JpaRepository<CallVolunteerMsg, Long> {
+
 }
