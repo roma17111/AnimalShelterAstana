@@ -38,6 +38,8 @@ public class Keyboards {
     public static final String BACK_REPORT = "BACKREPORT";
     public static final String BACK_QUESTION = "BACKQUESTION";
 
+    public static final String NECESSARY_CAT = "NCAT";
+
 
     public Keyboards() {
     }
@@ -84,8 +86,43 @@ public class Keyboards {
         shelterInfoButton.setText("Информация о приюте");
         shelterInfoButton.setCallbackData(INFO_BUTTON);
         InlineKeyboardButton necessary = new InlineKeyboardButton();
-        necessary.setText("Хотите животное? Важно знать!");
+        necessary.setText("Хотите собаку? Важно знать!");
         necessary.setCallbackData(NECESSARY);
+        InlineKeyboardButton report = new InlineKeyboardButton();
+        report.setText("Отправить отчёт о животном");
+        report.setCallbackData(SEND_REPORT);
+        InlineKeyboardButton call = new InlineKeyboardButton();
+        call.setText("Вопрос к волонтёру");
+        call.setCallbackData(CALL_VOLUNTEER);
+        row.add(shelterInfoButton);
+        row1.add(necessary);
+        row2.add(report);
+        row3.add(call);
+        rows.add(row);
+        rows.add(row1);
+        rows.add(row2);
+        rows.add(row3);
+        inlineKeyboardMarkup.setKeyboard(rows);
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        sendMessage.setText("Главное меню");
+        return sendMessage;
+    }
+
+    public SendMessage getBotStartUserMenuCat(long id) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(id));
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        List<InlineKeyboardButton> row1 = new ArrayList<>();
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        List<InlineKeyboardButton> row3 = new ArrayList<>();
+        InlineKeyboardButton shelterInfoButton = new InlineKeyboardButton();
+        shelterInfoButton.setText("Информация о приюте");
+        shelterInfoButton.setCallbackData(INFO_BUTTON);
+        InlineKeyboardButton necessary = new InlineKeyboardButton();
+        necessary.setText("Хотите Кошку? Важно знать!");
+        necessary.setCallbackData(CAT);
         InlineKeyboardButton report = new InlineKeyboardButton();
         report.setText("Отправить отчёт о животном");
         report.setCallbackData(SEND_REPORT);
