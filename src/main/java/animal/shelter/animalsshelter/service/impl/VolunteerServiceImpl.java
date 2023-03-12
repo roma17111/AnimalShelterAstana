@@ -1,10 +1,13 @@
 package animal.shelter.animalsshelter.service.impl;
 
+import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.model.Volunteer;
 import animal.shelter.animalsshelter.repository.VolunteerRepository;
 import animal.shelter.animalsshelter.service.VolunteerService;
 import lombok.RequiredArgsConstructor;
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service

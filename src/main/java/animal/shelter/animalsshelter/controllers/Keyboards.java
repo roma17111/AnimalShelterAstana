@@ -32,10 +32,15 @@ public class Keyboards {
     public static final String CONTACT_HANDLER = "CHANDLER";
     public static final String REASONS = "REASONS";
     public static final String SAMPLE_REPORT = "SAMPLEREPORT";
-
     public static final String BACK_TWO = "BACKTWO";
 
     public static final String BACK_REPORT = "BACKREPORT";
+    public static final String BACK_ADD_DOG = "BACKDOG";
+
+    public static final String PUPPY_TYPE= "PUPPY";
+    public static final String ADULT_TYPE = "ADULT";
+    public static final String DISABLED_TYPE = "DISABLED";
+
     public static final String BACK_QUESTION = "BACKQUESTION";
 
     public static final String NECESSARY_CAT = "NCAT";
@@ -82,6 +87,7 @@ public class Keyboards {
         List<InlineKeyboardButton> row1 = new ArrayList<>();
         List<InlineKeyboardButton> row2 = new ArrayList<>();
         List<InlineKeyboardButton> row3 = new ArrayList<>();
+        List<InlineKeyboardButton> row4 = new ArrayList<>();
         InlineKeyboardButton shelterInfoButton = new InlineKeyboardButton();
         shelterInfoButton.setText("Информация о приюте");
         shelterInfoButton.setCallbackData(INFO_BUTTON);
@@ -95,13 +101,18 @@ public class Keyboards {
         call.setText("Вопрос к волонтёру");
         call.setCallbackData(CALL_VOLUNTEER);
         row.add(shelterInfoButton);
+        InlineKeyboardButton addDog = new InlineKeyboardButton();
+        addDog.setText("Создать Собаку");
+        addDog.setCallbackData(ADD_DOG);
         row1.add(necessary);
         row2.add(report);
         row3.add(call);
+        row4.add(addDog);
         rows.add(row);
         rows.add(row1);
         rows.add(row2);
         rows.add(row3);
+        rows.add(row4);
         inlineKeyboardMarkup.setKeyboard(rows);
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         sendMessage.setText("Главное меню");
@@ -391,6 +402,59 @@ public class Keyboards {
         rows.add(row);
         button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         button.setCallbackData(BACK_REPORT);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public SendMessage getBackButtonForDog(long chatId,
+                                              String text) {
+        SendMessage messageText = new SendMessage();
+        messageText.setChatId(chatId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        row.add(button);
+        rows.add(row);
+        button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        button.setCallbackData(BACK_ADD_DOG);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public SendMessage getDogTypeButton (long chatId, String text) {
+        SendMessage messageText = new SendMessage();
+        messageText.setChatId(chatId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton puppyButton = new InlineKeyboardButton();
+        InlineKeyboardButton adultButton = new InlineKeyboardButton();
+        InlineKeyboardButton disabledButton = new InlineKeyboardButton();
+        InlineKeyboardButton backButton = new InlineKeyboardButton();
+
+        row.add(puppyButton);
+        row.add(adultButton);
+        row.add(disabledButton);
+        row.add(backButton);
+        rows.add(row);
+
+        puppyButton.setText("Щенок");
+        puppyButton.setCallbackData(PUPPY_TYPE);
+
+        adultButton.setText("Взрослая");
+        adultButton.setCallbackData(ADULT_TYPE);
+
+        disabledButton.setText("С ограниченными возможностями");
+        disabledButton.setCallbackData(DISABLED_TYPE);
+
+        backButton.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backButton.setCallbackData(BACK_ADD_DOG);
+
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
         return messageText;
