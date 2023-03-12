@@ -909,21 +909,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         .filter(report -> report.getStateId()<5)
                         .collect(Collectors.toList());
                 reportService.deleteReport(reports.get(reports.size()-1).getId());
-                Thread.sleep(400);
                 getBackMenu(chatId, messageId);
             } else if (dataCallback.equals(BACK_ADD_DOG)) {
                 List<Dog> dogList = dogService.getAllDogs();
                 List<Dog> dogs = dogList
                         .stream()
-                        .filter(report -> report.getChatId()==update.getCallbackQuery().getMessage().getChatId())
+                        .filter(dog -> dog.getChatId()==update.getCallbackQuery().getMessage().getChatId())
                         .collect(Collectors.toList());
                 dogService.deleteDog(dogList.get(dogs.size()-1).getId());
-                Thread.sleep(400);
                 getBackMenu(chatId, messageId);
-                    reportService.deleteReport(reports.get(reports.size()-1).getId());
+                    reportService.deleteReport(dogs.get(dogs.size()-1).getId());
                     getBackMenu(chatId, messageId);
-
-
             } else if (dataCallback.equals(BACK_QUESTION)) {
                 List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
                 List<CallVolunteerMsg> msgs = msgList
