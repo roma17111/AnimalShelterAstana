@@ -150,6 +150,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/registration":
                     testReg(update);
                     break;
+                case "/alldogs":
+                    if (userService.findByChatId(update.getMessage().getChatId()) == null) {
+                        sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок собак" +
+                                "могут только зарегистрированные пользователи");
+                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+                    } else {
+                        getAllDogs(update);
+                    }
                 case "/allquestions":
                     if (userService.findByChatId(update.getMessage().getChatId()) == null ||
                             userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
@@ -391,6 +399,23 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
+        }
+    }
+
+    public void getAllDogs(Update update) {
+
+        List<Dog> dogs = dogService.getAllDogs();
+        for (Dog dog : dogs) {
+            sendBotMessage(update.getMessage().getChatId(), "Собака: " + dog.getId() + "\n" + dog.getNickname() + "\n" +
+                    dog.getDogType() + "\n" +
+                    dog.getHomeArrangementRecommendations() + "\n" +
+                    dog.getRecommendedKynologists() + "\n" +
+                    dog.getIntroductionRules() + "\n" +
+                    dog.getPrimaryCommunicationTips() + "\n" +
+                    dog.getRefusalReasons() + "\n" +
+                    dog.getRequiredDocuments() + "\n" +
+                    dog.getTransportationRecommendations());
+            sendPhotoFromByteCode(update.getMessage().getChatId(), dog.getDogPhoto());
         }
     }
 
@@ -950,14 +975,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         .filter(msg -> msg.getChatID() == update.getCallbackQuery().getMessage().getChatId())
                         .collect(Collectors.toList());
                 CallVolunteerMsg msg1 = msgs.get(msgs.size() - 1);
-                if (msg1.getStateId() < 2&& msg1.getChatID()==update.getCallbackQuery().getMessage().getChatId()) {
+                if (msg1.getStateId() < 2 && msg1.getChatID() == update.getCallbackQuery().getMessage().getChatId()) {
                     callVolunteerMsg.deleteCallVolunteerMsg(msg1.getId());
                     execute(keyboards.getTypeOfShelter(chatId));
                 }
             } else if (dataCallback.equals(WORK_TIME)) {
                 getWorkTime(chatId, messageId);
             } else if (dataCallback.equals(SAMPLE_REPORT_CAT)) {
-                getSampleReportCat(chatId,messageId,update);
+                getSampleReportCat(chatId, messageId, update);
             } else if (dataCallback.equals(ADDRESS)) {
                 getContactUs(chatId, messageId);
             } else if (dataCallback.equals(SECURITY)) {
@@ -1074,7 +1099,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(REASONS)) {
                 execute(keyboards.getWindowNine(chatId, messageId));
             } else if (dataCallback.equals(GO_BACK_CAT)) {
-                execute(keyboards.getAboutShelterCat(chatId,messageId));
+                execute(keyboards.getAboutShelterCat(chatId, messageId));
             } else if (dataCallback.equals(INFO_BUTTON_CAT)) {
                 execute(keyboards.getAboutShelterCat(chatId, messageId));
             } else if (dataCallback.equals(NECESSARY_CAT)) {
@@ -1082,7 +1107,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(BACK_CAT_TWO)) {
                 execute(keyboards.WhatNeedToKnowAboutCat(chatId, messageId));
             } else if (dataCallback.equals(BACK_CAT_ONE)) {
-                execute(keyboards.getBotStartUserMenuCatBack(chatId,messageId));
+                execute(keyboards.getBotStartUserMenuCatBack(chatId, messageId));
             } else if (dataCallback.equals(TELL_ABOUT_SHELTER_CAT)) {
                 execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.getInfoAboutShelter()));
             } else if (dataCallback.equals(WORK_TIME_CAT)) {
