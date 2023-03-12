@@ -644,7 +644,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         shelterInfoButton.setText("Информация о приюте");
         shelterInfoButton.setCallbackData(INFO_BUTTON);
         InlineKeyboardButton necessary = new InlineKeyboardButton();
-        necessary.setText("Хотите животное? Важно знать!");
+        necessary.setText("Хотите собаку? Важно знать!");
         necessary.setCallbackData(NECESSARY);
         InlineKeyboardButton report = new InlineKeyboardButton();
         report.setText("Отправить отчёт о животном");
@@ -1028,6 +1028,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 execute(keyboards.getWindowEight(chatId, messageId));
             } else if (dataCallback.equals(REASONS)) {
                 execute(keyboards.getWindowNine(chatId, messageId));
+            } else if (dataCallback.equals(GO_BACK_CAT)) {
+                execute(keyboards.getBotStartUserMenuCat(chatId));
+            } else if (dataCallback.equals(INFO_BUTTON_CAT)) {
+                execute(keyboards.getCatMenu1(chatId, messageId));
+            } else if (dataCallback.equals(BACK_CAT_TWO)) {
+                execute(keyboards.WhatNeedToKnowAboutCat(chatId, messageId));
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
