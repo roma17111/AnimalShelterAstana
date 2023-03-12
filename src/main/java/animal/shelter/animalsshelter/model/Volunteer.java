@@ -1,19 +1,17 @@
 package animal.shelter.animalsshelter.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "volunteer")
-@ToString
 public class Volunteer {
+
+    public Volunteer() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "volunteer_id")
@@ -30,5 +28,4 @@ public class Volunteer {
 
     @Column(name = "email")
     private String email;
-
 }
