@@ -964,10 +964,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 List<Dog> dogs = dogList
                         .stream()
                         .filter(dog -> dog.getChatId() == update.getCallbackQuery().getMessage().getChatId())
-                        .filter(dog -> dog.getStateId() < 10)
+                        .filter(dog -> dog.getStateId() < 11)
                         .collect(Collectors.toList());
-                dogService.deleteDog(dogList.get(dogs.size() - 1).getId());
-                execute(keyboards.getTypeOfShelter(chatId));
+                    dogService.deleteDog(dogs.get(dogs.size() - 1).getId());
+                    execute(keyboards.getTypeOfShelter(chatId));
+
+
             } else if (dataCallback.equals(BACK_QUESTION)) {
                 List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
                 List<CallVolunteerMsg> msgs = msgList

@@ -60,5 +60,5 @@ public class Dog {
     private int stateId;
 
     @Column(name = "chat_id")
-    private int chatId;
+    private long chatId;
 }

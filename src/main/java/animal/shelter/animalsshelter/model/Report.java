@@ -17,7 +17,7 @@ public class Report {
 
     private int stateId;
 
-    private int chatId;
+    private long chatId;
 
     @Column(name = "msg_date")
     private Timestamp msgDate;
