@@ -345,7 +345,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
         List<Dog> dogs = dogService.getAllDogs();
         for (Dog dog : dogs) {
-            if (dog.getStateId() < 10) {
+            if (dog.getStateId() < 10 && dog.getChatId()==update.getMessage().getChatId()) {
                 sendDog(update, dog);
             }
         }
