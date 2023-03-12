@@ -142,7 +142,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     startBot(update);
                     break;
                 case "/menu":
-                    execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                    execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
                     break;
                 case "/registration":
                     testReg(update);
@@ -152,14 +152,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                             userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
                         sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок вопросов " +
                                 "могут только волонтёры!");
-                        execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
                     }
                     if (userService.findByChatId(update.getMessage().getChatId()).isNotified() == true) {
                         List<CallVolunteerMsg> msgs = callVolunteerMsg.getAllCallVolunteerMsgs();
                         for (CallVolunteerMsg msg : msgs) {
                             sendBotMessage(update.getMessage().getChatId(), msg.toString());
                         }
-                        execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
                     }
                     break;
                 case "/allreports":
@@ -203,7 +203,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     .getChat().getFirstName() + "\n" + text);
             callVolunteerMsg.deleteCallVolunteerMsg(id);
             try {
-                execute(keyboards.getMenuAfterAnswer(msg.getChatID()));
+                execute(keyboards.getTypeOfShelter(msg.getChatID()));
             } catch (TelegramApiException e) {
                 log.error(e.getMessage());
             }
@@ -294,7 +294,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (user1 == null || user1.isNotified() == false) {
             sendBotMessage(update.getMessage().getChatId(), "Писать напоминания об отчёте могут только волонтёры!!!");
             try {
-                execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
             } catch (TelegramApiException e) {
                 log.error(e.getMessage());
             }
@@ -327,7 +327,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 callVolunteerMsg.saveCallVolunteerMsg(msg);
                 sendBotMessage(update.getMessage().getChatId(), "Ваш вопрос отправлен");
                 sendBotMessage(update.getMessage().getChatId(), "С вами свяжутся в ближайшее время");
-                execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
             }
         }
 
@@ -363,14 +363,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (user1 == null || user1.isNotified() == false) {
             sendBotMessage(update.getMessage().getChatId(), "смотреть отчёты могут только волонтёры");
             try {
-                execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
             } catch (TelegramApiException e) {
                 log.error(e.getMessage());
             }
         } else {
             getAllReports(update);
             try {
-                execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+                execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
             } catch (TelegramApiException e) {
                 log.error(e.getMessage());
             }
@@ -412,7 +412,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         report.setStateId(5);
         reportService.saveReport(report);
         try {
-            execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+            execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
@@ -426,7 +426,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         dog.setStateId(11);
         dogService.saveDog(dog);
         try {
-            execute(keyboards.getBotStartUserMenu(update.getMessage().getChatId()));
+            execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
@@ -873,7 +873,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             log.error(e.getMessage());
         }
         sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), report.getPhoto());
-        execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+        execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
     }
 
     private void getIfCallbackQuery(Update update) throws TelegramApiException, InterruptedException {
