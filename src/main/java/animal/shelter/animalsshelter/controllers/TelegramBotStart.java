@@ -1034,6 +1034,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 execute(keyboards.getCatMenu1(chatId, messageId));
             } else if (dataCallback.equals(BACK_CAT_TWO)) {
                 execute(keyboards.WhatNeedToKnowAboutCat(chatId, messageId));
+            } else if (dataCallback.equals(BACK_CAT_ONE)) {
+                execute(keyboards.getCatMenu1(chatId, messageId));
             } else {
                 EditMessageText messageText = new EditMessageText();
                 messageText.setChatId(chatId);
