@@ -786,18 +786,25 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         .stream()
                         .filter(report -> report.getChatId()==update.getCallbackQuery().getMessage().getChatId())
                         .collect(Collectors.toList());
-                reportService.deleteReport(reports.get(reports.size()-1).getId());
-                Thread.sleep(400);
-                getBackMenu(chatId, messageId);
+                Report report = reports.get(reports.size() - 1);
+                if (report.getStateId() < 4) {
+                    reportService.deleteReport(report.getId());
+                    Thread.sleep(400);
+                    getBackMenu(chatId, messageId);
+                }
+
             } else if (dataCallback.equals(BACK_QUESTION)) {
                 List<CallVolunteerMsg> msgList = callVolunteerMsg.getAllCallVolunteerMsgs();
                 List<CallVolunteerMsg> msgs = msgList
                         .stream()
                         .filter(msg -> msg.getChatID() == update.getCallbackQuery().getMessage().getChatId())
                         .collect(Collectors.toList());
-                callVolunteerMsg.deleteCallVolunteerMsg(msgs.get(msgs.size() - 1).getId());
-                Thread.sleep(400);
-                getBackMenu(chatId, messageId);
+                CallVolunteerMsg msg1 = msgs.get(msgs.size() - 1);
+                if (msg1.getStateId() < 2) {
+                    callVolunteerMsg.deleteCallVolunteerMsg(msg1.getId());
+                    Thread.sleep(400);
+                    getBackMenu(chatId, messageId);
+                }
             } else if (dataCallback.equals(WORK_TIME)) {
                 getWorkTime(chatId, messageId);
             } else if (dataCallback.equals(ADDRESS)) {
