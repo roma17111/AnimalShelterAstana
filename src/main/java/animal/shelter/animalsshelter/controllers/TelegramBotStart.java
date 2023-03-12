@@ -24,19 +24,15 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static animal.shelter.animalsshelter.controllers.Keyboards.*;
 import static animal.shelter.animalsshelter.util.Emoji.CAT_FACE;
 import static animal.shelter.animalsshelter.util.Emoji.DOG_FACE;
-import static java.time.LocalDate.now;
-
 
 @Log4j
 @Component
@@ -58,7 +54,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
     private final UserService userService;
-
     private final ReportService reportService;
     private final CallVolunteerMsgService callVolunteerMsg;
     private final DogService dogService;
@@ -179,14 +174,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (update.hasMessage() && message.hasPhoto()) {
             List<Report> reports = reportService.getAllReports();
             for (Report report : reports) {
-                if (report.getStateId() == 4) {
+                if (report.getStateId() == 4 && report.getChatId() == update.getMessage().getChatId()) {
                     sendPhotoReport(update, report);
                 }
             }
 
             List<Dog> dogs = dogService.getAllDogs();
             for (Dog dog : dogs) {
-                if (dog.getStateId() == 10) {
+                if (dog.getStateId() == 10 && dog.getChatId()==update.getMessage().getChatId()) {
                     SendPhotoForDog(update, dog);
                 }
             }
