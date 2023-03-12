@@ -966,7 +966,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для кошек " + CAT_FACE));
                 execute(messageText);
                 Thread.sleep(800);
-                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+                execute(keyboards.getBotStartUserMenuCat(update.getCallbackQuery().getMessage().getChatId()));
             } else if (dataCallback.equals(ADD_DOG)) {
                 //Volunteer volunteer = volunteerService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
                 //if (volunteer == null) {
@@ -1014,8 +1014,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 setShouldBreak(true);
             }
             else if (dataCallback.equals(NECESSARY)) {
-                execute(keyboards.getBotStartUserMenuCat(update.getCallbackQuery().getMessage().getChatId()));
-            } else if (dataCallback.equals(NECESSARY)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(SAMPLE_REPORT)) {
                 getSampleReport(chatId, messageId, update);
