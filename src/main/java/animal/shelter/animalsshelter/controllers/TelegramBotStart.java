@@ -825,7 +825,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 messageText.setMessageId((int) messageId);
                 messageText.setText(EmojiParser.parseToUnicode("Добро пожаловать в приют для кошек " + CAT_FACE));
                 execute(messageText);
-                execute(keyboards.getBotStartUserMenu(update.getCallbackQuery().getMessage().getChatId()));
+                execute(keyboards.getBotStartUserMenuCat(update.getCallbackQuery().getMessage().getChatId()));
             } else if (dataCallback.equals(NECESSARY)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(SAMPLE_REPORT)) {
