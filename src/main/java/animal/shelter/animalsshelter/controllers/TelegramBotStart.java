@@ -636,10 +636,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         List<Cat> cats = catService.findAllCats();
         for (Cat cat : cats) {
             sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),
-                    "Кошка: " + cat.getId() + "\n" + cat.getName() + "\n" +
+                    "Кошка: " + cat.getId() + "\n" +
+                            "Кличка: " + cat.getName() + "\n" +
                             cat.getCatType() + "\n" +
-                            cat.getAge()+ "\n" +
-                            cat.getDescription() + "\n");
+                            "Возраст: " + cat.getAge()+ "\n" +
+                            "Информация о коте/кошке: \n" + cat.getDescription() + "\n");
             sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), cat.getPhoto());
             try {
                 execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
