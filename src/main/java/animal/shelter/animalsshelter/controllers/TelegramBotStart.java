@@ -64,8 +64,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             "Пример: /badreport 1\n" +
             "/message{id} - Отправить сообщение пользователю из базы по id\n" +
             "Пример: /message12 Привет. Как дела?\n" +
-            "{id} - Ответить пользователю по id оставленного вопроса из базы\n" +
-            "Пример: 12 Пока этой породы нет.\n" +
+            "/answer{id} - Ответить пользователю по id оставленного вопроса из базы\n" +
+            "Пример: /answer12 Пока этой породы нет.\n" +
             "/adddog - Добавить собаку\n";
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
@@ -74,6 +74,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final ReportService reportService;
     private final CallVolunteerMsgService callVolunteerMsg;
     private final DogService dogService;
+
+    private final CatService catService;
     private final VolunteerService volunteerService;
 
     private final Keyboards keyboards = new Keyboards();
@@ -128,17 +130,22 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         return this.dogType;
     }
 
+    public Cat.CatType getCatType() {
+        return catType;
+    }
+
     public TelegramBotStart(Config config,
                             UserService userService,
                             ReportService reportService,
                             CallVolunteerMsgService callVolunteerMsg,
                             DogService dogService,
-                            VolunteerService volunteerService) {
+                            CatService catService, VolunteerService volunteerService) {
         this.config = config;
         this.userService = userService;
         this.reportService = reportService;
         this.callVolunteerMsg = callVolunteerMsg;
         this.dogService = dogService;
+        this.catService = catService;
         this.volunteerService = volunteerService;
     }
 
@@ -173,9 +180,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             if (update.getMessage().getText().contains("/badreport")) {
                 sendMessageAboutBadReport(update);
             }
-            if (update.getMessage().getText().contains(update.getMessage().getText())
-                    && !update.getMessage().getText().startsWith("/")
-                    && Character.isDigit(update.getMessage().getText().charAt(0))) {
+            if (update.getMessage().getText().contains("/answer")) {
                 answerToUser(update, update.getMessage().getText());
             }
             switch (message.getText()) {
@@ -249,6 +254,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                                 "Добавлять собак могут только волонтёры ");
                     }
                     break;
+                case "/addcat":
+                    if (userService.findByChatId(update.getMessage().getChatId()).isNotified() == true) {
+                        SendMessage messageText = new SendMessage();
+                        messageText.setChatId(update.getMessage().getChatId());
+                        messageText.setText("Добавление кота/кошки:");
+                        execute(messageText);
+                        sendCatQuerry(update);
+                    }
+                    if (userService.findByChatId(update.getMessage().getChatId()) == null
+                            || userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
+                        sendBotMessage(update.getMessage().getChatId(),
+                                "Добавлять Котов могут только волонтёры ");
+                    }
+                    break;
                 case "/allreports":
                     getAllReportsFromBot(update);
                     break;
@@ -272,6 +291,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     SendPhotoForDog(update, dog);
                 }
             }
+            List<Cat> cats = catService.findAllCats();
+            for (Cat cat : cats) {
+                if (cat.getStateId() == 5 && cat.getChatId() == update.getMessage().getChatId()) {
+                    SendPhotoForCat(update, cat);
+                }
+            }
         }
     }
 
@@ -280,20 +305,33 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (user1 == null || user1.isNotified() == false) {
             return;
         } else {
-            String s = number.substring(0, number.indexOf(" "));
-            long id = Long.parseLong(s);
-            CallVolunteerMsg msg = callVolunteerMsg.getCallVolunteerMsgById(id);
             String messageText = update.getMessage().getText();
-            String text = EmojiParser
-                    .parseToUnicode(messageText.substring(messageText.indexOf(" ")));
+            String text = messageText.substring(7,messageText.indexOf(" "));
+            int id = Integer.parseInt(text);
+                    CallVolunteerMsg msg = callVolunteerMsg.getCallVolunteerMsgById((long)id);
+            String message = messageText.substring(messageText.indexOf(" "));
             sendBotMessage(msg.getChatID(), "Вам ответил волонтёр: " + update.getMessage()
-                    .getChat().getFirstName() + "\n" + text);
-            callVolunteerMsg.deleteCallVolunteerMsg(id);
+                    .getChat().getFirstName()+"\n"+message);
+            callVolunteerMsg.deleteCallVolunteerMsg((long)id);
             try {
                 execute(keyboards.getMenuAfterAnswer(msg.getChatID()));
             } catch (TelegramApiException e) {
                 log.error(e.getMessage());
             }
+        }
+    }
+
+    public void sendCatQuerry(Update update) {
+        Cat cat = new Cat();
+        cat.setChatId(Math.toIntExact(update.getMessage().getChatId()));
+        cat.setStateId(1);
+        catService.saveCat(cat);
+        sendBotMessage(update.getMessage().getChatId(), "Вы решили добавить Кошкатуна?");
+        try {
+            execute(keyboards.getBackButtonForCat(update.getMessage().getChatId(),
+                    "Как зовут этого славного пушистого красавца?"));
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
         }
     }
 
@@ -370,6 +408,38 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         "Прикрепите Фото питомца"));
                 dog.setStateId(10);
                 dogService.saveDog(dog);
+                break;
+        }
+    }
+
+    public void saveCatTo(Update update, Cat cat) throws InterruptedException, TelegramApiException {
+        switch (cat.getStateId()) {
+            case 1:
+                cat.setName(update.getMessage().getText());
+                execute(keyboards.getBackButtonForCat(update.getMessage().getChatId(),
+                        "Укажи Возраст"));
+                cat.setStateId(2);
+                catService.saveCat(cat);
+                break;
+            case 2:
+                cat.setAge(update.getMessage().getText());
+                execute(keyboards.getDogTypeButton(update.getMessage().getChatId(), "Укажите тип кошки"));
+                cat.setStateId(3);
+                catService.saveCat(cat);
+                break;
+            case 3:
+                cat.setCatType(getCatType());
+                execute(keyboards.getBackButtonForDog(update.getMessage().getChatId(),
+                        "Опишите основные особенности кошки/кота"));
+                cat.setStateId(4);
+                catService.saveCat(cat);
+                break;
+            case 4:
+                cat.setDescription(update.getMessage().getText());
+                execute(keyboards.getBackButtonForDog(update.getMessage().getChatId(),
+                        "Прикрепите Фото кошки/кота"));
+                cat.setStateId(5);
+                catService.saveCat(cat);
                 break;
         }
     }
@@ -484,6 +554,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 sendDog(update, dog);
             }
         }
+
+        List<Cat> cats = catService.findAllCats();
+        for (Cat cat : cats) {
+            if (cat.getStateId() < 5 && cat.getChatId() == update.getMessage().getChatId()) {
+                saveCatTo(update,cat);
+            }
+        }
+
         System.out.println(message.getText());
         System.out.println(message.getMessageId());
         log.info(update.getMessage().getChatId() + " " + message.getText());
@@ -585,9 +663,20 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public void SendPhotoForDog(Update update, Dog dog) throws InterruptedException {
         dog.setDogPhoto(getPhotoFromMessage(update));
         sendBotMessage(update.getMessage().getChatId(), "Собака создана");
-        Thread.sleep(1500);
         dog.setStateId(11);
         dogService.saveDog(dog);
+        try {
+            execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public void SendPhotoForCat(Update update, Cat cat) throws InterruptedException {
+        cat.setPhoto(getPhotoFromMessage(update));
+        sendBotMessage(update.getMessage().getChatId(), "Собака создана");
+        cat.setStateId(6);
+        catService.saveCat(cat);
         try {
             execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
         } catch (TelegramApiException e) {
@@ -1090,6 +1179,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         .collect(Collectors.toList());
                 reportService.deleteReport(reports.get(reports.size() - 1).getId());
                 execute(keyboards.getTypeOfShelter(chatId));
+            } else if (dataCallback.equals(BACK_ADD_CAT)) {
+                List<Cat> catList = catService.findAllCats();
+                List<Cat> cats = catList
+                        .stream()
+                        .filter(cat -> cat.getChatId() == update.getCallbackQuery().getMessage().getChatId())
+                        .filter(cat -> cat.getStateId() < 6)
+                        .collect(Collectors.toList());
+                catService.deleteCatById(cats.get(cats.size() - 1).getId());
+                execute(keyboards.getTypeOfShelter(chatId));
             } else if (dataCallback.equals(BACK_ADD_DOG)) {
                 List<Dog> dogList = dogService.getAllDogs();
                 List<Dog> dogs = dogList
@@ -1159,16 +1257,30 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 //} else {
 
 
-
                 //}
             } else if (dataCallback.equals(PUPPY_TYPE)) {
                 setDogType(PUPPY_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - щенка. \n" +
                         "Для продолжения напишите что-нибудь в чат");
                 setShouldBreak(true);
+            } else if (dataCallback.equals(KITTEN_TYPE)) {
+                setCatType(KITTEN_TYPE);
+                sendBotMessage(chatId, "Вы выбрали - котёнка. \n" +
+                        "Для продолжения напишите что-нибудь в чат");
+                setShouldBreak(true);
             } else if (dataCallback.equals(ADULT_TYPE)) {
                 setDogType(ADULT_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - взрослую собаку. \n" +
+                        "Для продолжения напишите что-нибудь в чат");
+                setShouldBreak(true);
+            } else if (dataCallback.equals(ADULT_TYPE_CAT)) {
+                setCatType(ADULT_TYPE_CAT);
+                sendBotMessage(chatId, "Вы выбрали - взрослую кошку. \n" +
+                        "Для продолжения напишите что-нибудь в чат");
+                setShouldBreak(true);
+            } else if (dataCallback.equals(DISABLED_TYPE_CAT)) {
+                setCatType(DISABLED_TYPE_CAT);
+                sendBotMessage(chatId, "Вы выбрали - кошку с ограниченными возможностями. \n" +
                         "Для продолжения напишите что-нибудь в чат");
                 setShouldBreak(true);
             } else if (dataCallback.equals(DISABLED_TYPE)) {

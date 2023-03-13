@@ -64,9 +64,9 @@ public class Keyboards {
     public static final String GO_START = "GO_START";
     public static final String GALLERY_DOG = "GALLERY_DOG ";
     public static final String BACK_ADD_CAT = "BACK_ADD_CAT";
-    public static final String DISABLED_TYPE_CAT = "DISABLED_TYPE_CAT";
-    public static final String ADULT_TYPE_CAT = "ADULT_TYPE_CAT";
-    public static final String KITTEN_TYPE = "KITTEN_TYPE";
+    public static final String DISABLED_TYPE_CAT = "DISABLED";
+    public static final String ADULT_TYPE_CAT = "CAT";
+    public static final String KITTEN_TYPE = "KITTEN";
 
 
     public Keyboards() {
@@ -641,6 +641,24 @@ public class Keyboards {
         rows.add(row);
         button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
         button.setCallbackData(BACK_ADD_DOG);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
+    public SendMessage getBackButtonForCat(long chatId,
+                                           String text) {
+        SendMessage messageText = new SendMessage();
+        messageText.setChatId(chatId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        row.add(button);
+        rows.add(row);
+        button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        button.setCallbackData(BACK_ADD_CAT);
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
         return messageText;

@@ -16,6 +16,10 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cat_id")
     private long id;
+
+    private long chatId;
+
+    private int stateId;
     private String name;
     private String age;
     @Column(name = "cat_type")
@@ -23,7 +27,5 @@ public class Cat {
     private CatType catType;
     private String description;
     private byte[] photo;
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+
 }
