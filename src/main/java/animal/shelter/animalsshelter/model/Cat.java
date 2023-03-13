@@ -7,12 +7,20 @@ import javax.persistence.*;
 @Entity
 @Data
 public class Cat {
+    public enum CatType {
+        KITTEN,
+        CAT,
+        DISABLED
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cat_id")
     private long id;
     private String name;
     private String age;
+    @Column(name = "cat_type")
+    @Enumerated(EnumType.STRING)
+    private CatType catType;
     private String description;
     private byte[] photo;
     @OneToOne

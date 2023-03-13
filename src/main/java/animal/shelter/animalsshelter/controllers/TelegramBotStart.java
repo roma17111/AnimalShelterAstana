@@ -14,7 +14,6 @@ import animal.shelter.animalsshelter.util.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -26,12 +25,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import static animal.shelter.animalsshelter.controllers.Keyboards.*;
 import static animal.shelter.animalsshelter.util.Emoji.CAT_FACE;
 import static animal.shelter.animalsshelter.util.Emoji.DOG_FACE;
@@ -355,7 +356,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    @Scheduled(fixedDelay = 87_000_000L)
     public void sendMessageFromAdminToBadUsersOfPets(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
