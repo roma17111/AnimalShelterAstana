@@ -95,6 +95,9 @@ public class VolunteerServiceImplTest {
         volunteer2.setGivenName(NAME_DEFAULT);
         volunteer2.setPhoneNumber(PHONE_DEFAULT);
         volunteer2.setEmail(EMAIL_DEFAULT);
+        expected.add(volunteer);
+        expected.add(volunteer1);
+        expected.add(volunteer2);
 
         when(volunteerRepository.findAll()).thenReturn(expected);
         Collection<Volunteer> actual = volunteerService.getAllVolunteers();
