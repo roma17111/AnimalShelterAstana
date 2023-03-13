@@ -562,6 +562,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             }
         }
 
+        List<User> users = userService.getAllUsers();
+        List<User> userList = users
+                .stream()
+                .filter(user1 -> user1.isNotified() == true)
+                .collect(Collectors.toList());
+        for (User user1 : userList) {
+            if (update.getMessage().getChatId() != user1.getChatId()) {
+                sendBotMessage(user1.getChatId(),"Волонтёр: "+
+                        update.getMessage().getChat().getFirstName()+"\n"+update.getMessage().getText());
+            }
+        }
         System.out.println(message.getText());
         System.out.println(message.getMessageId());
         log.info(update.getMessage().getChatId() + " " + message.getText());
