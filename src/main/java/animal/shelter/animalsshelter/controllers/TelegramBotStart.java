@@ -79,6 +79,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final Keyboards keyboards = new Keyboards();
 
     private Dog.DogType dogType;
+    private Cat.CatType catType;
 
     private boolean shouldBreak = false;
 
@@ -103,6 +104,23 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 break;
             default:
                 throw new IllegalArgumentException("Неверный тип собаки: " + type);
+        }
+    }
+
+
+    public void setCatType(String type) {
+        switch (type.toLowerCase()) {
+            case "kitten":
+                this.catType = Cat.CatType.KITTEN;
+                break;
+            case "cat":
+                this.catType = Cat.CatType.CAT;
+                break;
+            case "disabled":
+                this.catType = Cat.CatType.DISABLED;
+                break;
+            default:
+                throw new IllegalArgumentException("Неверный тип Кошки: " + type);
         }
     }
 
@@ -1227,4 +1245,5 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             }
         }
     }
+
 }
