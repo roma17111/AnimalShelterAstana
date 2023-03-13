@@ -63,9 +63,49 @@ public class Keyboards {
     public static final String SECURITY_CAT = "SECURITY_CAT";
     public static final String GO_START = "GO_START";
     public static final String GALLERY_DOG = "GALLERY_DOG ";
+    public static final String BACK_ADD_CAT = "BACK_ADD_CAT";
+    public static final String DISABLED_TYPE_CAT = "DISABLED_TYPE_CAT";
+    public static final String ADULT_TYPE_CAT = "ADULT_TYPE_CAT";
+    public static final String KITTEN_TYPE = "KITTEN_TYPE";
 
 
     public Keyboards() {
+    }
+
+
+    public SendMessage getCatTypeButton(long chatId, String text) {
+        SendMessage messageText = new SendMessage();
+        messageText.setChatId(chatId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton puppyButton = new InlineKeyboardButton();
+        InlineKeyboardButton adultButton = new InlineKeyboardButton();
+        InlineKeyboardButton disabledButton = new InlineKeyboardButton();
+        InlineKeyboardButton backButton = new InlineKeyboardButton();
+
+        row.add(puppyButton);
+        row.add(adultButton);
+        row.add(disabledButton);
+        row.add(backButton);
+        rows.add(row);
+
+        puppyButton.setText("Котёнок");
+        puppyButton.setCallbackData(KITTEN_TYPE);
+
+        adultButton.setText("Взрослый кошкатун");
+        adultButton.setCallbackData(ADULT_TYPE_CAT);
+
+        disabledButton.setText("С ограниченными возможностями");
+        disabledButton.setCallbackData(DISABLED_TYPE_CAT);
+
+        backButton.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backButton.setCallbackData(BACK_ADD_CAT);
+
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
     }
 
     public EditMessageText messageTextCatOne(long chatId, long messageId, String text) {
@@ -640,6 +680,7 @@ public class Keyboards {
         messageText.setReplyMarkup(markup);
         return messageText;
     }
+
 
     public EditMessageText getBackButtonForQuestion(long chatId,
                                                     long messageId,
