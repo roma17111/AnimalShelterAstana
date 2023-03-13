@@ -150,14 +150,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/registration":
                     testReg(update);
                     break;
-                case "/alldogs":
-                    if (userService.findByChatId(update.getMessage().getChatId()) == null) {
-                        sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок собак" +
-                                "могут только зарегистрированные пользователи");
-                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
-                    } else {
-                        getAllDogs(update);
-                    }
                 case "/allquestions":
                     if (userService.findByChatId(update.getMessage().getChatId()) == null ||
                             userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
@@ -406,7 +398,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
         List<Dog> dogs = dogService.getAllDogs();
         for (Dog dog : dogs) {
-            sendBotMessage(update.getMessage().getChatId(), "Собака: " + dog.getId() + "\n" + dog.getNickname() + "\n" +
+            sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Собака: " + dog.getId() + "\n" + dog.getNickname() + "\n" +
                     dog.getDogType() + "\n" +
                     dog.getHomeArrangementRecommendations() + "\n" +
                     dog.getRecommendedKynologists() + "\n" +
@@ -415,7 +407,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     dog.getRefusalReasons() + "\n" +
                     dog.getRequiredDocuments() + "\n" +
                     dog.getTransportationRecommendations());
-            sendPhotoFromByteCode(update.getMessage().getChatId(), dog.getDogPhoto());
+            sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), dog.getDogPhoto());
+            try {
+                execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
         }
     }
 
@@ -1120,6 +1117,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 execute(keyboards.messageTextCatOne(chatId, messageId, startMenu.toBeSafeRegulations()));
             } else if (dataCallback.equals(GO_START)) {
                 execute(keyboards.getTypeOfShelterEdit(chatId,messageId));
+            } else if (dataCallback.equals(GALLERY_DOG)) {
+                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()) == null) {
+                    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Смотреть галлерею собак" +
+                            "могут только зарегистрированные пользователи");
+                    execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
+                } else {
+                    getAllDogs(update);
+                }
             }
         }
     }

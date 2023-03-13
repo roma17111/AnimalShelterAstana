@@ -62,6 +62,7 @@ public class Keyboards {
     public static final String ADDRESS_CAT = "ADDRESS_CAT";
     public static final String SECURITY_CAT = "SECURITY_CAT";
     public static final String GO_START = "GO_START";
+    public static final String GALLERY_DOG = "GALLERY_DOG ";
 
 
     public Keyboards() {
@@ -302,6 +303,9 @@ public class Keyboards {
         InlineKeyboardButton button9 = new InlineKeyboardButton();
         button9.setCallbackData(REASONS);
         button9.setText("Причины отказа в получении питомца ");
+        InlineKeyboardButton galleryDog = new InlineKeyboardButton();
+        galleryDog.setText("Галлерея собак");
+        galleryDog.setCallbackData(GALLERY_DOG);
         InlineKeyboardButton button10 = new InlineKeyboardButton();
         button10.setText("Образец отчета");
         button10.setCallbackData(SAMPLE_REPORT);
@@ -316,6 +320,8 @@ public class Keyboards {
         List<InlineKeyboardButton> row5 = new ArrayList<>();
         List<InlineKeyboardButton> row6 = new ArrayList<>();
         List<InlineKeyboardButton> row7 = new ArrayList<>();
+        List<InlineKeyboardButton> galleryRow = new ArrayList<>();
+        galleryRow.add(galleryDog);
         List<InlineKeyboardButton> row8 = new ArrayList<>();
         row1.add(button1);
         row2.add(button2);
@@ -335,6 +341,7 @@ public class Keyboards {
         rows.add(row5);
         rows.add(row6);
         rows.add(row7);
+        rows.add(galleryRow);
         rows.add(row8);
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
