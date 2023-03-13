@@ -180,13 +180,9 @@ public class Keyboards {
         call.setText("Вопрос к волонтёру");
         call.setCallbackData(CALL_VOLUNTEER);
         row.add(shelterInfoButton);
-        InlineKeyboardButton addDog = new InlineKeyboardButton();
-        addDog.setText("Создать Собаку");
-        addDog.setCallbackData(ADD_DOG);
         row1.add(necessary);
         row2.add(report);
         row3.add(call);
-        row4.add(addDog);
         rows.add(row);
         rows.add(row1);
         rows.add(row2);

@@ -65,7 +65,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             "/message{id} - Отправить сообщение пользователю из базы по id\n" +
             "Пример: /message12 Привет. Как дела?\n" +
             "{id} - Ответить пользователю по id оставленного вопроса из базы\n" +
-            "Пример: 12 Пока этой породы нет.";
+            "Пример: 12 Пока этой породы нет.\n" +
+            "/adddog - ДОбавить собаку\n";
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
@@ -212,6 +213,24 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                         execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
                     }
                     break;
+                case "/adddog":
+                    if (userService.findByChatId(update.getMessage().getChatId()).isNotified() == true) {
+                        SendMessage messageText = new SendMessage();
+                        messageText.setChatId(update.getMessage().getChatId());
+                        messageText.setText("Добавление собаки:");
+                        execute(messageText);
+                        try {
+                            sendDogQuery(update);
+                        } catch (InterruptedException e) {
+                            log.error(e.getMessage());
+                        }
+                    }
+                    if (userService.findByChatId(update.getMessage().getChatId()) == null
+                            || userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
+                        sendBotMessage(update.getMessage().getChatId(),
+                                "Добавлять собак могут только волонтёры ");
+                    }
+                    break;
                 case "/allreports":
                     getAllReportsFromBot(update);
                     break;
@@ -262,14 +281,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     public void sendDogQuery(Update update) throws InterruptedException, TelegramApiException {
         Dog dog = new Dog();
+        dog.setChatId(Math.toIntExact(update.getMessage().getChatId()));
         dog.setStateId(1);
-        dog.setChatId(Math.toIntExact(update.getCallbackQuery().getMessage().getChatId()));
         dogService.saveDog(dog);
-        sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Вы решили добавить собакена?");
-        Thread.sleep(800);
-        execute(keyboards.getBackButtonForDog(update.getCallbackQuery().getMessage().getChatId(),
+        sendBotMessage(update.getMessage().getChatId(), "Вы решили добавить собакена?");
+        execute(keyboards.getBackButtonForDog(update.getMessage().getChatId(),
                 "Как его зовут?"));
-        Thread.sleep(800);
     }
 
     public void sendDog(Update update, Dog dog) throws InterruptedException, TelegramApiException {
@@ -780,14 +797,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         InlineKeyboardButton call = new InlineKeyboardButton();
         call.setText("Вопрос к волонтёру");
         call.setCallbackData(CALL_VOLUNTEER);
-        InlineKeyboardButton addDog = new InlineKeyboardButton();
-        addDog.setText("Добавить собаку");
-        addDog.setCallbackData(ADD_DOG);
         row.add(shelterInfoButton);
         row1.add(necessary);
         row2.add(report);
         row3.add(call);
-        row4.add(addDog);
         rows.add(row);
         rows.add(row1);
         rows.add(row2);
@@ -1127,24 +1140,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 //            "волонтеры!!");
                 //} else {
 
-                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()).isNotified() == true) {
-                    EditMessageText messageText = new EditMessageText();
-                    messageText.setChatId(chatId);
-                    messageText.setMessageId((int) messageId);
-                    messageText.setText("Добавление собаки:");
-                    execute(messageText);
-                    try {
-                        sendDogQuery(update);
-                    } catch (InterruptedException e) {
-                        log.error(e.getMessage());
-                    }
-                }
-                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()) == null
-                        || userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()).isNotified() == false) {
-                    sendBotMessage(chatId,
-                            "Добавлять собак могут только волонтёры ");
-                    execute(keyboards.getBotStartUserMenu(chatId));
-                }
+
 
                 //}
             } else if (dataCallback.equals(PUPPY_TYPE)) {
