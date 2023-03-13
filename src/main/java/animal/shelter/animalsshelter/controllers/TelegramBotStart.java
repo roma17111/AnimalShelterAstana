@@ -302,11 +302,18 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 log.error(e.getMessage());
             }
         } else {
-            String messageText = update.getMessage().getText();
+            String messageText = "Дорогой усыновитель," +
+                    " мы заметили, что ты заполняешь отчет не так подробно," +
+                    " как необходимо. Пожалуйста, подойди ответственнее к этому" +
+                    " занятию. В противном случае волонтеры приюта будут" +
+                    " обязаны самолично проверять условия содержания животного";
             String text = EmojiParser
                     .parseToUnicode(messageText.substring(messageText.indexOf(" ")));
             long[] nums = reportService.getAllReports()
                     .stream()
+                    .filter(report -> report.getDiet().length()<10)
+                    .filter(report -> report.getBehaviorChange().length()<10)
+                    .filter(report -> report.getGeneralHealth().length()<10)
                     .mapToLong(Report::getChatId)
                     .distinct()
                     .toArray();
@@ -398,7 +405,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
         List<Dog> dogs = dogService.getAllDogs();
         for (Dog dog : dogs) {
-            sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Собака: " + dog.getId() + "\n" + dog.getNickname() + "\n" +
+            sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),
+                    "Собака: " + dog.getId() + "\n" + dog.getNickname() + "\n" +
                     dog.getDogType() + "\n" +
                     dog.getHomeArrangementRecommendations() + "\n" +
                     dog.getRecommendedKynologists() + "\n" +
