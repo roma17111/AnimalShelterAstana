@@ -12,6 +12,13 @@ public class Cat {
         CAT,
         DISABLED
     }
+
+    public enum CatType {
+        KITTEN,
+        ADULT_CAT,
+        DISABLED_CAT
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cat_id")
