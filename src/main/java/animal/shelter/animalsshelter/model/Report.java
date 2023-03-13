@@ -39,7 +39,13 @@ public class Report {
 
     private String userInfo;
 
-
-
+    @Override
+    public String toString() {
+        return "id: " + id +
+                "Дата: " + msgDate + "\n" +
+                "Диета: " + diet + "\n" +
+                "Состояние здоровья: " + generalHealth + "\n" +
+                "Поведение питомца: " + behaviorChange + "\n";
+    }
 }
 
