@@ -1,6 +1,7 @@
 package animal.shelter.animalsshelter.service;
 
 import animal.shelter.animalsshelter.model.Volunteer;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

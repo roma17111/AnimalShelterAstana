@@ -1,7 +1,6 @@
 package animal.shelter.animalsshelter.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -22,33 +21,32 @@ public class Dog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dog_id")
     private Integer id;
-
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "introduction_rules", nullable = false)
+    @Column(name = "introduction_rules")
     private String introductionRules;
 
-    @Column(name = "required_documents", nullable = false)
+    @Column(name = "required_documents")
     private String requiredDocuments;
 
-    @Column(name = "transportation_recommendations", nullable = false)
+    @Column(name = "transportation_recommendations")
     private String transportationRecommendations;
 
-    @Column(name = "dog_type", nullable = false)
+    @Column(name = "dog_type")
     @Enumerated(EnumType.STRING)
     private DogType dogType;
 
-    @Column(name = "home_arrangement_recommendations", nullable = false)
+    @Column(name = "home_arrangement_recommendations")
     private String homeArrangementRecommendations;
 
-    @Column(name = "primary_communication_tips", nullable = false)
+    @Column(name = "primary_communication_tips")
     private String primaryCommunicationTips;
 
-    @Column(name = "recommended_kynologists", nullable = false)
+    @Column(name = "recommended_kynologists")
     private String recommendedKynologists;
 
-    @Column(name = "refusal_reasons", nullable = false)
+    @Column(name = "refusal_reasons")
     private String refusalReasons;
 
     @Column(name = "dog_photo")
@@ -58,5 +56,9 @@ public class Dog {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "state_id")
+    private int stateId;
 
+    @Column(name = "chat_id")
+    private long chatId;
 }

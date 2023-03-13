@@ -55,6 +55,10 @@ public class User {
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
+    private Cat cat;
+
     private boolean notified = false;
 
     public User() {
@@ -106,7 +110,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "chatId: " + chatId + "\n" +
+        return
+                "id: " +id+ "\n" +
+                "chatId: " + chatId + "\n" +
                 "Имя: " + firstName + '\n' +
                 "Фамилия: " + lastName + '\n' +
                 "Номер телефона:" + phoneNumber + '\n' +

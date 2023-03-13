@@ -17,7 +17,7 @@ public class Report {
 
     private int stateId;
 
-    private int chatId;
+    private long chatId;
 
     @Column(name = "msg_date")
     private Timestamp msgDate;
@@ -39,7 +39,13 @@ public class Report {
 
     private String userInfo;
 
-
-
+    @Override
+    public String toString() {
+        return "id: " + id +
+                "Дата: " + msgDate + "\n" +
+                "Диета: " + diet + "\n" +
+                "Состояние здоровья: " + generalHealth + "\n" +
+                "Поведение питомца: " + behaviorChange + "\n";
+    }
 }
 
