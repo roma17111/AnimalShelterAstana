@@ -568,7 +568,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 .filter(user1 -> user1.isNotified() == true)
                 .collect(Collectors.toList());
         for (User user1 : userList) {
-            if (update.getMessage().getChatId() != user1.getChatId()&&user1.isNotified()==true) {
+            if (update.getMessage().getChatId() != user1.getChatId()&&userService.findByChatId(update.
+                    getMessage().getChatId()).isNotified()==true) {
                 sendBotMessage(user1.getChatId(),"Волонтёр: "+
                         update.getMessage().getChat().getFirstName()+"\n"+update.getMessage().getText());
             }
