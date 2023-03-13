@@ -66,7 +66,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             "Пример: /message12 Привет. Как дела?\n" +
             "/answer{id} - Ответить пользователю по id оставленного вопроса из базы\n" +
             "Пример: /answer12 Пока этой породы нет.\n" +
-            "/adddog - Добавить собаку\n";
+            "/adddog - Добавить собаку\n"+
+            "/addcat - Добавить кошку/кота\n";
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
@@ -288,13 +289,13 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             List<Dog> dogs = dogService.getAllDogs();
             for (Dog dog : dogs) {
                 if (dog.getStateId() == 10 && dog.getChatId() == update.getMessage().getChatId()) {
-                    SendPhotoForDog(update, dog);
+                    sendPhotoForDog(update, dog);
                 }
             }
             List<Cat> cats = catService.findAllCats();
             for (Cat cat : cats) {
                 if (cat.getStateId() == 5 && cat.getChatId() == update.getMessage().getChatId()) {
-                    SendPhotoForCat(update, cat);
+                    sendPhotoForCat(update, cat);
                 }
             }
         }
@@ -632,6 +633,23 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    public void getAllCats(Update update) {
+        List<Cat> cats = catService.findAllCats();
+        for (Cat cat : cats) {
+            sendBotMessage(update.getCallbackQuery().getMessage().getChatId(),
+                    "Кошка: " + cat.getId() + "\n" + cat.getName() + "\n" +
+                            cat.getCatType() + "\n" +
+                            cat.getAge()+ "\n" +
+                            cat.getDescription() + "\n");
+            sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), cat.getPhoto());
+            try {
+                execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
+        }
+    }
+
     public void getAllReports(Update update) {
         List<Report> reports = reportService.getAllReports();
         for (Report report : reports) {
@@ -660,7 +678,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     }
 
-    public void SendPhotoForDog(Update update, Dog dog) throws InterruptedException {
+    public void sendPhotoForDog(Update update, Dog dog) throws InterruptedException {
         dog.setDogPhoto(getPhotoFromMessage(update));
         sendBotMessage(update.getMessage().getChatId(), "Собака добавлена");
         dog.setStateId(11);
@@ -672,7 +690,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    public void SendPhotoForCat(Update update, Cat cat) throws InterruptedException {
+    public void sendPhotoForCat(Update update, Cat cat) throws InterruptedException {
         cat.setPhoto(getPhotoFromMessage(update));
         sendBotMessage(update.getMessage().getChatId(), "Кошка добавлена");
         cat.setStateId(6);
@@ -1353,6 +1371,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
                 } else {
                     getAllDogs(update);
+                }
+            } else if (dataCallback.equals(GALLERY_CAT)) {
+                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()) == null) {
+                    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Смотреть галлерею кошек" +
+                            "могут только зарегистрированные пользователи");
+                    execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
+                } else {
+                    getAllCats(update);
                 }
             }
         }
