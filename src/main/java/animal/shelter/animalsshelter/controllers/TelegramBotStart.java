@@ -53,6 +53,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public static final String BACK_ONE_POINT = "BACK_ONE";
     public static final String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
+    public static final String ADMIN_COMMANDS = "Команды волонтёров: \n\n " +
+            "/users - посмортеть список пользователей \n" +
+            "/send - Отправить сообщение о плохом отчёте всем пользователям, " +
+            "у которых текст сообщений в отчётах очень короткий. Отчёты нухно писать подробно. \n" +
+            "/allquestions - Посмотреть список вопросов от пользователей\n" +
+            "/allreports - Посмотреть список отчётов от усыновителей питомцев\n" +
+            "/badreport{id} - отправить шаблон сообщения о конкретном отчёте - плохой отчёт.\n" +
+            "id - id отчёта из базы данных.\n" +
+            "Пример: /badreport 1\n" +
+            "/message{id} - Отправить сообщение пользователю из базы по id\n" +
+            "Пример: /message12 Привет. Как дела?";
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
@@ -135,6 +146,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             if (update.getMessage().getText().contains("/send")) {
                 sendMessageFromAdminToBadUsersOfPets(update);
             }
+            if (update.getMessage().getText().contains("/message")) {
+                sendMessageToUser(update);
+            }
             if (update.getMessage().getText().contains("/badreport")) {
                 sendMessageAboutBadReport(update);
             }
@@ -147,11 +161,39 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/start":
                     startBot(update);
                     break;
+                case "/admin":
+                    if (userService.findByChatId(update.getMessage().getChatId()) == null ||
+                            userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
+                        sendBotMessage(update.getMessage().getChatId(), "Смотреть команды администраторов" +
+                                "могут только волонтёры!");
+                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+                    }
+                    if (userService.findByChatId(update.getMessage().getChatId()).isNotified() == true) {
+                       sendBotMessage(update.getMessage().getChatId(),ADMIN_COMMANDS);
+                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+                    }
+
+                    break;
                 case "/menu":
                     execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
                     break;
                 case "/registration":
                     testReg(update);
+                    break;
+                case "/users":
+                    if (userService.findByChatId(update.getMessage().getChatId()) == null ||
+                            userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
+                        sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок пользователей" +
+                                "могут только волонтёры!");
+                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+                    }
+                    if (userService.findByChatId(update.getMessage().getChatId()).isNotified() == true) {
+                        List<User> userList = userService.getAllUsers();
+                        for (User user : userList) {
+                            sendBotMessage(update.getMessage().getChatId(),user.toString());
+                        }
+                        execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+                    }
                     break;
                 case "/allquestions":
                     if (userService.findByChatId(update.getMessage().getChatId()) == null ||
@@ -323,6 +365,27 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             for (long num : nums) {
                 sendBotMessage(num, text);
             }
+        }
+    }
+
+    public void sendMessageToUser(Update update) {
+        User user1 = userService.findByChatId(update.getMessage().getChatId());
+        if (user1 == null || user1.isNotified() == false) {
+            sendBotMessage(update.getMessage().getChatId(), "Писать сообщения" +
+                    " пользователю могут только волонтёры!!!");
+            try {
+                execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
+        } else {
+            String messageText = update.getMessage().getText();
+            String text = messageText.substring(8,messageText.indexOf(" "));
+            int id = Integer.parseInt(text);
+            User msg = userService.getUserById(id);
+            String message = messageText.substring(messageText.indexOf(" "));
+            sendBotMessage(msg.getChatId(), "Cообщение от волонтёра: " + update.getMessage()
+                    .getChat().getFirstName()+"\n"+message);
         }
     }
 

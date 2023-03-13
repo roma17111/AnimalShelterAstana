@@ -110,7 +110,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "chatId: " + chatId + "\n" +
+        return
+                "id: " +id+ "\n" +
+                "chatId: " + chatId + "\n" +
                 "Имя: " + firstName + '\n' +
                 "Фамилия: " + lastName + '\n' +
                 "Номер телефона:" + phoneNumber + '\n' +
