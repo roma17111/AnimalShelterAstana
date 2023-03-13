@@ -423,7 +423,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 break;
             case 2:
                 cat.setAge(update.getMessage().getText());
-                execute(keyboards.getDogTypeButton(update.getMessage().getChatId(), "Укажите тип кошки"));
+                execute(keyboards.getCatTypeButton(update.getMessage().getChatId(), "Укажите тип кошки"));
                 cat.setStateId(3);
                 catService.saveCat(cat);
                 break;
@@ -662,7 +662,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     public void SendPhotoForDog(Update update, Dog dog) throws InterruptedException {
         dog.setDogPhoto(getPhotoFromMessage(update));
-        sendBotMessage(update.getMessage().getChatId(), "Собака создана");
+        sendBotMessage(update.getMessage().getChatId(), "Собака добавлена");
         dog.setStateId(11);
         dogService.saveDog(dog);
         try {
@@ -674,7 +674,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     public void SendPhotoForCat(Update update, Cat cat) throws InterruptedException {
         cat.setPhoto(getPhotoFromMessage(update));
-        sendBotMessage(update.getMessage().getChatId(), "Собака создана");
+        sendBotMessage(update.getMessage().getChatId(), "Кошка добавлена");
         cat.setStateId(6);
         catService.saveCat(cat);
         try {
