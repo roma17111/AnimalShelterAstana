@@ -66,7 +66,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             "Пример: /message12 Привет. Как дела?\n" +
             "{id} - Ответить пользователю по id оставленного вопроса из базы\n" +
             "Пример: 12 Пока этой породы нет.\n" +
-            "/adddog - ДОбавить собаку\n";
+            "/adddog - Добавить собаку\n";
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
     private final ImageParser imageParser = new ImageParserImpl(this);
