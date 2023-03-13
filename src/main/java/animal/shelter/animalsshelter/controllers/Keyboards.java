@@ -63,9 +63,50 @@ public class Keyboards {
     public static final String SECURITY_CAT = "SECURITY_CAT";
     public static final String GO_START = "GO_START";
     public static final String GALLERY_DOG = "GALLERY_DOG ";
+    public static final String BACK_ADD_CAT = "BACK_ADD_CAT";
+    public static final String DISABLED_TYPE_CAT = "DISABLED_CAT";
+    public static final String ADULT_TYPE_CAT = "CAT_CAT";
+    public static final String KITTEN_TYPE = "KITTEN";
+    public static final String GALLERY_CAT = "GALLERY_CAT";
 
 
     public Keyboards() {
+    }
+
+
+    public SendMessage getCatTypeButton(long chatId, String text) {
+        SendMessage messageText = new SendMessage();
+        messageText.setChatId(chatId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton puppyButton = new InlineKeyboardButton();
+        InlineKeyboardButton adultButton = new InlineKeyboardButton();
+        InlineKeyboardButton disabledButton = new InlineKeyboardButton();
+        InlineKeyboardButton backButton = new InlineKeyboardButton();
+
+        row.add(puppyButton);
+        row.add(adultButton);
+        row.add(disabledButton);
+        row.add(backButton);
+        rows.add(row);
+
+        puppyButton.setText("Котёнок");
+        puppyButton.setCallbackData(KITTEN_TYPE);
+
+        adultButton.setText("Взрослый кошкатун");
+        adultButton.setCallbackData(ADULT_TYPE_CAT);
+
+        disabledButton.setText("С ограниченными возможностями");
+        disabledButton.setCallbackData(DISABLED_TYPE_CAT);
+
+        backButton.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        backButton.setCallbackData(BACK_ADD_CAT);
+
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
     }
 
     public EditMessageText messageTextCatOne(long chatId, long messageId, String text) {
@@ -371,6 +412,9 @@ public class Keyboards {
         InlineKeyboardButton button9 = new InlineKeyboardButton();
         button9.setCallbackData(REASONS_CAT);
         button9.setText("Причины отказа в получении питомца ");
+        InlineKeyboardButton catGallery = new InlineKeyboardButton();
+        catGallery.setText("Галерея кошек");
+        catGallery.setCallbackData(GALLERY_CAT);
         InlineKeyboardButton button10 = new InlineKeyboardButton();
         button10.setText("Образец отчета");
         button10.setCallbackData(SAMPLE_REPORT_CAT);
@@ -386,6 +430,7 @@ public class Keyboards {
         List<InlineKeyboardButton> row6 = new ArrayList<>();
         List<InlineKeyboardButton> row7 = new ArrayList<>();
         List<InlineKeyboardButton> row8 = new ArrayList<>();
+        List<InlineKeyboardButton> gallery = new ArrayList<>();
         row1.add(button1);
         row2.add(button2);
         row2.add(button3);
@@ -393,6 +438,7 @@ public class Keyboards {
         row4.add(button5);
         row5.add(button6);
         row7.add(button9);
+        gallery.add(catGallery);
         row8.add(button10);
         row8.add(backOne);
         rows.add(row1);
@@ -402,6 +448,7 @@ public class Keyboards {
         rows.add(row5);
         rows.add(row6);
         rows.add(row7);
+        rows.add(gallery);
         rows.add(row8);
         markup.setKeyboard(rows);
         messageText.setReplyMarkup(markup);
@@ -606,6 +653,24 @@ public class Keyboards {
         return messageText;
     }
 
+    public SendMessage getBackButtonForCat(long chatId,
+                                           String text) {
+        SendMessage messageText = new SendMessage();
+        messageText.setChatId(chatId);
+        messageText.setText(text);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        row.add(button);
+        rows.add(row);
+        button.setText(EmojiParser.parseToUnicode(Emoji.BACK_POINT_HAND_LEFT) + "   назад");
+        button.setCallbackData(BACK_ADD_CAT);
+        markup.setKeyboard(rows);
+        messageText.setReplyMarkup(markup);
+        return messageText;
+    }
+
     public SendMessage getDogTypeButton(long chatId, String text) {
         SendMessage messageText = new SendMessage();
         messageText.setChatId(chatId);
@@ -640,6 +705,7 @@ public class Keyboards {
         messageText.setReplyMarkup(markup);
         return messageText;
     }
+
 
     public EditMessageText getBackButtonForQuestion(long chatId,
                                                     long messageId,

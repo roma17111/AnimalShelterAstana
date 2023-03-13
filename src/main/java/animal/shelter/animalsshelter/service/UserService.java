@@ -32,13 +32,31 @@ public interface UserService {
      */
     void deleteUser(Integer id);
 
+    /**
+     * Метод, позволяюющий передать собаку из приюта хозяину
+     */
     User addDogToUser(Integer userId, Integer dogId);
 
+    /**
+     * Метод, позволяюющий передать кота из приюта хозяину
+     */
+    User addCatToUser(Integer userID, Integer catID);
 
-
+    /**
+     * Метод позволяет переменить статус пользователя на волонтёра
+     * с правами доступа к закрытым для всех запросам
+     */
     User getAdmin(long userId);
 
+    /**
+     * Этот запрос позволяет забрать собаку у плохого хозяина
+     */
     User takeDogfromUser(Integer userId);
+
+    /**
+     * Этот запрос позволяет забрать кота у плохого хозяина
+     */
+    User takeCatfromUser(Integer uderID);
 
     @Transactional(readOnly = true)
     User findByChatId(long id);

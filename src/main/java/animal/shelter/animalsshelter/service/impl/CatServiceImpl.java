@@ -16,7 +16,7 @@ public class CatServiceImpl implements CatService {
 
     /**
      * Метод для сохранения кошки в базу данных.
-     * @param cat - объект собаки.
+     * @param cat - объект кошки.
      * @return объект кошки, сохраненный в базу данных.
      */
     @Override
@@ -27,7 +27,7 @@ public class CatServiceImpl implements CatService {
     /**
      * Метод для получения объекта кошки из базы данных по id.
      * @param id - id объекта кошки.
-     * @return объект собаки, найденный по id.
+     * @return объект кошки, найденный по id.
      */
     @Override
     public Cat findCatById(long id) {
@@ -36,7 +36,7 @@ public class CatServiceImpl implements CatService {
 
     /**
      * Метод для удаления объекта кошки из базы данных по id.
-     * @param id - id объекта собаки для удаления.
+     * @param id - id объекта кошки для удаления.
      */
     @Override
     public void deleteCatById(long id) {

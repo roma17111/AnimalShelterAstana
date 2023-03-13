@@ -71,4 +71,5 @@ public class Emoji {
     public static final String WRITING_HAND = ":writing_hand:";
     public static final String FOLDED_HANDS = ":pray:";
     public static final String BACK_POINT_HAND_LEFT = ":point_left:";
+
 }

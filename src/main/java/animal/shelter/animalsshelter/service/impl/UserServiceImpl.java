@@ -2,6 +2,7 @@ package animal.shelter.animalsshelter.service.impl;
 
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
+import animal.shelter.animalsshelter.service.CatService;
 import animal.shelter.animalsshelter.service.DogService;
 import animal.shelter.animalsshelter.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final DogService dogService;
+
+    private final CatService catService;
 
     /**
      * Метод сохраняет нового пользователя в базу данных.
@@ -65,6 +68,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User addCatToUser(Integer userID, Integer catID) {
+        User user = getUserById(userID);
+        user.setCat(catService.findCatById(catID));
+        saveUser(user);
+        return user;
+    }
+
+    @Override
     public User getAdmin(long userId) {
         User user = userRepository.findByChatId(userId);
         if (user.isNotified() == true) {
@@ -74,8 +85,6 @@ public class UserServiceImpl implements UserService {
             user.setNotified(true);
             saveUser(user);
         }
-
-
         return user;
     }
 
@@ -83,6 +92,14 @@ public class UserServiceImpl implements UserService {
     public User takeDogfromUser(Integer userId) {
         User user = getUserById(userId);
         user.setDog(null);
+        saveUser(user);
+        return user;
+    }
+
+    @Override
+    public User takeCatfromUser(Integer userID) {
+        User user = getUserById(userID);
+        user.setCat(null);
         saveUser(user);
         return user;
     }

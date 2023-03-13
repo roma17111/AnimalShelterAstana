@@ -21,6 +21,7 @@ public class Dog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dog_id")
     private Integer id;
+
     @Column(name = "nickname")
     private String nickname;
 
