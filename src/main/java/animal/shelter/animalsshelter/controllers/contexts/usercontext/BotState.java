@@ -5,6 +5,9 @@ import lombok.extern.log4j.Log4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Log4j
 public enum BotState {
 
@@ -30,7 +33,10 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            if (context.getInput().equals("/registration")) {
+            String regex = "[0-9*#+() -]*";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(context.getInput());
+            if (context.getInput().equals("/registration")||!matcher.matches()) {
                 next = EnterPhone;
             } else {
                 context.getUser().setPhoneNumber(context.getInput());
