@@ -9,8 +9,8 @@ import javax.persistence.*;
 public class Cat {
     public enum CatType {
         KITTEN,
-        CAT,
-        DISABLED
+        CAT_CAT,
+        DISABLED_CAT
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

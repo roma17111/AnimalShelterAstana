@@ -64,8 +64,8 @@ public class Keyboards {
     public static final String GO_START = "GO_START";
     public static final String GALLERY_DOG = "GALLERY_DOG ";
     public static final String BACK_ADD_CAT = "BACK_ADD_CAT";
-    public static final String DISABLED_TYPE_CAT = "DISABLED";
-    public static final String ADULT_TYPE_CAT = "CAT";
+    public static final String DISABLED_TYPE_CAT = "DISABLED_CAT";
+    public static final String ADULT_TYPE_CAT = "CAT_CAT";
     public static final String KITTEN_TYPE = "KITTEN";
     public static final String GALLERY_CAT = "GALLERY_CAT";
 

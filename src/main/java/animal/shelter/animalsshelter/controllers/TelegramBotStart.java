@@ -116,11 +116,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             case "kitten":
                 this.catType = Cat.CatType.KITTEN;
                 break;
-            case "cat":
-                this.catType = Cat.CatType.CAT;
+            case "cat_cat":
+                this.catType = Cat.CatType.CAT_CAT;
                 break;
-            case "disabled":
-                this.catType = Cat.CatType.DISABLED;
+            case "disabled_cat":
+                this.catType = Cat.CatType.DISABLED_CAT;
                 break;
             default:
                 throw new IllegalArgumentException("Неверный тип Кошки: " + type);
@@ -1290,17 +1290,19 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 sendBotMessage(chatId, "Вы выбрали - взрослую собаку. \n" +
                         "Для продолжения напишите что-нибудь в чат");
                 setShouldBreak(true);
-            } else if (dataCallback.equals(ADULT_TYPE_CAT)) {
-                setCatType(ADULT_TYPE_CAT);
-                sendBotMessage(chatId, "Вы выбрали - взрослую кошку. \n" +
-                        "Для продолжения напишите что-нибудь в чат");
-                setShouldBreak(true);
             } else if (dataCallback.equals(DISABLED_TYPE_CAT)) {
                 setCatType(DISABLED_TYPE_CAT);
                 sendBotMessage(chatId, "Вы выбрали - кошку с ограниченными возможностями. \n" +
                         "Для продолжения напишите что-нибудь в чат");
                 setShouldBreak(true);
-            } else if (dataCallback.equals(DISABLED_TYPE)) {
+            }
+            else if (dataCallback.equals(ADULT_TYPE_CAT)) {
+                setCatType(ADULT_TYPE_CAT);
+                sendBotMessage(chatId, "Вы выбрали - взрослую кошку. \n" +
+                        "Для продолжения напишите что-нибудь в чат");
+                setShouldBreak(true);
+            }
+            else if (dataCallback.equals(DISABLED_TYPE)) {
                 setDogType(DISABLED_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - собаку с ограниченными возможностями. \n" +
                         "Для продолжения напишите что-нибудь в чат");
