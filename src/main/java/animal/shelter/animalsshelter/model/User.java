@@ -111,11 +111,12 @@ public class User {
     @Override
     public String toString() {
         return
-                "id: " +id+ "\n" +
-                "chatId: " + chatId + "\n" +
-                "Имя: " + firstName + '\n' +
-                "Фамилия: " + lastName + '\n' +
-                "Номер телефона:" + phoneNumber + '\n' +
-                "email:     " + email;
+                "id: " + id + "\n" +
+                        "chatId: " + chatId + "\n" +
+                        "Имя: " + firstName + '\n' +
+                        "Фамилия: " + lastName + '\n' +
+                        (isNotified() == true ? "Волонтёр" : "Пользователь") +'\n' +
+                        "Номер телефона:" + phoneNumber + '\n' +
+                        "email:     " + email;
     }
 }

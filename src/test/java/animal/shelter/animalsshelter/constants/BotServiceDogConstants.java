@@ -24,8 +24,15 @@ public class BotServiceDogConstants extends Exception {
         return data;
     }
     public static Integer DOG_ID_DEFAULT;
-
+    public static String DOG_AGE_DEFAULT = "5";
+    public static String DOG_AGE_CORRECT = "3";
+    public static String DOG_AGE_EMPTY = "";
+    public static String DOG_AGE_ONLY_SPACES = " ";
     public static final String NICKNAME_EMPTY = "";
+    public static final String DOG_BREED_CORRECT = "Пудель";
+    public static final String DOG_BREED_DEFAULT = "Порода";
+    public static final String DOG_BREED_ONLY_SPACES = "  ";
+    public static final String DOG_BREED_EMPTY = "";
     public static final String NICKNAME_DEFAULT = "Кличка";
     public static final String NICKNAME_ONLY_SPACES = "  ";
     public static final String NICKNAME_ILLEGAL_CHARACTERS = "Шарик123";

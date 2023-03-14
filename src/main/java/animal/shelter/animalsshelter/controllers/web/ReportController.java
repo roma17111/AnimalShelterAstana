@@ -6,13 +6,12 @@ import animal.shelter.animalsshelter.service.CallVolunteerMsgService;
 import animal.shelter.animalsshelter.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
- * Контроллер для операция с отчётами хазяев собак
+ * Контроллер для операций с отчётами хазяев собак
  * **/
 @RestController
 @RequestMapping("/report")
@@ -57,5 +56,19 @@ public class ReportController {
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public List<CallVolunteerMsg> getAllMessages() {
         return msgService.getAllCallVolunteerMsgs();
+    }
+
+    @DeleteMapping("/removal")
+    @Operation(summary = "Удалить отчёт",
+            description = "Данный запрос позволяет удалить отчёт, отправленный усыновителем " +
+                    "из базы по id")
+    @ApiResponse(responseCode = "200",
+            description = "Операция успешна")
+    @ApiResponse(responseCode = "400",
+            description = "параметры запроса отсутствуют или имеют некорректный формат;")
+    @ApiResponse(responseCode = "500",
+            description = "произошла ошибка, не зависящая от вызывающей стороны.")
+    public void deleteReport(@RequestParam Integer id) {
+        reportService.deleteReport(id);
     }
 }

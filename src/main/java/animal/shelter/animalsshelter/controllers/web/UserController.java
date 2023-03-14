@@ -95,4 +95,18 @@ public class UserController {
     public User findByChatId(@PathVariable long id) {
         return userService.findByChatId(id);
     }
+
+    @DeleteMapping("/removal")
+    @Operation(summary = "Удалить пользователя",
+            description = "Данный запрос позволяет удалить зарегистрированного пользователя " +
+                    "из базы по id")
+    @ApiResponse(responseCode = "200",
+            description = "Операция успешна")
+    @ApiResponse(responseCode = "400",
+            description = "параметры запроса отсутствуют или имеют некорректный формат;")
+    @ApiResponse(responseCode = "500",
+            description = "произошла ошибка, не зависящая от вызывающей стороны.")
+    public void deleteUser(@RequestParam Integer id) {
+        userService.getUserById(id);
+    }
 }

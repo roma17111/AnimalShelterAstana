@@ -36,7 +36,7 @@ public class DogServiceTest {
     public void getDogByIdTest() {
         Dog expected = new Dog();
         expected.setNickname(NICKNAME_CORRECT);
-        expected.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
+        expected.setDescription(DOG_DESCRIPTION_DEFAULT);
         expected.setDogType(DOG_TYPE_DEFAULT);
         expected.setDogPhoto(DOG_PHOTO_DEFAULT);
 
@@ -46,7 +46,7 @@ public class DogServiceTest {
 
         Assertions.assertThat(actual.getId()).isEqualTo(expected.getId());
         Assertions.assertThat(actual.getNickname()).isEqualTo(expected.getNickname());
-        Assertions.assertThat(actual.getIntroductionRules()).isEqualTo(expected.getIntroductionRules());
+        Assertions.assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
         Assertions.assertThat(actual.getDogType()).isEqualTo(expected.getDogType());
         Assertions.assertThat(actual.getDogPhoto()).isEqualTo(expected.getDogPhoto());
     }
@@ -58,7 +58,7 @@ public class DogServiceTest {
     public void saveDogTest() {
         Dog expected = new Dog();
         expected.setNickname(NICKNAME_CORRECT);
-        expected.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
+        expected.setDescription(DOG_DESCRIPTION_DEFAULT);
         expected.setDogType(DOG_TYPE_DEFAULT);
         expected.setDogPhoto(DOG_PHOTO_DEFAULT);
 
@@ -68,7 +68,7 @@ public class DogServiceTest {
 
         Assertions.assertThat(actual.getId()).isEqualTo(expected.getId());
         Assertions.assertThat(actual.getNickname()).isEqualTo(expected.getNickname());
-        Assertions.assertThat(actual.getIntroductionRules()).isEqualTo(expected.getIntroductionRules());
+        Assertions.assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
         Assertions.assertThat(actual.getDogType()).isEqualTo(expected.getDogType());
         Assertions.assertThat(actual.getDogPhoto()).isEqualTo(expected.getDogPhoto());
     }
@@ -83,7 +83,7 @@ public class DogServiceTest {
         Dog expected1 = new Dog();
         expected1.setId(1);
         expected1.setNickname(NICKNAME_CORRECT);
-        expected1.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
+        expected1.setDescription(DOG_DESCRIPTION_DEFAULT);
         expected1.setDogType(DOG_TYPE_DEFAULT);
         expected1.setDogPhoto(DOG_PHOTO_DEFAULT);
         expected.add(expected1);
@@ -91,7 +91,7 @@ public class DogServiceTest {
         Dog expected2 = new Dog();
         expected1.setId(2);
         expected1.setNickname(NICKNAME_CORRECT);
-        expected1.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
+        expected1.setDescription(DOG_DESCRIPTION_DEFAULT);
         expected1.setDogType(DOG_TYPE_DEFAULT);
         expected1.setDogPhoto(DOG_PHOTO_DEFAULT);
         expected.add(expected2);

@@ -1,8 +1,9 @@
 package animal.shelter.animalsshelter.controllers.web;
 
+import animal.shelter.animalsshelter.model.Cat;
 import animal.shelter.animalsshelter.model.Dog;
 import animal.shelter.animalsshelter.model.User;
-import animal.shelter.animalsshelter.service.DogService;
+import animal.shelter.animalsshelter.service.CatService;
 import animal.shelter.animalsshelter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,103 +12,103 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Контроллер для операций с собаками
+ * Контроллер для операций с котами
  */
+
 @RestController
-@RequestMapping("/dog")
-public class DogController {
+@RequestMapping("/cat")
+public class CatController {
 
     private final UserService userService;
-    private final DogService dogService;
 
-    public DogController(UserService userService, DogService dogService) {
+    private final CatService catService;
+
+    public CatController(UserService userService, CatService catService) {
         this.userService = userService;
-        this.dogService = dogService;
+        this.catService = catService;
     }
 
     /**
-     * При помощи этого запроса можно добавить собаку
-     * в новый приют
+     * При помощи этого запроса можно добавить кота в новый приют
      *
-     * @param dog Параметром метода является объект класса Dog,
+     * @param cat Параметром метода является объект класса Cat,
      *            который создаётся при отправлении запроса волонтёром на сервер
      */
     @PostMapping("/")
-    @Operation(summary = "Добавить собаку",
-            description = "Данный запрос позволяет поставить на учёт новую собаку")
+    @Operation(summary = "Добавить кота",
+            description = "Данный запрос позволяет поставить на учёт нового кота")
     @ApiResponse(responseCode = "200",
             description = "Операция успешна")
     @ApiResponse(responseCode = "400",
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public Dog addDog(@RequestBody Dog dog) {
-        return dogService.saveDog(dog);
+    public Cat addCat(@RequestBody Cat cat) {
+        return catService.saveCat(cat);
     }
 
     /**
-     * При помощи этого запроса можно передать собаку хозяину
-     * из приюта
+     * При помощи этого запроса можно передать кота из приюта хозяину
      *
-     * @param dogId  - id собаки из таблицы БД
+     * @param catId  - id кота из таблицы БД
      * @param userId - id человека из БД
      */
-    @PutMapping("/broadcast/{userId}/{dogId}")
+    @PutMapping("/broadcast/{userId}/{catId}")
     @ResponseBody
-    @Operation(summary = "передать собаку новому хозяину",
-            description = "Данный запрос позволяет передать собаку новому владельцу")
+    @Operation(summary = "передать кота новому хозяину",
+            description = "Данный запрос позволяет передать кота новому владельцу")
     @ApiResponse(responseCode = "200",
             description = "Операция успешна")
     @ApiResponse(responseCode = "400",
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User addDogToUser(@PathVariable Integer userId,
-                             @PathVariable Integer dogId) {
-        return userService.addDogToUser(userId, dogId);
+    public User addCatToUser(@PathVariable Integer userId,
+                             @PathVariable Integer catId) {
+        return userService.addCatToUser(userId, catId);
     }
 
     /**
      * При помощи этого запроса можно посмотреть
-     * список собак из приюта
+     * список котов из приюта
      */
     @GetMapping("/all")
-    @Operation(summary = "Список собак",
+    @Operation(summary = "Список котов",
             description = "Данный запрос позволяет получить полный список" +
-                    "доступных собак в приюте")
+                    "доступных котов в приюте")
     @ApiResponse(responseCode = "200",
             description = "Операция успешна")
     @ApiResponse(responseCode = "400",
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<Dog> getAllDogs() {
-        return dogService.getAllDogs();
+    public List<Cat> getAllCats() {
+        return catService.findAllCats();
     }
 
     /**
-     * При помощи этого запроса можно забрать собаку
+     * При помощи этого запроса можно забрать кота
      * у плохого хозяина
      *
      * @param id - id User из таблицы БД
      */
     @PutMapping("/withdrawal/{id}")
     @ResponseBody
-    @Operation(summary = "Отобрать собаку у недобросовестного хозяина",
-            description = "Данный запрос позволяет обнулить поле Dog у User")
+    @Operation(summary = "Отобрать кота у недобросовестного хозяина",
+            description = "Данный запрос позволяет обнулить поле Cat у User")
     @ApiResponse(responseCode = "200",
             description = "Операция успешна")
     @ApiResponse(responseCode = "400",
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User takeDogFromBadUser(@PathVariable Integer id) {
-        return userService.takeDogfromUser(id);
+    public User takeCatFromBadUser(@PathVariable Integer id) {
+        return userService.takeCatfromUser(id);
     }
 
     @DeleteMapping("/removal")
-    @Operation(summary = "Удалить собакена из базы",
-            description = "Данный запрос позволяет собаку " +
+    @Operation(summary = "Удалить кошечку из базы",
+            description = "Данный запрос позволяет удалить животное из семейства кошачьих " +
                     "из базы по id")
     @ApiResponse(responseCode = "200",
             description = "Операция успешна")
@@ -115,7 +116,7 @@ public class DogController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public void deleteDog(@RequestParam Integer id) {
-        dogService.getDogById(id);
+    public void deleteCat(@RequestParam long id) {
+        catService.deleteCatById(id);
     }
 }
