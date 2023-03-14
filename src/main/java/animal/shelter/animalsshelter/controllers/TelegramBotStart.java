@@ -144,7 +144,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                             ReportService reportService,
                             CallVolunteerMsgService callVolunteerMsg,
                             DogService dogService,
-                            CatService catService, VolunteerService volunteerService) {
+                            CatService catService,
+                            VolunteerService volunteerService) {
         this.config = config;
         this.userService = userService;
         this.reportService = reportService;
@@ -153,7 +154,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         this.catService = catService;
         this.volunteerService = volunteerService;
 
-        //DailyNotification dailyNotification = new DailyNotification(this, this.userService, this.reportService);
+        DailyNotification dailyNotification = new DailyNotification(this, this.userService, this.reportService);
     }
 
     @Override
