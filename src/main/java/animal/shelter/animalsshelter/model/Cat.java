@@ -22,6 +22,7 @@ public class Cat {
     private int stateId;
     private String name;
     private String age;
+    private String breed;
     @Column(name = "cat_type")
     @Enumerated(EnumType.STRING)
     private CatType catType;
