@@ -42,4 +42,13 @@ public class Dog {
     @Column(name = "dog_photo")
     private byte[] dogPhoto;
 
+    @Override
+    public String toString() {
+        return "Собака: " +
+                "Имя: " + nickname+ '\n' +
+                "Возраст: " + age + '\n' +
+                "Порода: " + breed + '\n' +
+                "Тип: " + dogType +'\n' +
+                "Описание " + description+'\n';
+    }
 }

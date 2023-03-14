@@ -29,4 +29,13 @@ public class Cat {
     private String description;
     private byte[] photo;
 
+    @Override
+    public String toString() {
+        return "Кошка: " +
+                "Имя: " + name + '\n' +
+                "Возраст: " + age + '\n' +
+                "Порода: " + breed + '\n' +
+                "Тип: " + catType +'\n' +
+                "Описание " + description+'\n';
+    }
 }

@@ -641,6 +641,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             sendBotMessage(update.getMessage().getChatId(), "Отчёт: " + report.getId() + "\n" +
                     "Дата: " + report.getMsgDate() + "\n"+
                     report.getUserInfo() + "\n"+
+                    (report.getDog()== null? "Собака: Нет": report.getDog().toString())+ "\n"+
+                    (report.getCat()== null? "Кошка: Нет": report.getCat().toString())+ "\n"+
                     report.getDiet()+ "\n"+
                     report.getGeneralHealth()+ "\n"+
                     report.getBehaviorChange()+ "\n");
@@ -688,9 +690,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     }
 
     public void sendReportQuery(Update update) throws InterruptedException, TelegramApiException {
-
+        User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
         Report report = new Report();
         report.setStateId(1);
+        report.setCat(user.getCat());
+        report.setDog(user.getDog());
         report.setMsgDate(Timestamp.valueOf(LocalDateTime.now()));
         report.setChatId(Math.toIntExact(update.getCallbackQuery().getMessage().getChatId()));
         reportService.saveReport(report);
