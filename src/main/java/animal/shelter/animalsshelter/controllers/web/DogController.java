@@ -104,4 +104,18 @@ public class DogController {
     public User takeDogFromBadUser(@PathVariable Integer id) {
         return userService.takeDogfromUser(id);
     }
+
+    @DeleteMapping("/removal")
+    @Operation(summary = "Удалить собакена из базы",
+            description = "Данный запрос позволяет собаку " +
+                    "из базы по id")
+    @ApiResponse(responseCode = "200",
+            description = "Операция успешна")
+    @ApiResponse(responseCode = "400",
+            description = "параметры запроса отсутствуют или имеют некорректный формат;")
+    @ApiResponse(responseCode = "500",
+            description = "произошла ошибка, не зависящая от вызывающей стороны.")
+    public void deleteDog(@RequestParam Integer id) {
+        dogService.getDogById(id);
+    }
 }

@@ -105,4 +105,18 @@ public class CatController {
     public User takeCatFromBadUser(@PathVariable Integer id) {
         return userService.takeCatfromUser(id);
     }
+
+    @DeleteMapping("/removal")
+    @Operation(summary = "Удалить кошечку из базы",
+            description = "Данный запрос позволяет удалить животное из семейства кошачьих " +
+                    "из базы по id")
+    @ApiResponse(responseCode = "200",
+            description = "Операция успешна")
+    @ApiResponse(responseCode = "400",
+            description = "параметры запроса отсутствуют или имеют некорректный формат;")
+    @ApiResponse(responseCode = "500",
+            description = "произошла ошибка, не зависящая от вызывающей стороны.")
+    public void deleteCat(@RequestParam long id) {
+        catService.deleteCatById(id);
+    }
 }
