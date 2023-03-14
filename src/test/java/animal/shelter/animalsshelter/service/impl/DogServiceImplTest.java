@@ -30,122 +30,85 @@ public class DogServiceImplTest {
 
     @Test
     void saveDogTest() {
-
-        User user = new User();
-
         Dog expected = new Dog();
 
         expected.setNickname(NICKNAME_DEFAULT);
-        expected.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
-        expected.setRequiredDocuments(DOG_DESCRIPTION_DEFAULT);
-        expected.setTransportationRecommendations(DOG_DESCRIPTION_DEFAULT);
+        expected.setDescription(DOG_DESCRIPTION_DEFAULT);
+        expected.setAge(DOG_AGE_DEFAULT);
         expected.setDogType(DOG_TYPE_DEFAULT);
-        expected.setHomeArrangementRecommendations(DOG_DESCRIPTION_DEFAULT);
-        expected.setPrimaryCommunicationTips(DOG_DESCRIPTION_DEFAULT);
-        expected.setRecommendedKynologists(DOG_DESCRIPTION_DEFAULT);
-        expected.setRefusalReasons(DOG_DESCRIPTION_DEFAULT);
+        expected.setBreed(DOG_BREED_DEFAULT);
         expected.setDogPhoto(DOG_PHOTO_DEFAULT);
-        expected.setUser(user);
 
         when(dogRepository.save(any(Dog.class))).thenReturn(expected);
         Dog actual = dogServiceImpl.saveDog(expected);
 
         assertThat(actual.getNickname()).isEqualTo(expected.getNickname());
-        assertThat(actual.getIntroductionRules()).isEqualTo(expected.getIntroductionRules());
-        assertThat(actual.getRequiredDocuments()).isEqualTo(expected.getRequiredDocuments());
-        assertThat(actual.getTransportationRecommendations()).isEqualTo(expected.getTransportationRecommendations());
+        assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
+        assertThat(actual.getAge()).isEqualTo(expected.getAge());
         assertThat(actual.getDogType()).isEqualTo(expected.getDogType());
-        assertThat(actual.getHomeArrangementRecommendations()).isEqualTo(expected.getHomeArrangementRecommendations());
-        assertThat(actual.getPrimaryCommunicationTips()).isEqualTo(expected.getPrimaryCommunicationTips());
-        assertThat(actual.getRecommendedKynologists()).isEqualTo(expected.getRecommendedKynologists());
-        assertThat(actual.getRefusalReasons()).isEqualTo(expected.getRefusalReasons());
+        assertThat(actual.getBreed()).isEqualTo(expected.getBreed());
         assertThat(actual.getDogPhoto()).isEqualTo(expected.getDogPhoto());
-        assertThat(actual.getUser()).isEqualTo(expected.getUser());
     }
 
 
     @Test
     void getDogByIdTest() {
-
-        User user = new User();
-
         Dog expected = new Dog();
 
-        expected.setId(1);
         expected.setNickname(NICKNAME_DEFAULT);
-        expected.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
-        expected.setRequiredDocuments(DOG_DESCRIPTION_DEFAULT);
-        expected.setTransportationRecommendations(DOG_DESCRIPTION_DEFAULT);
+        expected.setDescription(DOG_DESCRIPTION_DEFAULT);
+        expected.setAge(DOG_AGE_DEFAULT);
         expected.setDogType(DOG_TYPE_DEFAULT);
-        expected.setHomeArrangementRecommendations(DOG_DESCRIPTION_DEFAULT);
-        expected.setPrimaryCommunicationTips(DOG_DESCRIPTION_DEFAULT);
-        expected.setRecommendedKynologists(DOG_DESCRIPTION_DEFAULT);
-        expected.setRefusalReasons(DOG_DESCRIPTION_DEFAULT);
+        expected.setBreed(DOG_BREED_DEFAULT);
         expected.setDogPhoto(DOG_PHOTO_DEFAULT);
-        expected.setUser(user);
+
 
         when(dogRepository.findById(any(Integer.class))).thenReturn(Optional.of(expected));
         Dog actual = dogServiceImpl.getDogById(1);
 
         assertThat(actual.getNickname()).isEqualTo(expected.getNickname());
-        assertThat(actual.getIntroductionRules()).isEqualTo(expected.getIntroductionRules());
-        assertThat(actual.getRequiredDocuments()).isEqualTo(expected.getRequiredDocuments());
-        assertThat(actual.getTransportationRecommendations()).isEqualTo(expected.getTransportationRecommendations());
+        assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
+        assertThat(actual.getAge()).isEqualTo(expected.getAge());
         assertThat(actual.getDogType()).isEqualTo(expected.getDogType());
-        assertThat(actual.getHomeArrangementRecommendations()).isEqualTo(expected.getHomeArrangementRecommendations());
-        assertThat(actual.getPrimaryCommunicationTips()).isEqualTo(expected.getPrimaryCommunicationTips());
-        assertThat(actual.getRecommendedKynologists()).isEqualTo(expected.getRecommendedKynologists());
-        assertThat(actual.getRefusalReasons()).isEqualTo(expected.getRefusalReasons());
+        assertThat(actual.getBreed()).isEqualTo(expected.getBreed());
         assertThat(actual.getDogPhoto()).isEqualTo(expected.getDogPhoto());
-        assertThat(actual.getUser()).isEqualTo(expected.getUser());
     }
 
 
     @Test
     void getAllDogsTest() {
 
-        User user = new User();
-
         ArrayList<Dog> expected = new ArrayList<>();
 
-        Dog dog = new Dog();
-        dog.setNickname(NICKNAME_DEFAULT);
-        dog.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
-        dog.setRequiredDocuments(DOG_DESCRIPTION_DEFAULT);
-        dog.setTransportationRecommendations(DOG_DESCRIPTION_DEFAULT);
-        dog.setDogType(DOG_TYPE_DEFAULT);
-        dog.setHomeArrangementRecommendations(DOG_DESCRIPTION_DEFAULT);
-        dog.setPrimaryCommunicationTips(DOG_DESCRIPTION_DEFAULT);
-        dog.setRecommendedKynologists(DOG_DESCRIPTION_DEFAULT);
-        dog.setRefusalReasons(DOG_DESCRIPTION_DEFAULT);
-        dog.setDogPhoto(DOG_PHOTO_DEFAULT);
-        dog.setUser(user);
+        Dog expectedDog = new Dog();
 
-        Dog dog1 = new Dog();
-        dog1.setNickname(NICKNAME_DEFAULT);
-        dog1.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
-        dog1.setRequiredDocuments(DOG_DESCRIPTION_DEFAULT);
-        dog1.setTransportationRecommendations(DOG_DESCRIPTION_DEFAULT);
-        dog1.setDogType(DOG_TYPE_DEFAULT);
-        dog1.setHomeArrangementRecommendations(DOG_DESCRIPTION_DEFAULT);
-        dog1.setPrimaryCommunicationTips(DOG_DESCRIPTION_DEFAULT);
-        dog1.setRecommendedKynologists(DOG_DESCRIPTION_DEFAULT);
-        dog1.setRefusalReasons(DOG_DESCRIPTION_DEFAULT);
-        dog1.setDogPhoto(DOG_PHOTO_DEFAULT);
-        dog1.setUser(user);
+        expectedDog.setNickname(NICKNAME_DEFAULT);
+        expectedDog.setDescription(DOG_DESCRIPTION_DEFAULT);
+        expectedDog.setAge(DOG_AGE_DEFAULT);
+        expectedDog.setDogType(DOG_TYPE_DEFAULT);
+        expectedDog.setBreed(DOG_BREED_DEFAULT);
+        expectedDog.setDogPhoto(DOG_PHOTO_DEFAULT);
+        expected.add(expectedDog);
 
-        Dog dog2 = new Dog();
-        dog2.setNickname(NICKNAME_DEFAULT);
-        dog2.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
-        dog2.setRequiredDocuments(DOG_DESCRIPTION_DEFAULT);
-        dog2.setTransportationRecommendations(DOG_DESCRIPTION_DEFAULT);
-        dog2.setDogType(DOG_TYPE_DEFAULT);
-        dog2.setHomeArrangementRecommendations(DOG_DESCRIPTION_DEFAULT);
-        dog2.setPrimaryCommunicationTips(DOG_DESCRIPTION_DEFAULT);
-        dog2.setRecommendedKynologists(DOG_DESCRIPTION_DEFAULT);
-        dog2.setRefusalReasons(DOG_DESCRIPTION_DEFAULT);
-        dog2.setDogPhoto(DOG_PHOTO_DEFAULT);
-        dog2.setUser(user);
+        Dog expectedDog1 = new Dog();
+
+        expectedDog1.setNickname(NICKNAME_DEFAULT);
+        expectedDog1.setDescription(DOG_DESCRIPTION_DEFAULT);
+        expectedDog1.setAge(DOG_AGE_DEFAULT);
+        expectedDog1.setDogType(DOG_TYPE_DEFAULT);
+        expectedDog1.setBreed(DOG_BREED_DEFAULT);
+        expectedDog1.setDogPhoto(DOG_PHOTO_DEFAULT);
+        expected.add(expectedDog1);
+
+        Dog expectedDog2 = new Dog();
+
+        expectedDog2.setNickname(NICKNAME_DEFAULT);
+        expectedDog2.setDescription(DOG_DESCRIPTION_DEFAULT);
+        expectedDog2.setAge(DOG_AGE_DEFAULT);
+        expectedDog2.setDogType(DOG_TYPE_DEFAULT);
+        expectedDog2.setBreed(DOG_BREED_DEFAULT);
+        expectedDog2.setDogPhoto(DOG_PHOTO_DEFAULT);
+        expected.add(expectedDog2);
 
         when(dogRepository.findAll()).thenReturn(expected);
         Collection<Dog> actual = dogServiceImpl.getAllDogs();

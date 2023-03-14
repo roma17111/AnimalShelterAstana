@@ -116,7 +116,7 @@ public class UserServiceTest {
         User expectedUser = new User(ID_DEFAULT, null);
         Dog expected = new Dog();
         expected.setNickname(NICKNAME_CORRECT);
-        expected.setIntroductionRules(DOG_DESCRIPTION_DEFAULT);
+        expected.setDescription(DOG_DESCRIPTION_DEFAULT);
         expected.setDogType(DOG_TYPE_DEFAULT);
         expected.setDogPhoto(DOG_PHOTO_DEFAULT);
 
