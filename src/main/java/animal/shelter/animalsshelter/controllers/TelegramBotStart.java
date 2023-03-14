@@ -84,15 +84,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private Cat.CatType catType;
 
     private final Keyboards keyboards = new Keyboards();
-    private boolean shouldBreak = false;
-
-    private void setShouldBreak(boolean flag) {
-        this.shouldBreak = flag;
-    }
-
-    private boolean getShouldBreak() {
-        return this.shouldBreak;
-    }
 
     public void setDogType(String type) {
         switch (type.toLowerCase()) {
@@ -149,7 +140,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         this.catService = catService;
         this.volunteerService = volunteerService;
 
-        DailyNotification dailyNotification = new DailyNotification(this, this.userService, this.reportService);
+        //DailyNotification dailyNotification = new DailyNotification(this, this.userService, this.reportService);
     }
 
     @Override
@@ -1262,14 +1253,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 execute(messageText);
                 execute(keyboards.getBotStartUserMenuCat(update.getCallbackQuery().getMessage().getChatId()));
             } else if (dataCallback.equals(ADD_DOG)) {
-                //Volunteer volunteer = volunteerService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
-                //if (volunteer == null) {
-                //    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
-                //            "волонтеры!!");
-                //} else {
-
-
-                //}
                 if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()).isNotified() == true) {
                     EditMessageText messageText = new EditMessageText();
                     messageText.setChatId(chatId);
@@ -1292,32 +1275,26 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 setDogType(PUPPY_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - щенка. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                setShouldBreak(true);
             } else if (dataCallback.equals(KITTEN_TYPE)) {
                 setCatType(KITTEN_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - котёнка. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                setShouldBreak(true);
             } else if (dataCallback.equals(ADULT_TYPE)) {
                 setDogType(ADULT_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - взрослую собаку. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                setShouldBreak(true);
             } else if (dataCallback.equals(DISABLED_TYPE_CAT)) {
                 setCatType(DISABLED_TYPE_CAT);
                 sendBotMessage(chatId, "Вы выбрали - кошку с ограниченными возможностями. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                setShouldBreak(true);
             } else if (dataCallback.equals(ADULT_TYPE_CAT)) {
                 setCatType(ADULT_TYPE_CAT);
                 sendBotMessage(chatId, "Вы выбрали - взрослую кошку. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                setShouldBreak(true);
             } else if (dataCallback.equals(DISABLED_TYPE)) {
                 setDogType(DISABLED_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - собаку с ограниченными возможностями. \n" +
                         "Для продолжения напишите что-нибудь в чат");
-                setShouldBreak(true);
             } else if (dataCallback.equals(NECESSARY)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(SAMPLE_REPORT)) {

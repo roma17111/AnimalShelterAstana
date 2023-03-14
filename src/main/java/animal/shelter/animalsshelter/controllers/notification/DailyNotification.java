@@ -31,11 +31,13 @@ public class DailyNotification {
     @Scheduled(cron = "0 0 12 * * *", zone = "Europe/Moscow")
     private void dailyReportRemain() {
         for (User user : userService.getAllUsers()) {
-            sendNotification(user.getChatId(), "Не забудь отправить отчет насчет своего животного!");
+            if (user.getCat() != null || user.getDog() != null) {
+                sendNotification(user.getChatId(), "Не забудь отправить отчет насчет своего животного!");
+            }
         }
     }
 
-    @Scheduled(cron = "* */10 * * * *", zone = "Europe/Moscow")
+    @Scheduled(cron = "0 */10 * * * *", zone = "Europe/Moscow")
     private void sendReportReminderForDays(){
         sendReportReminder(AnimalType.DOG);
         sendReportReminder(AnimalType.CAT);
@@ -68,7 +70,11 @@ public class DailyNotification {
         try {
             bot.execute(sendMessage);
         } catch (TelegramApiException e) {
-            logger.error("Не удалось отправить сообщение пользователю с chatId {}", chatId, e);
+            if (e.getMessage().contains("Error executing org.telegram.telegrambots.meta.api.methods.send.SendMessage query: [400] Bad Request: chat not found")) {
+                logger.warn("Chat not found while sending notification to chatId {}", chatId);
+            } else {
+                logger.error("Failed to send notification to chatId {}", chatId, e);
+            }
         }
     }
 
