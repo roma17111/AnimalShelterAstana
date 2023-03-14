@@ -37,7 +37,7 @@ public class DailyNotification {
         }
     }
 
-    @Scheduled(cron = "0 */10 * * * *", zone = "Europe/Moscow")
+    @Scheduled(cron = "0 0 */3 * * *", zone = "Europe/Moscow")
     private void sendReportReminderForDays(){
         sendReportReminder(AnimalType.DOG);
         sendReportReminder(AnimalType.CAT);
