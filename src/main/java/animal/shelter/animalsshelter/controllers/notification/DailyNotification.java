@@ -8,14 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
 
-
+@Component
 public class DailyNotification {
 
     private final TelegramLongPollingBot bot;
@@ -29,45 +28,52 @@ public class DailyNotification {
         this.reportService = reportService;
     }
 
-    @Scheduled(cron = "0 12 * * *", zone = "Europe/Moscow")
-    public void dailyReportRemain() {
+    @Scheduled(cron = "0 0 12 * * *", zone = "Europe/Moscow")
+    private void dailyReportRemain() {
         for (User user : userService.getAllUsers()) {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
-            sendMessage.setText("Не забудь отправить отчет насчет своей собаки!");
-            try {
-                bot.execute(sendMessage);
-            } catch (TelegramApiException e) {
-                logger.error("Не удалось отправить сообщение пользователю с chatId {}", user.getChatId(), e);
+            sendNotification(user.getChatId(), "Не забудь отправить отчет насчет своего животного!");
+        }
+    }
+
+    @Scheduled(cron = "* */10 * * * *", zone = "Europe/Moscow")
+    private void sendReportReminderForDays(){
+        sendReportReminder(AnimalType.DOG);
+        sendReportReminder(AnimalType.CAT);
+    }
+
+    private void sendReportReminder(AnimalType animalType) {
+        for (Report report : reportService.getAllReports()) {
+            if (report.getMsgDate().toLocalDateTime().toLocalDate().isBefore(LocalDate.now().minusDays(2))) {
+                sendNotification(report.getChatId(), "Вы не отправляли отчет о своем питомце уже 2 дня. Пожалуйста, отправьте отчет, \" +\n" +
+                        "\"иначе вы можете лишиться своего домашнего животного.\"");
+            } else if (report.getMsgDate().toLocalDateTime().toLocalDate().isBefore(LocalDate.now().minusDays(3))) {
+                sendNotification(report.getChatId(), "Вы не отправляли отчет о своем питомце уже 3 дня. Пожалуйста, отправьте отчет, \" +\n" +
+                        "\"иначе вы завтра мы будем вынуждены отобрать у вас животное.\"");
+            } else if (report.getMsgDate().toLocalDateTime().toLocalDate().isBefore(LocalDate.now().minusDays(4))) {
+                sendNotification(report.getChatId(), "Вы не отправляли отчет о своем питомце уже 4 дня!!! \" +\n" +
+                        "\"мы вынуждены забрать ваше животное.\"");
+                if (animalType == AnimalType.DOG) {
+                    userService.deleteDogToUser(userService.findByChatId(report.getChatId()).getId(), report.getDog().getId());
+                } else {
+                    userService.deleteCatToUser(userService.findByChatId(report.getChatId()).getId(), (int) report.getCat().getId());
+                }
             }
         }
     }
 
-    @Scheduled(cron = "*/10 * * * *", zone = "Europe/Moscow")
-    public void sendReportReminderForDays(){
-        for (Report report : reportService.getAllReports()) {
-            if (report.getMsgDate().toLocalDateTime().toLocalDate().isBefore(LocalDate.now().minusDays(2))) {
-                SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId((long) report.getChatId());
-                sendMessage.setText("Вы не отправляли отчет о своем питомце уже 2 дня. Пожалуйста, отправьте отчет, \" +\n" +
-                        "\"иначе вы можете лишиться своего домашнего животного.\"");
-                try {
-                    bot.execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    logger.error("Не удалось отправить сообщение пользователю с chatId {}", report.getChatId(), e);
-                }
-            } else if (report.getMsgDate().toLocalDateTime().toLocalDate().isBefore(LocalDate.now().minusDays(3))) {
-                SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId((long) report.getChatId());
-                sendMessage.setText("Вы не отправляли отчет о своем питомце уже 3 дня. Пожалуйста, отправьте отчет, \" +\n" +
-                        "\"иначе вы завтра мы будем вынуждены отобрать у вас животное.\"");
-                try {
-                    bot.execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    logger.error("Не удалось отправить сообщение пользователю с chatId {}", report.getChatId(), e);
-                }
-            }
-            // добавить удаление собаки у пользователя (доделать)
+    private void sendNotification(long chatId, String message){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(message);
+        try {
+            bot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            logger.error("Не удалось отправить сообщение пользователю с chatId {}", chatId, e);
         }
+    }
+
+    private enum AnimalType {
+        DOG,
+        CAT
     }
 }

@@ -118,4 +118,24 @@ public class UserServiceImpl implements UserService {
         userRepository.saveAll(users);
         return users;
     }
+
+    @Override
+    @Transactional
+    public User deleteDogToUser(Integer userId, Integer dogId) {
+        User user = getUserById(userId);
+        user.setDog(null);
+        saveUser(user);
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public User deleteCatToUser(Integer userID, Integer catID) {
+        User user = getUserById(userID);
+        user.setCat(null);
+        saveUser(user);
+        return user;
+    }
+
+
 }

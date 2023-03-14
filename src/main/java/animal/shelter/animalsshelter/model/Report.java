@@ -37,6 +37,10 @@ public class Report {
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
 
+    @OneToOne
+    @JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
+    private Cat cat;
+
     private String userInfo;
 
     @Override
