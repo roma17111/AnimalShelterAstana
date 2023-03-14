@@ -36,8 +36,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static animal.shelter.animalsshelter.controllers.Keyboards.*;
-import static animal.shelter.animalsshelter.util.Emoji.CAT_FACE;
-import static animal.shelter.animalsshelter.util.Emoji.DOG_FACE;
+import static animal.shelter.animalsshelter.controllers.Keyboards.CAT;
+import static animal.shelter.animalsshelter.controllers.Keyboards.DOG;
+import static animal.shelter.animalsshelter.util.Emoji.*;
 
 @Log4j
 @Component
@@ -167,6 +168,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         if (update.hasMessage() && message.hasText()) {
             if (update.getMessage().getText().contains("/send")) {
                 sendMessageFromAdminToBadUsersOfPets(update);
+            }
+            if (update.getMessage().getText().contains("/congratulations")) {
+                sendCongratulation(update);
             }
             if (update.getMessage().getText().contains("/message")) {
                 sendMessageToUser(update);
@@ -471,6 +475,27 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    public void sendCongratulation(Update update) throws InterruptedException {
+        User user1 = userService.findByChatId(update.getMessage().getChatId());
+        if (user1 == null || user1.isNotified() == false) {
+            sendBotMessage(update.getMessage().getChatId(), "Писать поздравительное сообщение" +
+                    " могут только волонтёры!!!");
+            try {
+                execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
+            } catch (TelegramApiException e) {
+                log.error(e.getMessage());
+            }
+        } else {
+            String messageText = update.getMessage().getText();
+            String text = messageText.substring(17);
+            int id = Integer.parseInt(text);
+            Report msg = reportService.getReportById(id);
+            String message = EmojiParser.parseToUnicode(HUNDRED_POINTS+"Дорогой усыновитель!\n" +
+                    "От души поздравляем с прохождением испытательного срока! Пусть ваш новый пушистый друг продолжает радовать вас и ваших близких! Успехов!\n" +
+                    "Если появится вопросы о животном, Мы на связи!");
+            sendBotMessage(msg.getChatId(), message);
+        }
+    }
     public void sendMessageAboutBadReport(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
