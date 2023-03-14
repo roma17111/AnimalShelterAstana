@@ -70,7 +70,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         User user = new User();
         user.setId(ID_DEFAULT2);
         when(userService.addCatToUser(ID_DEFAULT2, ID_DEFAULT)).thenReturn(user);
-        mockMvc.perform(put("/broadcast/{userId}","/broadcast/{catId}"))
+        mockMvc.perform(put("/broadcast/{userId}",ID_DEFAULT))
                 .andExpect(status().isOk());
 
         verify(userService).addCatToUser(ID_DEFAULT2,ID_DEFAULT);
