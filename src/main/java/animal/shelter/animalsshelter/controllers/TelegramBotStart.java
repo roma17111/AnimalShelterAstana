@@ -638,12 +638,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public void getAllReports(Update update) {
         List<Report> reports = reportService.getAllReports();
         for (Report report : reports) {
-            sendBotMessage(update.getMessage().getChatId(), "Отчёт: " + report.getId());
-            sendBotMessage(update.getMessage().getChatId(), "Дата: " + report.getMsgDate());
-            sendBotMessage(update.getMessage().getChatId(), report.getUserInfo());
-            sendBotMessage(update.getMessage().getChatId(), report.getDiet());
-            sendBotMessage(update.getMessage().getChatId(), report.getGeneralHealth());
-            sendBotMessage(update.getMessage().getChatId(), report.getBehaviorChange());
+            sendBotMessage(update.getMessage().getChatId(), "Отчёт: " + report.getId() + "\n" +
+                    "Дата: " + report.getMsgDate() + "\n"+
+                    report.getUserInfo() + "\n"+
+                    report.getDiet()+ "\n"+
+                    report.getGeneralHealth()+ "\n"+
+                    report.getBehaviorChange()+ "\n");
             sendPhotoFromByteCode(update.getMessage().getChatId(), report.getPhoto());
         }
     }
