@@ -5,6 +5,7 @@ import animal.shelter.animalsshelter.controllers.contexts.messagecontext.Message
 import animal.shelter.animalsshelter.controllers.contexts.messagecontext.MessageState;
 import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotContext;
 import animal.shelter.animalsshelter.controllers.contexts.usercontext.BotState;
+import animal.shelter.animalsshelter.controllers.notification.DailyNotification;
 import animal.shelter.animalsshelter.model.*;
 import animal.shelter.animalsshelter.service.*;
 import animal.shelter.animalsshelter.service.impl.ImageParserImpl;
@@ -14,6 +15,7 @@ import animal.shelter.animalsshelter.util.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -73,17 +75,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     private final ImageParser imageParser = new ImageParserImpl(this);
     private final UserService userService;
     private final ReportService reportService;
-    private final CallVolunteerMsgService callVolunteerMsg;
     private final DogService dogService;
 
     private final CatService catService;
     private final VolunteerService volunteerService;
-
-    private final Keyboards keyboards = new Keyboards();
-
+    private final CallVolunteerMsgService callVolunteerMsg;
     private Dog.DogType dogType;
     private Cat.CatType catType;
 
+    private final Keyboards keyboards = new Keyboards();
     private boolean shouldBreak = false;
 
     private void setShouldBreak(boolean flag) {
@@ -148,6 +148,8 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         this.dogService = dogService;
         this.catService = catService;
         this.volunteerService = volunteerService;
+
+        DailyNotification dailyNotification = new DailyNotification(this, this.userService, this.reportService);
     }
 
     @Override
@@ -1288,6 +1290,24 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
 
                 //}
+                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()).isNotified() == true) {
+                    EditMessageText messageText = new EditMessageText();
+                    messageText.setChatId(chatId);
+                    messageText.setMessageId((int) messageId);
+                    messageText.setText("Добавление собаки:");
+                    execute(messageText);
+                    try {
+                        sendDogQuery(update);
+                    } catch (InterruptedException e) {
+                        log.error(e.getMessage());
+                    }
+                }
+                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()) == null
+                        || userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()).isNotified() == false) {
+                    sendBotMessage(chatId,
+                            "Добавлять собак могут только волонтёры ");
+                    execute(keyboards.getBotStartUserMenu(chatId));
+                }
             } else if (dataCallback.equals(PUPPY_TYPE)) {
                 setDogType(PUPPY_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - щенка. \n" +
@@ -1316,11 +1336,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 setShouldBreak(true);
             }
             else if (dataCallback.equals(DISABLED_TYPE)) {
+            } else if (dataCallback.equals(DISABLED_TYPE)) {
                 setDogType(DISABLED_TYPE);
                 sendBotMessage(chatId, "Вы выбрали - собаку с ограниченными возможностями. \n" +
                         "Для продолжения напишите что-нибудь в чат");
                 setShouldBreak(true);
             } else if (dataCallback.equals(NECESSARY)) {
+            }
+            else if (dataCallback.equals(NECESSARY)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(SAMPLE_REPORT)) {
                 getSampleReport(chatId, messageId, update);
