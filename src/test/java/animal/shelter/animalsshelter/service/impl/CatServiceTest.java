@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+import static animal.shelter.animalsshelter.constants.BotServiceCatConstants.*;
 import static animal.shelter.animalsshelter.constants.BotServicePersonConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,11 +34,12 @@ public class CatServiceTest {
         Cat cat = new Cat();
 
         cat.setStateId(STATE_ID_DEFAULT2);
-        cat.setName("Руслан");
-        cat.setAge("1");
-        cat.setDescription("Test");
+        cat.setName(NICKNAME_DEFAULT);
+        cat.setAge(CAT_AGE_DEFAULT);
+        cat.setDescription(CAT_DESCRIPTION_DEFAULT);
         cat.setCatType(Cat.CatType.KITTEN);
-        cat.setDescription("test");
+        cat.setBreed(CAT_BREED_DEFAULT);
+        cat.setPhoto(CAT_PHOTO_DEFAULT);
 
         when(catRepository.save(any(Cat.class))).thenReturn(cat);
         Cat actual = catService.saveCat(cat);
@@ -46,6 +48,9 @@ public class CatServiceTest {
         assertThat(actual.getDescription()).isEqualTo(cat.getDescription());
         assertThat(actual.getPhoto()).isEqualTo(cat.getPhoto());
         assertThat(actual.getName()).isEqualTo(cat.getName());
+        assertThat(actual.getAge()).isEqualTo(cat.getAge());
+        assertThat(actual.getStateId()).isEqualTo(cat.getStateId());
+        assertThat(actual.getCatType()).isEqualTo(cat.getCatType());
     }
 
 
@@ -54,13 +59,13 @@ public class CatServiceTest {
 
         Cat cat = new Cat();
 
-        cat.setId(ID_DEFAULT);
         cat.setStateId(STATE_ID_DEFAULT2);
-        cat.setName("Руслан");
-        cat.setAge("1");
-        cat.setDescription("Test");
+        cat.setName(NICKNAME_DEFAULT);
+        cat.setAge(CAT_AGE_DEFAULT);
+        cat.setDescription(CAT_DESCRIPTION_DEFAULT);
         cat.setCatType(Cat.CatType.KITTEN);
-        cat.setDescription("test");;
+        cat.setBreed(CAT_BREED_DEFAULT);
+        cat.setPhoto(CAT_PHOTO_DEFAULT);
 
         when(catRepository.findById(any(Long.class))).thenReturn(Optional.of(cat));
         Cat actual = catService.findCatById(ID_DEFAULT);
@@ -69,27 +74,40 @@ public class CatServiceTest {
         assertThat(actual.getDescription()).isEqualTo(cat.getDescription());
         assertThat(actual.getPhoto()).isEqualTo(cat.getPhoto());
         assertThat(actual.getName()).isEqualTo(cat.getName());
+        assertThat(actual.getAge()).isEqualTo(cat.getAge());
+        assertThat(actual.getStateId()).isEqualTo(cat.getStateId());
+        assertThat(actual.getCatType()).isEqualTo(cat.getCatType());
     }
 
 
     @Test
-    void getAllReportsTest() {
-
-        Cat cat1 = new Cat();
+    void getAllCatTest() {
 
         ArrayList<Cat> expected = new ArrayList<>();
 
         Cat cat = new Cat();
 
-        cat.setId(ID_DEFAULT);
         cat.setStateId(STATE_ID_DEFAULT2);
-        cat.setName("Руслан");
-        cat.setAge("1");
-        cat.setDescription("Test");
+        cat.setName(NICKNAME_DEFAULT);
+        cat.setAge(CAT_AGE_DEFAULT);
+        cat.setDescription(CAT_DESCRIPTION_DEFAULT);
         cat.setCatType(Cat.CatType.KITTEN);
-        cat.setDescription("test");;
+        cat.setBreed(CAT_BREED_DEFAULT);
+        cat.setPhoto(CAT_PHOTO_DEFAULT);
+
+        Cat cat1 = new Cat();
+
+        cat.setStateId(STATE_ID_DEFAULT);
+        cat.setName(NICKNAME_DEFAULT);
+        cat.setAge(CAT_AGE_DEFAULT);
+        cat.setDescription(CAT_DESCRIPTION_DEFAULT);
+        cat.setCatType(Cat.CatType.KITTEN);
+        cat.setBreed(CAT_BREED_DEFAULT);
+        cat.setPhoto(CAT_PHOTO_DEFAULT);
+
         expected.add(cat);
         expected.add(cat1);
+
         when(catRepository.findAll()).thenReturn(expected);
         Collection<Cat> actual = catService.findAllCats();
         assertThat(actual.size()).isEqualTo(expected.size());
@@ -98,16 +116,16 @@ public class CatServiceTest {
 
 
     @Test
-    void deleteMsgTest() {
+    void deleteCatTest() {
         Cat cat = new Cat();
 
-        cat.setId(ID_DEFAULT);
         cat.setStateId(STATE_ID_DEFAULT2);
-        cat.setName("Руслан");
-        cat.setAge("1");
-        cat.setDescription("Test");
+        cat.setName(NICKNAME_DEFAULT);
+        cat.setAge(CAT_AGE_DEFAULT);
+        cat.setDescription(CAT_DESCRIPTION_DEFAULT);
         cat.setCatType(Cat.CatType.KITTEN);
-        cat.setDescription("test");;
+        cat.setBreed(CAT_BREED_DEFAULT);
+        cat.setPhoto(CAT_PHOTO_DEFAULT);
 
         lenient().when(catRepository.findById(cat.getId())).thenReturn(Optional.of(cat));
        catService.deleteCatById(cat.getId());
