@@ -1276,29 +1276,59 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                     execute(keyboards.getBotStartUserMenu(chatId));
                 }
             } else if (dataCallback.equals(PUPPY_TYPE)) {
-                setDogType(PUPPY_TYPE);
-                sendBotMessage(chatId, "Вы выбрали - щенка. \n" +
-                        "Для продолжения напишите что-нибудь в чат");
+                List<Dog> dogs = dogService.getAllDogs();
+                for (Dog dog : dogs) {
+                    if (dog.getChatId()==update.getCallbackQuery().getMessage().getChatId())
+                        setDogType(PUPPY_TYPE);
+                    sendBotMessage(chatId, "Вы выбрали - щенка. \n" +
+                            "Для продолжения напишите что-нибудь в чат");
+                }
             } else if (dataCallback.equals(KITTEN_TYPE)) {
-                setCatType(KITTEN_TYPE);
-                sendBotMessage(chatId, "Вы выбрали - котёнка. \n" +
-                        "Для продолжения напишите что-нибудь в чат");
+                List<Cat> cats = catService.findAllCats();
+                for (Cat cat : cats) {
+                    if (cat.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
+                        setCatType(KITTEN_TYPE);
+                        sendBotMessage(chatId, "Вы выбрали - котёнка. \n" +
+                                "Для продолжения напишите что-нибудь в чат");
+                    }
+                }
+
             } else if (dataCallback.equals(ADULT_TYPE)) {
-                setDogType(ADULT_TYPE);
-                sendBotMessage(chatId, "Вы выбрали - взрослую собаку. \n" +
-                        "Для продолжения напишите что-нибудь в чат");
+                List<Dog> dogs = dogService.getAllDogs();
+                for (Dog dog : dogs) {
+                    if (dog.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
+                        setDogType(ADULT_TYPE);
+                        sendBotMessage(chatId, "Вы выбрали - взрослую собаку. \n" +
+                                "Для продолжения напишите что-нибудь в чат");
+                    }
+                }
             } else if (dataCallback.equals(DISABLED_TYPE_CAT)) {
-                setCatType(DISABLED_TYPE_CAT);
-                sendBotMessage(chatId, "Вы выбрали - кошку с ограниченными возможностями. \n" +
-                        "Для продолжения напишите что-нибудь в чат");
+                List<Cat> cats=catService.findAllCats();
+                for (Cat cat : cats) {
+                    if (cat.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
+                        setCatType(DISABLED_TYPE_CAT);
+                        sendBotMessage(chatId, "Вы выбрали - кошку с ограниченными возможностями. \n" +
+                                "Для продолжения напишите что-нибудь в чат");
+                    }
+                }
             } else if (dataCallback.equals(ADULT_TYPE_CAT)) {
-                setCatType(ADULT_TYPE_CAT);
-                sendBotMessage(chatId, "Вы выбрали - взрослую кошку. \n" +
-                        "Для продолжения напишите что-нибудь в чат");
+                List<Cat> cats = catService.findAllCats();
+                for (Cat cat : cats) {
+                    if (cat.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
+                        setCatType(ADULT_TYPE_CAT);
+                        sendBotMessage(chatId, "Вы выбрали - взрослую кошку. \n" +
+                                "Для продолжения напишите что-нибудь в чат");
+                    }
+                }
             } else if (dataCallback.equals(DISABLED_TYPE)) {
-                setDogType(DISABLED_TYPE);
-                sendBotMessage(chatId, "Вы выбрали - собаку с ограниченными возможностями. \n" +
-                        "Для продолжения напишите что-нибудь в чат");
+                List<Dog> dogs = dogService.getAllDogs();
+                for (Dog dog : dogs) {
+                    if (dog.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
+                        setDogType(DISABLED_TYPE);
+                        sendBotMessage(chatId, "Вы выбрали - собаку с ограниченными возможностями. \n" +
+                                "Для продолжения напишите что-нибудь в чат");
+                    }
+                }
             } else if (dataCallback.equals(NECESSARY)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(SAMPLE_REPORT)) {
