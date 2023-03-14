@@ -616,11 +616,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                             "Тип: " + dog.getDogType() + "\n" +
                             "Описание: " + dog.getDescription() + "\n");
             sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), dog.getDogPhoto());
-            try {
-                execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
-            } catch (TelegramApiException e) {
-                log.error(e.getMessage());
-            }
+        }
+
+        try {
+            execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
         }
     }
 
@@ -635,11 +636,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                             "Тип " +   cat.getCatType() + "\n" +
                             "Информация о коте/кошке: \n" + cat.getDescription() + "\n");
             sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), cat.getPhoto());
-            try {
-                execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
-            } catch (TelegramApiException e) {
-                log.error(e.getMessage());
-            }
+        }
+        try {
+            execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage());
         }
     }
 
