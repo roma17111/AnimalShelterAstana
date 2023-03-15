@@ -116,6 +116,6 @@ public class DogController {
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public void deleteDog(@RequestParam Integer id) {
-        dogService.getDogById(id);
+        dogService.deleteDog(id);
     }
 }
