@@ -72,16 +72,16 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             "/adddog - Добавить собаку\n" +
             "/addcat - Добавить кошку/кота\n" +
             "/congratulations {id} Поздравить усыновителя с успешным прохождением испытательного срока\n" +
-            "Где id - id отчёта из БД" +
+            "Где id - id отчёта из БД\n" +
             "пример: /congratulations 1 \n" +
             "/continue14 {id} - Продлить испытательный срок на 14 дней \n" +
-            "Где id - id отчёта из БД" +
+            "Где id - id отчёта из БД\n" +
             "Пример: /continue14 25\n" +
             "/continue30 {id} - Продлить испытательный срок на 30 дней \n" +
-            "Где id - id отчёта из БД" +
-            "Пример: /continue14 25\n" +
+            "Где id - id отчёта из БД\n" +
+            "Пример: /continue30 25\n" +
             "/takepet {id} - Отправить сообщение об изъятии собаки у усыновителя \n" +
-            "Где id - id отчёта из БД" +
+            "Где id - id отчёта из БД\n" +
             "Пример: /takepet 25";
     private final Config config;
     private final StartMenu startMenu = new StartMenu();
