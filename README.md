@@ -25,5 +25,27 @@ Asha is a test Spring-Boot application integrated with a telegram bot, which we 
 - **Asha** can give advice to the cynologist on the initial communication with the animal.
 - **Asha** can issue recommendations on proven dog handlers for further referral to them.
 - **Asha** can accept and record contact information for communication.
+
+## Our development team
+
+- [Роман Якименко](https://github.com/roma17111)
+- [Андрей Зинченко](https://github.com/astrekoi)
+- [Вероника Якименко](https://github.com/verkin78)
+- [Владимир Сясин](https://github.com/Vsvvn)
+- [Людмила Скобелева](https://github.com/SkobelevaLuda)
+- [Андрей Назаренко](https://github.com/Altanim)
+___
+
+## Used in the project
+- **Java 11**
+- **Maven**
+- **Spring Boot**
+- **Spring Web**
+- **Stream API**
+- **Spring Data**
+- **Spring JPA**
+- **Hibernate**
+- **PostgreSQL**
+
 <p align="center">
 <img src="https://media.giphy.com/media/12RZ46nUQ57Ihq/giphy.gif" width="20%"></p>
