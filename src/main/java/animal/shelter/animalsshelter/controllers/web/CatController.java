@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * Контроллер для операций с котами
  */
-
 @RestController
 @RequestMapping("/cat")
 public class CatController {

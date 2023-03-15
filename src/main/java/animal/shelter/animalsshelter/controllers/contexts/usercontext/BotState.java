@@ -8,6 +8,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Класс представляет собой состояния, в которых может находиться Telegram-бот.
+ * Каждое состояние описывает, как бот должен взаимодействовать с пользователем и какое следующее состояние должно быть.
+ */
 @Log4j
 public enum BotState {
 

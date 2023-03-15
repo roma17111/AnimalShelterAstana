@@ -14,6 +14,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
 
+/**
+ * Класс DailyNotification используется для отправки уведомлений пользователям о необходимости отправить отчеты о своих домашних животных.
+ * Содержит методы, которые вызываются по расписанию и отправляют уведомления пользователям, которые не отправляли отчеты в течение нескольких дней.
+ */
 @Component
 public class DailyNotification {
 
@@ -22,11 +26,19 @@ public class DailyNotification {
     private final ReportService reportService;
     private static final Logger logger = LoggerFactory.getLogger(DailyNotification.class);
 
+    /**
+     * Конструктор класса DailyNotification.
+     *
+     * @param bot бот, который отправляет уведомления
+     * @param userService сервис, который используется для получения списка пользователей
+     * @param reportService сервис, который используется для получения списка отчетов
+     */
     public DailyNotification(TelegramLongPollingBot bot, UserService userService, ReportService reportService) {
         this.bot = bot;
         this.userService = userService;
         this.reportService = reportService;
     }
+
 
     @Scheduled(cron = "0 0 12 * * *", zone = "Europe/Moscow")
     private void dailyReportRemain() {
@@ -37,12 +49,21 @@ public class DailyNotification {
         }
     }
 
+    /**
+     * Метод, который вызывается по расписанию каждые 2 часа с 8:00 до 20:00 (по Москве) и отправляет уведомления пользователям,
+     * которые не отправили отчеты о своих домашних животных в течение нескольких дней.
+     */
     @Scheduled(cron = "0 0 8-20/2 * * *", zone = "Europe/Moscow")
     private void sendReportReminderForDays(){
         sendReportReminder(AnimalType.DOG);
         sendReportReminder(AnimalType.CAT);
     }
 
+    /**
+     * Метод, который отправляет уведомление пользователю о необходимости отправить отчет о своем домашнем животном.
+     *
+     * @param animalType тип животного (собака или кошка)
+     */
     private void sendReportReminder(AnimalType animalType) {
         for (Report report : reportService.getAllReports()) {
             if (report.getMsgDate().toLocalDateTime().toLocalDate().isBefore(LocalDate.now().minusDays(2))) {
@@ -63,6 +84,12 @@ public class DailyNotification {
         }
     }
 
+    /**
+     * Отправляет уведомление в чат.
+     *
+     * @param chatId идентификатор чата
+     * @param message текст уведомления
+     */
     private void sendNotification(long chatId, String message){
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -78,6 +105,9 @@ public class DailyNotification {
         }
     }
 
+    /**
+     * Перечисление типов животных.
+     */
     private enum AnimalType {
         DOG,
         CAT

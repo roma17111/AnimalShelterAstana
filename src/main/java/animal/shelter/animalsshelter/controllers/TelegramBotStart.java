@@ -15,7 +15,6 @@ import animal.shelter.animalsshelter.util.StartMenu;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -98,6 +97,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     private final Keyboards keyboards = new Keyboards();
 
+    /**
+     * Устанавливает тип собаки.
+     *
+     * @param type строка, указывающая тип собаки ("puppy" - щенок, "adult" - взрослая, "disabled" - с ограниченными возможностями)
+     * @throws IllegalArgumentException если переданный тип собаки не соответствует одному из трех возможных значений
+     */
     public void setDogType(String type) {
         switch (type.toLowerCase()) {
             case "puppy":
@@ -114,7 +119,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-
+    /**
+     * Устанавливает тип кошки.
+     *
+     * @param type строка, указывающая тип собаки ("puppy" - котенок, "adult" - взрослый, "disabled" - с ограниченными возможностями)
+     * @throws IllegalArgumentException если переданный тип кошки не соответствует одному из трех возможных значений
+     */
     public void setCatType(String type) {
         switch (type.toLowerCase()) {
             case "kitten":
@@ -320,6 +330,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отвечает пользователю на вызов волонтера, используя объект Update и номер вызова.
+     * Если пользователь не найден или не уведомлен, метод ничего не делает.
+     *
+     * @param update Объект Update, содержащий информацию о сообщении.
+     * @param number Номер вызова волонтера.
+     * @throws InterruptedException если поток выполнения был прерван.
+     */
     public void answerToUser(Update update, String number) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -341,6 +359,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки запроса на добавление кота и создания записи в базе данных.
+     *
+     * @param update Объект класса Update, содержащий данные о сообщении.
+     */
     public void sendCatQuerry(Update update) {
         Cat cat = new Cat();
         cat.setChatId(Math.toIntExact(update.getMessage().getChatId()));
@@ -355,6 +378,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для отправки запроса на добавление собаки и создания записи в базе данных.
+     *
+     * @param update Объект класса Update, содержащий данные о сообщении.
+     */
     public void sendDogQuery(Update update) throws InterruptedException, TelegramApiException {
         Dog dog = new Dog();
         dog.setChatId(Math.toIntExact(update.getMessage().getChatId()));
@@ -365,6 +393,17 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 "Как его зовут?"));
     }
 
+    /**
+     * Метод отправляет сообщение и обрабатывает состояние добавления новой собаки.
+     * В зависимости от текущего состояния, метод запрашивает у пользователя информацию о собаке:
+     * кличку, возраст, породу, тип собаки, описание и фото.
+     * После получения всей необходимой информации, метод сохраняет собаку в базу данных.
+     *
+     * @param update обновление из Telegram API
+     * @param dog объект класса Dog, представляющий добавляемую собаку
+     * @throws InterruptedException исключение, возникающее, когда процесс исполнения прерывается
+     * @throws TelegramApiException исключение, возникающее при ошибке выполнения Telegram API
+     */
     public void sendDog(Update update, Dog dog) throws InterruptedException, TelegramApiException {
         switch (dog.getStateId()) {
             case 1:
@@ -406,7 +445,18 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
-    public void saveCatTo(Update update, Cat cat) throws InterruptedException, TelegramApiException {
+    /**
+     * Метод отправляет сообщение и обрабатывает состояние добавления новой кошки.
+     * В зависимости от текущего состояния, метод запрашивает у пользователя информацию о кошке:
+     * кличку, возраст, породу, тип кошки, описание и фото.
+     * После получения всей необходимой информации, метод сохраняет собаку в базу данных.
+     *
+     * @param update обновление из Telegram API
+     * @param cat объект класса Dog, представляющий добавляемую собаку
+     * @throws InterruptedException исключение, возникающее, когда процесс исполнения прерывается
+     * @throws TelegramApiException исключение, возникающее при ошибке выполнения Telegram API
+     */
+    public void sendCat(Update update, Cat cat) throws InterruptedException, TelegramApiException {
         switch (cat.getStateId()) {
             case 1:
                 cat.setName(update.getMessage().getText());
@@ -445,6 +495,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет сообщение от администратора неблагополучным пользователям питомцев. Если пользователь не является волонтером или не был уведомлен,
+     * то отправляется сообщение с информацией о том, что писать напоминания об отчёте могут только волонтёры, и пользователь возвращается на выбор типа приюта.
+     * Если пользователь является волонтером, то формируется сообщение о том, что пользователь не заполнил отчёт подробно и призывается ответственнее подходить к этому занятию.
+     * В случае несоблюдения правил волонтеры приюта будут обязаны самолично проверять условия содержания животного.
+     *
+     * @param update Обновление, содержащее информацию о сообщении
+     * @throws InterruptedException в случае, если поток был прерван во время выполнения операции
+     */
     public void sendMessageFromAdminToBadUsersOfPets(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -476,6 +535,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет сообщение пользователю с указанным id.
+     * Если отправляющий пользователь не является волонтером, выводит сообщение о том, что писать сообщения
+     * пользователю могут только волонтеры и отображает клавиатуру для выбора типа приюта.
+     * Если отправляющий пользователь является волонтером, отправляет сообщение пользователю с указанным id.
+     *
+     * @param update Объект, содержащий информацию о сообщении от пользователя
+     */
     public void sendMessageToUser(Update update) {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -497,6 +564,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет сообщение об изъятии животного. Метод доступен только волонтерам.
+     * Если пользователь не является волонтером или уведомления выключены, отправляется сообщение с просьбой обратиться к волонтеру.
+     * Если пользователь является волонтером, отправляется сообщение о том, что на данный момент не рекомендуется брать нового питомца,
+     * и при необходимости взять питомца в будущем, обращение к волонтеру будет радостью.
+     *
+     * @param update объект, содержащий информацию о сообщении
+     * @throws InterruptedException если возникают проблемы при выполнении метода execute класса TelegramApi
+     */
     public void sendTakePet(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -521,6 +597,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет сообщение об уведомлении усыновителя о продлении испытательного срока на 30 дней.
+     *
+     * @param update Объект типа Update, содержащий информацию о сообщении пользователя в телеграмме
+     * @throws InterruptedException Исключение, возникающее при попытке выполнения недопустимой операции с потоком
+     */
     public void sendDay30(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -544,6 +626,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет сообщение об уведомлении усыновителя о продлении испытательного срока на 14 дней.
+     *
+     * @param update Объект типа Update, содержащий информацию о сообщении пользователя в телеграмме
+     * @throws InterruptedException Исключение, возникающее при попытке выполнения недопустимой операции с потоком
+     */
     public void sendDay14(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -567,6 +655,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет сообщение об успешном прохождении испытательного срока.
+     *
+     * @param update Объект типа Update, содержащий информацию о сообщении пользователя в телеграмме
+     * @throws InterruptedException Исключение, возникающее при попытке выполнения недопустимой операции с потоком
+     */
     public void sendCongratulation(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -589,6 +683,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод отправляет сообщение об ошибочном заполнении отчета усыновителем
+     *
+     * @param update Обновление, содержащее информацию о сообщении
+     * @throws InterruptedException Исключение, возникающее при прерывании потока
+     */
     public void sendMessageAboutBadReport(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -615,6 +715,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Обработчик действий по умолчанию. Определяет тип действия, которое нужно выполнить,
+     * в зависимости от состояния пользователя и сообщения, и запускает соответствующий метод.
+     *
+     * @param update Обновление сообщения от пользователя
+     * @param message Сообщение от пользователя
+     * @throws InterruptedException если возникает прерывание потока
+     * @throws TelegramApiException если возникает ошибка в API Telegram
+     */
     public void getDefaultSwitchRealisation(Update update, Message message) throws InterruptedException, TelegramApiException {
         User user = userService.findByChatId(update.getMessage().getChatId());
         if (user.getStateID() < 3 && user.getChatId() == update.getMessage().getChatId()) {
@@ -650,7 +759,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         List<Cat> cats = catService.findAllCats();
         for (Cat cat : cats) {
             if (cat.getStateId() < 6 && cat.getChatId() == update.getMessage().getChatId()) {
-                saveCatTo(update, cat);
+                sendCat(update, cat);
             }
         }
 
@@ -671,6 +780,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         log.info(update.getMessage().getChatId() + " " + message.getText());
     }
 
+    /**
+     * Отправляет сообщение с вопросом администраторам бота.
+     *
+     * @param msg Объект сообщения типа CallVolunteerMsg, содержащий текст вопроса.
+     */
     public void sendQuestionsToAdmins(CallVolunteerMsg msg) {
         List<User> users = userService.getAllUsers();
         for (User user : users) {
@@ -680,6 +794,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод получения всех отчетов из бота. Если пользователь не является волонтером или не уведомлен, отправляется сообщение о том, что просматривать отчеты может только волонтер. В противном случае вызывается метод getAllReports() и выводятся все отчеты. После этого вызывается метод getTypeOfShelter() для вывода клавиатуры выбора типа приюта.
+     *
+     * @param update Обновление, полученное от Telegram API.
+     * @throws InterruptedException Возникает, когда поток исполнения прерывается.
+     */
     public void getAllReportsFromBot(Update update) throws InterruptedException {
         User user1 = userService.findByChatId(update.getMessage().getChatId());
         if (user1 == null || user1.isNotified() == false) {
@@ -698,7 +818,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             }
         }
     }
-
+    /**
+     * Метод, запускающий бота. Выводит сообщение приветствия с фотографией, отправляет клавиатуру со списком доступных опций.
+     *
+     * @param update объект Update, содержащий данные о сообщении от пользователя
+     * @throws InterruptedException если происходит ошибка во время ожидания выполнения методов библиотеки TelegramBotsApi
+     */
     public void startBot(Update update) throws InterruptedException {
         String hello = EmojiParser.parseToUnicode(startMenu.sayHello());
         log.info(hello);
@@ -713,6 +838,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод отправляет информацию о всех собаках в базе данных бота в чат, из которого был произведен запрос.
+     * К информации о собаке добавляется фотография.
+     *
+     * @param update Содержит информацию о запросе пользователя.
+     */
     public void getAllDogs(Update update) {
 
         List<Dog> dogs = dogService.getAllDogs();
@@ -734,6 +865,12 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод отправляет информацию о всех котах в базе данных бота в чат, из которого был произведен запрос.
+     * К информации о коте добавляется фотография.
+     *
+     * @param update Содержит информацию о запросе пользователя.
+     */
     public void getAllCats(Update update) {
         List<Cat> cats = catService.findAllCats();
         for (Cat cat : cats) {
@@ -753,6 +890,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод получает список всех отчетов и отправляет их пользователю.
+     *
+     * @param update Объект, содержащий информацию о сообщении от пользователя
+     */
     public void getAllReports(Update update) {
         List<Report> reports = reportService.getAllReports();
         for (Report report : reports) {
@@ -768,6 +910,13 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод отправляет фотоотчёт вместе с информацией о пользователе.
+     *
+     * @param update объект класса Update, содержащий сообщение пользователя.
+     * @param report объект класса Report, содержащий информацию о состоянии животного и прочее.
+     * @throws InterruptedException при возникновении ошибки выполнения потока.
+     */
     public void sendPhotoReport(Update update, Report report) throws InterruptedException {
         report.setPhoto(getPhotoFromMessage(update));
         User user = userService.findByChatId(update.getMessage().getChatId());
@@ -783,6 +932,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
     }
 
+    /**
+     * Метод для обработки сообщения с фотографией, отправленной для добавления собаки в базу данных.
+     * Фотография устанавливается для собаки, сохраняется новое состояние, после чего
+     * собака сохраняется в базу данных. Пользователю отправляется сообщение о том, что собака добавлена.
+     *
+     * @param update сообщение с фотографией и данными о пользователе
+     * @param dog объект класса Dog, содержащий данные о добавляемой собаке
+     * @throws InterruptedException если возникла ошибка при попытке отправки сообщения
+     */
     public void sendPhotoForDog(Update update, Dog dog) throws InterruptedException {
         dog.setDogPhoto(getPhotoFromMessage(update));
         sendBotMessage(update.getMessage().getChatId(), "Собака добавлена");
@@ -795,6 +953,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод для обработки сообщения с фотографией, отправленной для добавления кота в базу данных.
+     * Фотография устанавливается для кота, сохраняется новое состояние, после чего
+     * кот сохраняется в базу данных. Пользователю отправляется сообщение о том, что кошка добавлена.
+     *
+     * @param update сообщение с фотографией и данными о пользователе
+     * @param cat объект класса Dog, содержащий данные о добавляемой собаке
+     * @throws InterruptedException если возникла ошибка при попытке отправки сообщения
+     */
     public void sendPhotoForCat(Update update, Cat cat) throws InterruptedException {
         cat.setPhoto(getPhotoFromMessage(update));
         sendBotMessage(update.getMessage().getChatId(), "Кошка добавлена");
@@ -807,6 +974,16 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет запрос на создание отчёта пользователю, у которого есть питомец.
+     * Создаёт новый отчёт в базе данных, устанавливая начальное состояние, данные пользователя, питомца и текущую дату.
+     * Отправляет сообщения с приветствием и вопросом о состоянии питомца, а также клавиатуру
+     * для ответа на этот вопрос.
+     *
+     * @param update Объект, содержащий информацию о событии обновления бота.
+     * @throws InterruptedException Исключение, возникающее, когда происходит ошибка при работе с потоками.
+     * @throws TelegramApiException Исключение, возникающее при ошибках при работе с Telegram API.
+     */
     public void sendReportQuery(Update update) throws InterruptedException, TelegramApiException {
         User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
         Report report = new Report();
@@ -822,6 +999,16 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 "Какая диета у питомца?"));
     }
 
+    /**
+     * Метод для отправки отчёта на сервер.
+     * Метод получает данные от пользователя и в зависимости от состояния добавляет информацию в объект Report.
+     * В случае необходимости, отправляет кнопки для быстрого возврата к предыдущему состоянию.
+     *
+     * @param update объект Update, содержащий информацию о пользователе и его сообщении.
+     * @param report объект Report, содержащий информацию об отчёте.
+     * @throws InterruptedException в случае прерывания потока.
+     * @throws TelegramApiException в случае ошибки при отправке сообщения.
+     */
     public void sendReport(Update update, Report report) throws InterruptedException, TelegramApiException {
         switch (report.getStateId()) {
             case 1:
@@ -849,6 +1036,13 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Метод запускает процесс обработки запроса на помощь, создавая объект CallVolunteerMsg и записывая его в базу данных.
+     * В случае отсутствия зарегистрированного пользователя возвращает сообщение об ошибке.
+     * Проходит по состояниям объекта CallVolunteerMsg, вызывая методы ввода и обработки состояний,
+     * сохраняя изменения состояния объекта в базу данных.
+     * @param update Объект Update, содержащий запрос на помощь.
+     */
     private void askQuestion(Update update) {
         final long chatId = update.getCallbackQuery().getMessage().getChatId();
         MessageContext context = null;
@@ -1223,6 +1417,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Отправляет образец и правила отчетности собаки пользователю в чат, а также запрашивает необходимую информацию по отчету.
+     *
+     * @param chatId id чата, в который отправляется образец отчета
+     * @param messageID id сообщения с образцом отчета
+     * @param update объект типа Update, содержащий информацию о запросе пользователя
+     * @throws TelegramApiException в случае ошибки при выполнении Telegram API запроса
+     * @throws InterruptedException в случае ошибки при выполнении операции с потоком
+     */
     public void getSampleReport(long chatId, long messageID, Update update) throws TelegramApiException, InterruptedException {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatId);
@@ -1249,6 +1452,15 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
     }
 
+    /**
+     * Отправляет образец и правила отчетности кота пользователю в чат, а также запрашивает необходимую информацию по отчету.
+     *
+     * @param chatId id чата, в который отправляется образец отчета
+     * @param messageID id сообщения с образцом отчета
+     * @param update объект типа Update, содержащий информацию о запросе пользователя
+     * @throws TelegramApiException в случае ошибки при выполнении Telegram API запроса
+     * @throws InterruptedException в случае ошибки при выполнении операции с потоком
+     */
     public void getSampleReportCat(long chatId, long messageID, Update update) throws TelegramApiException, InterruptedException {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatId);

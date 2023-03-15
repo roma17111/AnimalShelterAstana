@@ -2,6 +2,9 @@ package animal.shelter.animalsshelter.util;
 
 import com.vdurmont.emoji.EmojiParser;
 
+/**
+ * Класс содержащий константы которые представляют собой правила первой встречи будущего владельца с животными.
+ */
 public class AdoptingDocumentsAndRules {
     public static final String MEETING_DOG_RULES = EmojiParser.parseToUnicode(Emoji.DOG_FACE + Emoji.CAT_FACE +
             "Первая встреча с будущим питомцем:\n" +
