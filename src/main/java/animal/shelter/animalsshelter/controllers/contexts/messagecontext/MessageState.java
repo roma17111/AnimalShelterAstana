@@ -12,6 +12,11 @@ import java.util.List;
 
 import static animal.shelter.animalsshelter.controllers.Keyboards.BACK_QUESTION;
 
+/**
+ * Перечисление MessageState представляет возможные состояния диалога пользователя с ботом.
+ * Каждое состояние имеет методы для входа в состояние, обработки входных данных и перехода к следующему состоянию.
+ * Состояния могут быть с вводом данных или без ввода данных.
+ */
 public enum MessageState {
 
     EnterQuestion (false){

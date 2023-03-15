@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Контроллер для операций с отчётами хазяев собак
- * **/
+ */
 @RestController
 @RequestMapping("/report")
 public class ReportController {
@@ -27,7 +27,8 @@ public class ReportController {
 
     /**
      * При помощи этого запроса можно получить
-     * список всех отправленных отчётов*/
+     * список всех отправленных отчётов
+     */
     @GetMapping("/all")
     @Operation(summary = "Получить список отправленных отчётов",
             description = "Данный запрос позволяет получить полный список отправленных отчётов когда-либо")
@@ -44,7 +45,8 @@ public class ReportController {
 
     /**
      * При помощи этого запроса можно получить
-     * список всех сообщений волонтёру из БД*/
+     * список всех сообщений волонтёру из БД
+     */
     @GetMapping("/messages")
     @Operation(summary = "Посмотреть список вопросов от пользователей",
             description = "Данный запрос позволяет получить полный вопросов пользователей   ")
@@ -58,6 +60,11 @@ public class ReportController {
         return msgService.getAllCallVolunteerMsgs();
     }
 
+    /**
+     *  Метод удаления отчёта по id.
+     *
+     *  @param id идентификатор удаляемого отчёта
+     */
     @DeleteMapping("/removal")
     @Operation(summary = "Удалить отчёт",
             description = "Данный запрос позволяет удалить отчёт, отправленный усыновителем " +

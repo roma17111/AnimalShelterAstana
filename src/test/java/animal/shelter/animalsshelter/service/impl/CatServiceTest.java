@@ -11,6 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+
+import static animal.shelter.animalsshelter.constants.BotServiceCatConstants.*;
 import static animal.shelter.animalsshelter.constants.BotServicePersonConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,6 +46,9 @@ public class CatServiceTest {
         assertThat(actual.getDescription()).isEqualTo(cat.getDescription());
         assertThat(actual.getPhoto()).isEqualTo(cat.getPhoto());
         assertThat(actual.getName()).isEqualTo(cat.getName());
+        assertThat(actual.getAge()).isEqualTo(cat.getAge());
+        assertThat(actual.getStateId()).isEqualTo(cat.getStateId());
+        assertThat(actual.getCatType()).isEqualTo(cat.getCatType());
     }
 
 
@@ -67,6 +72,9 @@ public class CatServiceTest {
         assertThat(actual.getDescription()).isEqualTo(cat.getDescription());
         assertThat(actual.getPhoto()).isEqualTo(cat.getPhoto());
         assertThat(actual.getName()).isEqualTo(cat.getName());
+        assertThat(actual.getAge()).isEqualTo(cat.getAge());
+        assertThat(actual.getStateId()).isEqualTo(cat.getStateId());
+        assertThat(actual.getCatType()).isEqualTo(cat.getCatType());
     }
 
 
@@ -88,6 +96,7 @@ public class CatServiceTest {
         cat.setDescription("test");;
         expected.add(cat);
         expected.add(cat1);
+
         when(catRepository.findAll()).thenReturn(expected);
         Collection<Cat> actual = catService.findAllCats();
         assertThat(actual.size()).isEqualTo(expected.size());
@@ -96,10 +105,9 @@ public class CatServiceTest {
 
 
     @Test
-    void deleteMsgTest() {
+    void deleteCatTest() {
         Cat cat = new Cat();
 
-        cat.setId(ID_DEFAULT);
         cat.setStateId(STATE_ID_DEFAULT2);
         cat.setName("Руслан");
         cat.setAge("1");

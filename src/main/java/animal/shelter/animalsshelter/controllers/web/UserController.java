@@ -28,7 +28,8 @@ public class UserController {
     /**
      * Данный запрос позволяет
      * получить данные из тестовой таблицы
-     * @return Возвращает коллекцию со списком из БД*/
+     * @return Возвращает коллекцию со списком из БД
+     */
     @GetMapping("/entities")
     @Operation(summary = "Получить все записи с тестовой таблицы",
             description = "Данный запрос позволяет проверить работоспособность базы данных")
@@ -45,8 +46,8 @@ public class UserController {
 
     /**
      * При помощи этого запроса можно получить
-     * список реальных пользователей приюта*/
-
+     * список реальных пользователей приюта
+     */
     @GetMapping("/all")
     @Operation(summary = "Получить список всех пользователей",
             description = "Данный запрос позволяет получить полный список" +
@@ -65,8 +66,8 @@ public class UserController {
      * При помощи этого запроса можно выдать волонтёрские
      * права реальному пользователю
      * @param id Данный метод принимает параметр на вход
-     * чат id telegram пользователя*/
-
+     * чат id telegram пользователя
+     */
     @PostMapping("/admin/{id}")
     @ResponseBody
     @Operation(summary = "Сделать пользователя волонтёром",
@@ -78,15 +79,15 @@ public class UserController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User setAdminUser(@PathVariable long id) {
+    public User setAdminUser(@PathVariable Integer id) {
         return userService.getAdmin(id);
     }
 
     /**
      * При помощи этого запроса можно получить пользователя
      * по id из базы данных
-     * @param id PRIMARY KEY - первичный ключ*/
-
+     * @param id PRIMARY KEY - первичный ключ
+     */
     @GetMapping("/{id}")
     @ResponseBody
     @Operation(summary = "Найти пользоватетя по id телаграм чата",
@@ -96,6 +97,11 @@ public class UserController {
         return userService.findByChatId(id);
     }
 
+    /**
+     *  Метод удаления отчёта по id.
+     *
+     *  @param id идентификатор удаляемого пользователя
+     */
     @DeleteMapping("/removal")
     @Operation(summary = "Удалить пользователя",
             description = "Данный запрос позволяет удалить зарегистрированного пользователя " +
@@ -107,6 +113,6 @@ public class UserController {
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public void deleteUser(@RequestParam Integer id) {
-        userService.getUserById(id);
+        userService.deleteUser(id);
     }
 }
