@@ -105,6 +105,11 @@ public class DogController {
         return userService.takeDogfromUser(id);
     }
 
+    /**
+     * Удаляет собаку из базы данных по её идентификатору.
+     *
+     * @param id идентификатор собаки в базе данных
+     */
     @DeleteMapping("/removal")
     @Operation(summary = "Удалить собакена из базы",
             description = "Данный запрос позволяет собаку " +

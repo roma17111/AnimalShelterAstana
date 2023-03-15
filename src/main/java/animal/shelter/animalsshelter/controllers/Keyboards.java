@@ -16,6 +16,10 @@ import java.util.List;
 
 import static animal.shelter.animalsshelter.controllers.TelegramBotStart.*;
 
+/**
+ * Класс Keyboards содержит константы для различных типов клавиатур и методы для их создания.
+ * Каждая константа соответствует определенной клавиатуре и предоставляет набор кнопок для взаимодействия.
+ */
 @Component
 @Log4j
 public class Keyboards {
