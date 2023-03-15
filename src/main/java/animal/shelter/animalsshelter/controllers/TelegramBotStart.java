@@ -537,7 +537,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             String text = messageText.substring(12);
             int id = Integer.parseInt(text);
             Report msg = reportService.getReportById(id);
-            String message = EmojiParser.parseToUnicode(CONFUSED_FACE+"Уважаемый усыновитель! Мы рады, что вы взяли животное и заботитесь о нём. Видим, что вы привязались друг к другу и заботитесь о новом питомце.\n" +
+            String message = EmojiParser.parseToUnicode(CONFUSED_FACE + "Уважаемый усыновитель! Мы рады, что вы взяли животное и заботитесь о нём. Видим, что вы привязались друг к другу и заботитесь о новом питомце.\n" +
                     "Тем не менее у нас есть уверенность, что испытательный срок нужно продлить ещё на 30 дней.\n" +
                     "Надеемся на ваше понимание и желаем скорейшего прохождения второй части испытательного срока!");
             sendBotMessage(msg.getChatId(), message);
@@ -560,7 +560,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             String text = messageText.substring(12);
             int id = Integer.parseInt(text);
             Report msg = reportService.getReportById(id);
-            String message = EmojiParser.parseToUnicode(CONFUSED_FACE+"Уважаемый усыновитель! Мы рады, что вы взяли животное и заботитесь о нём. Видим, что вы привязались друг к другу и заботитесь о новом питомце.\n" +
+            String message = EmojiParser.parseToUnicode(CONFUSED_FACE + "Уважаемый усыновитель! Мы рады, что вы взяли животное и заботитесь о нём. Видим, что вы привязались друг к другу и заботитесь о новом питомце.\n" +
                     "Тем не менее у нас есть уверенность, что испытательный срок нужно продлить ещё на 14 дней.\n" +
                     "Надеемся на ваше понимание и желаем скорейшего прохождения второй части испытательного срока!");
             sendBotMessage(msg.getChatId(), message);
@@ -1395,7 +1395,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 }
             } else if (dataCallback.equals(PUPPY_TYPE)) {
                 List<Dog> dogs = dogService.getAllDogs();
-                for (Dog dog : dogs) {
+                List<Dog> dogList = dogs
+                        .stream()
+                        .filter(dog -> dog.getStateId() < 7)
+                        .collect(Collectors.toList());
+                for (Dog dog : dogList) {
                     if (dog.getChatId() == update.getCallbackQuery().getMessage().getChatId())
                         setDogType(PUPPY_TYPE);
                     sendBotMessage(chatId, "Вы выбрали - щенка. \n" +
@@ -1403,7 +1407,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 }
             } else if (dataCallback.equals(KITTEN_TYPE)) {
                 List<Cat> cats = catService.findAllCats();
-                for (Cat cat : cats) {
+                List<Cat> catList = cats
+                        .stream()
+                        .filter(cat -> cat.getStateId() < 7)
+                        .collect(Collectors.toList());
+                for (Cat cat : catList) {
                     if (cat.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
                         setCatType(KITTEN_TYPE);
                         sendBotMessage(chatId, "Вы выбрали - котёнка. \n" +
@@ -1413,7 +1421,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
 
             } else if (dataCallback.equals(ADULT_TYPE)) {
                 List<Dog> dogs = dogService.getAllDogs();
-                for (Dog dog : dogs) {
+                List<Dog> dogList = dogs
+                        .stream()
+                        .filter(dog -> dog.getStateId() < 7)
+                        .collect(Collectors.toList());
+                for (Dog dog : dogList) {
                     if (dog.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
                         setDogType(ADULT_TYPE);
                         sendBotMessage(chatId, "Вы выбрали - взрослую собаку. \n" +
@@ -1422,7 +1434,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 }
             } else if (dataCallback.equals(DISABLED_TYPE_CAT)) {
                 List<Cat> cats = catService.findAllCats();
-                for (Cat cat : cats) {
+                List<Cat> catList =  cats
+                        .stream()
+                        .filter(cat -> cat.getStateId() < 7)
+                        .collect(Collectors.toList());
+                for (Cat cat : catList) {
                     if (cat.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
                         setCatType(DISABLED_TYPE_CAT);
                         sendBotMessage(chatId, "Вы выбрали - кошку с ограниченными возможностями. \n" +
@@ -1431,7 +1447,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 }
             } else if (dataCallback.equals(ADULT_TYPE_CAT)) {
                 List<Cat> cats = catService.findAllCats();
-                for (Cat cat : cats) {
+                List<Cat> catList = cats
+                        .stream()
+                        .filter(cat -> cat.getStateId() < 7)
+                        .collect(Collectors.toList());
+                for (Cat cat : catList) {
                     if (cat.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
                         setCatType(ADULT_TYPE_CAT);
                         sendBotMessage(chatId, "Вы выбрали - взрослую кошку. \n" +
@@ -1440,7 +1460,11 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 }
             } else if (dataCallback.equals(DISABLED_TYPE)) {
                 List<Dog> dogs = dogService.getAllDogs();
-                for (Dog dog : dogs) {
+                List<Dog> dogList = dogs
+                        .stream()
+                        .filter(dog -> dog.getStateId() < 7)
+                        .collect(Collectors.toList());
+                for (Dog dog : dogList) {
                     if (dog.getChatId() == update.getCallbackQuery().getMessage().getChatId()) {
                         setDogType(DISABLED_TYPE);
                         sendBotMessage(chatId, "Вы выбрали - собаку с ограниченными возможностями. \n" +
@@ -1506,9 +1530,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(GO_START)) {
                 execute(keyboards.getTypeOfShelterEdit(chatId, messageId));
             } else if (dataCallback.equals(GALLERY_DOG)) {
-                    getAllDogs(update);
+                getAllDogs(update);
             } else if (dataCallback.equals(GALLERY_CAT)) {
-                    getAllCats(update);
+                getAllCats(update);
             }
         }
     }

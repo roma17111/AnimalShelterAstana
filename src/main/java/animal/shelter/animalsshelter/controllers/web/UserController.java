@@ -107,6 +107,6 @@ public class UserController {
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public void deleteUser(@RequestParam Integer id) {
-        userService.getUserById(id);
+        userService.deleteUser(id);
     }
 }
