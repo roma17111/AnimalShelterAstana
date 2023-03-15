@@ -113,8 +113,10 @@ public class User {
         return
                 "id: " + id + "\n" +
                         "chatId: " + chatId + "\n" +
-                        "Имя: " + firstName + '\n' +
-                        "Фамилия: " + lastName + '\n' +
+                        (firstName==null?  "Имя: нет" : "Имя: "+ firstName ) + '\n' +
+                        (lastName==null?  "Фамилия: нет" : "Фамилия: "+ lastName ) + '\n' +
+                        (dog==null? "Собака: нет" : "Собака: \n" + dog.toString())+ '\n' +
+                        (cat==null? "Кошка: нет" : "Кошка: \n" + cat.toString())+ '\n' +
                         (isNotified() == true ? "Волонтёр" : "Пользователь") +'\n' +
                         "Номер телефона:" + phoneNumber + '\n' +
                         "email:     " + email;

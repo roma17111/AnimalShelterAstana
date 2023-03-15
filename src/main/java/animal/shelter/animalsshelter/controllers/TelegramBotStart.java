@@ -1506,21 +1506,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(GO_START)) {
                 execute(keyboards.getTypeOfShelterEdit(chatId, messageId));
             } else if (dataCallback.equals(GALLERY_DOG)) {
-                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()) == null) {
-                    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Смотреть галлерею собак" +
-                            "могут только зарегистрированные пользователи");
-                    execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
-                } else {
                     getAllDogs(update);
-                }
             } else if (dataCallback.equals(GALLERY_CAT)) {
-                if (userService.findByChatId(update.getCallbackQuery().getMessage().getChatId()) == null) {
-                    sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Смотреть галлерею кошек" +
-                            "могут только зарегистрированные пользователи");
-                    execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
-                } else {
                     getAllCats(update);
-                }
             }
         }
     }
