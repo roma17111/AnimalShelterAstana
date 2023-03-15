@@ -70,7 +70,7 @@ training course from SkyPro.
   /takepet {id} - Отправить сообщение об изъятии собаки у усыновителя
   Где id - id отчёта из БД
   Пример: /takepet 25
-Д
+
 ## Our development team
 
 - [Роман Якименко](https://github.com/roma17111)
@@ -81,6 +81,9 @@ training course from SkyPro.
 - [Андрей Назаренко](https://github.com/Altanim)
 
 ___
+
+## API проекта
+[Swagger ui](http://localhost:8080/swagger-ui/index.html#)  
 
 ## Used in the project
 
