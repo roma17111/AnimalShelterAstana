@@ -78,7 +78,7 @@ public class UserController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public User setAdminUser(@PathVariable long id) {
+    public User setAdminUser(@PathVariable Integer id) {
         return userService.getAdmin(id);
     }
 

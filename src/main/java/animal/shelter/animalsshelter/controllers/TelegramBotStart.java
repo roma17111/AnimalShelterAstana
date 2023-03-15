@@ -229,7 +229,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 case "/users":
                     if (userService.findByChatId(update.getMessage().getChatId()) == null ||
                             userService.findByChatId(update.getMessage().getChatId()).isNotified() == false) {
-                        sendBotMessage(update.getMessage().getChatId(), "Смотреть спивок пользователей" +
+                        sendBotMessage(update.getMessage().getChatId(), "Смотреть список пользователей" +
                                 "могут только волонтёры!");
                         execute(keyboards.getTypeOfShelter(update.getMessage().getChatId()));
                     }

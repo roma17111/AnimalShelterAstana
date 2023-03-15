@@ -76,8 +76,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getAdmin(long userId) {
-        User user = userRepository.findByChatId(userId);
+    public User getAdmin(Integer userId) {
+        User user = userRepository.findById(userId).orElse(null);
         if (user.isNotified() == true) {
             user.setNotified(false);
             saveUser(user);
