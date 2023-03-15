@@ -57,7 +57,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public static final String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
 
     public static final String ADMIN_COMMANDS = "Команды волонтёров: \n\n " +
-            "/users - посмортеть список пользователей \n" +
+            "/users - посмотреть список пользователей \n" +
             "/send - Отправить сообщение о плохом отчёте всем пользователям, " +
             "у которых текст сообщений в отчётах очень короткий. Отчёты нухно писать подробно. \n" +
             "/allquestions - Посмотреть список вопросов от пользователей\n" +
