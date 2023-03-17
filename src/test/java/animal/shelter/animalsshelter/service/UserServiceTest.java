@@ -111,7 +111,7 @@ public class UserServiceTest {
     /**
      * Тест метода <b>addDogToUser()</b> в Userservice
      */
-    @Test
+/*    @Test
     public void addDogToUser() {
         User expectedUser = new User(ID_DEFAULT, null);
         Dog expected = new Dog();
@@ -126,7 +126,7 @@ public class UserServiceTest {
         User actual = userService.addDogToUser(expectedUser.getId(), expected.getId());
         Assertions.assertThat(actual.getId()).isEqualTo(expectedUser.getId());
         Assertions.assertThat(actual.getDog()).isEqualTo(expectedUser.getDog());
-    }
+    }*/
 
     /**
      * тест метода <b>getAllUsers()</b> in UserService

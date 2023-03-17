@@ -7,6 +7,7 @@ import animal.shelter.animalsshelter.service.CatService;
 import animal.shelter.animalsshelter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,8 +43,8 @@ public class CatController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public Cat addCat(@RequestBody Cat cat) {
-        return catService.saveCat(cat);
+    public ResponseEntity<Cat> addCat(@RequestBody Cat cat) {
+        return ResponseEntity.ok(catService.saveCat(cat));
     }
 
     /**

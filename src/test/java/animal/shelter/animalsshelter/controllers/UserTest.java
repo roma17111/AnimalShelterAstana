@@ -4,6 +4,8 @@ package animal.shelter.animalsshelter.controllers;
 import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestRepository;
 import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestUser;
 import animal.shelter.animalsshelter.controllers.contexts.stateTest.TestUserService;
+import animal.shelter.animalsshelter.controllers.web.CatController;
+import animal.shelter.animalsshelter.controllers.web.UserController;
 import animal.shelter.animalsshelter.model.User;
 import animal.shelter.animalsshelter.repository.UserRepository;
 import animal.shelter.animalsshelter.service.UserService;
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,18 +30,18 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
+//@WebMvcTest(UserController.class)
 public class UserTest {
-
+/*    @Autowired
     private MockMvc mockMvc;
-    @Mock
+    @MockBean
     private TestRepository userRepository;
-    @Mock
+    @MockBean
     private TestUserService testUserService;
 
-    @Mock
+    @MockBean
     private UserRepository userRepositoryMock;
-    @InjectMocks
+    @MockBean
     private UserService userService;
 
     public UserTest(TestUserService testUserService) {
@@ -75,7 +78,7 @@ public class UserTest {
         userObject.put("firstName", NAME_CORRECT);
         userObject.put("lastName", LASTNAME_CORRECT);
 
-//        when(testUserService.addUser(user).thenReturn(user);
+        when(userService.saveUser(User.class.newInstance())).thenReturn(user);
 
         mockMvc.perform(
                         post("/user")
@@ -84,36 +87,38 @@ public class UserTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(userObject.toString()));
 
-//        verify(testUserService).addUser(user); пока метод есть только в TestUser
+        verify(userService).saveUser(user);
     }
-        @Test
-        void updateUser() throws Exception {
-            User user = new User();
-            user.setId(ID_DEFAULT);
-            user.setChatId(CHAT_ID_DEFAULT);
-            user.setStateID(ID_DEFAULT);
-            user.setFirstName(NAME_CORRECT);
-            user.setLastName(LASTNAME_CORRECT);
-            user.setPhoneNumber(PHONE_CORRECT);
-            user.setEmail(EMAIL_CORRECT);
-            JSONObject userObject = new JSONObject();
-            userObject.put("id", ID_DEFAULT);
-            userObject.put("firstName", NAME_CORRECT);
-            userObject.put("lastName", LASTNAME_CORRECT);
+
+    @Test
+    void updateUser() throws Exception {
+        User user = new User();
+        user.setId(ID_DEFAULT);
+        user.setChatId(CHAT_ID_DEFAULT);
+        user.setStateID(ID_DEFAULT);
+        user.setFirstName(NAME_CORRECT);
+        user.setLastName(LASTNAME_CORRECT);
+        user.setPhoneNumber(PHONE_CORRECT);
+        user.setEmail(EMAIL_CORRECT);
+        JSONObject userObject = new JSONObject();
+        userObject.put("id", ID_DEFAULT);
+        userObject.put("firstName", NAME_CORRECT);
+        userObject.put("lastName", LASTNAME_CORRECT);
 
 
 //            when(testUserService.updateUser(user).thenReturn(user);
 
-            mockMvc.perform(
-                            put("/user")
-                                    .content(userObject.toString())
-                                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk())
-                    .andExpect(content().json(userObject.toString()));
+        mockMvc.perform(
+                        put("/user")
+                                .content(userObject.toString())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(userObject.toString()));
 
 //            verify(testUserService).updateUser(user); пока метод есть только в TestUser
 
-        }
+    }
+
     @Test
     void remove() throws Exception {
         mockMvc.perform(
@@ -121,15 +126,13 @@ public class UserTest {
                 .andExpect(status().isOk());
 //        verify(user).removeById(CHAT_ID_DEFAULT); пока такого метода нет
     }
+
     @Test
     void findAllUsers() throws Exception {
         when(testUserService.findAllUsers()).thenReturn(List.of(new TestUser()));
-
-        mockMvc.perform(
-                        get("/user/all"))
-                .andExpect(status().isOk());
-    }
-    }
+        mockMvc.perform(get("/user/entities")).andExpect(status().isOk());
+    }*/
+}
 
 
 

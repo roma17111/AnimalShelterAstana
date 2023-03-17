@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Класс DailyNotification используется для отправки уведомлений пользователям о необходимости отправить отчеты о своих домашних животных.
