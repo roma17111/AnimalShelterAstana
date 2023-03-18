@@ -53,7 +53,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public static final String CALL_VOLUNTEER = "CALL_VOLUNTEER";
     public static final String GO_BACK = "GO_BACK";
     public static final String BACK_ONE_POINT = "BACK_ONE";
-    public static final String URL_START_PHOTO = "src/main/resources/templates/msg6162958373-22385.jpg";
+    public static final String URL_START_PHOTO = "root/images/msg6162958373-22385.jpg";
 
     public static final String ADMIN_COMMANDS = "Команды волонтёров: \n\n " +
             "/users - посмотреть список пользователей \n" +
