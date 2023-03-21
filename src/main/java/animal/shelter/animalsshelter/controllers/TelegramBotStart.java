@@ -988,8 +988,14 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
         Report report = new Report();
         report.setStateId(1);
-        report.setCat(user.getCat());
-        report.setDog(user.getDog());
+        Cat cat = user.getCat();
+        if (cat != null) {
+            report.setCat(cat);
+        }
+        Dog dog = user.getDog();
+        if (dog != null) {
+            report.setDog(dog);
+        }
         report.setMsgDate(Timestamp.valueOf(LocalDateTime.now()));
         report.setChatId(Math.toIntExact(update.getCallbackQuery().getMessage().getChatId()));
         reportService.saveReport(report);
@@ -1048,8 +1054,9 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         MessageContext context = null;
         MessageState state;
         User user = userService.findByChatId(chatId);
-        if (user == null) {
-            sendBotMessage(chatId, "Задавать вопросы могут только зарегистрированные пользователи");
+        if (user == null||user.getStateID()<3) {
+            sendBotMessage(chatId, "Задавать вопросы могут только зарегистрированные пользователи" +
+                    "\n /registration");
             return;
         }
         state = MessageState.getInitialState();
@@ -1557,9 +1564,10 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 getSafeInformation(chatId, messageId);
             } else if (dataCallback.equals(SEND_REPORT)) {
                 User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
-                if (user == null) {
+                if (user == null||user.getStateID()<3) {
                     sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
-                            "зарегистрированные пользователи!!!");
+                            "зарегистрированные пользователи!!!\n" +
+                            "/registration");
                 } else {
                     EditMessageText messageText = new EditMessageText();
                     messageText.setChatId(chatId);
