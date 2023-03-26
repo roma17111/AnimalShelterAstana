@@ -58,8 +58,8 @@ public class UserController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public String getAllUsers() {
+        return userService.getAllUsers().toString();
     }
 
     /**
@@ -93,8 +93,8 @@ public class UserController {
     @Operation(summary = "Найти пользоватетя по id телаграм чата",
             description = "Данный запрос позволяет найти пользователя по id чата в телеграм" +
                     "всех зарегистрированныз пользователей")
-    public User findByChatId(@PathVariable long id) {
-        return userService.findByChatId(id);
+    public String findByChatId(@PathVariable long id) {
+        return userService.findByChatId(id).toString();
     }
 
     /**

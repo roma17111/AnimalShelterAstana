@@ -82,8 +82,8 @@ public class CatController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<Cat> getAllCats() {
-        return catService.findAllCats();
+    public String getAllCats() {
+        return catService.findAllCats().toString();
     }
 
     /**

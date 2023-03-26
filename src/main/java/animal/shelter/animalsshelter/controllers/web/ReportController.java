@@ -38,9 +38,9 @@ public class ReportController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<Report> getAllReports() {
+    public String getAllReports() {
         List<Report> reports = reportService.getAllReports();
-        return reports;
+        return reports.toString();
     }
 
     /**
@@ -56,8 +56,8 @@ public class ReportController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<CallVolunteerMsg> getAllMessages() {
-        return msgService.getAllCallVolunteerMsgs();
+    public String getAllMessages() {
+        return msgService.getAllCallVolunteerMsgs().toString();
     }
 
     /**

@@ -119,6 +119,6 @@ public class User {
                         (cat==null? "Кошка: нет" : "Кошка: \n" + cat.toString())+ '\n' +*/
                         (isNotified() == true ? "Волонтёр" : "Пользователь") +'\n' +
                         "Номер телефона:" + phoneNumber + '\n' +
-                        "email:     " + email;
+                        "email:     " + email +"\n";
     }
 }

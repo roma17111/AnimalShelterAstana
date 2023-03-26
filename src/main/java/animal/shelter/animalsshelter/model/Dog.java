@@ -44,7 +44,7 @@ public class Dog {
 
     @Override
     public String toString() {
-        return "Собака: " +
+        return "Собака: " + id +'\n' +
                 "Имя: " + nickname+ '\n' +
                 "Возраст: " + age + '\n' +
                 "Порода: " + breed + '\n' +
