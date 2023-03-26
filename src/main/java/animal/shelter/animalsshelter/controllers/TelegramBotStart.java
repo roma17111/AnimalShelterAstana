@@ -1056,7 +1056,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         User user = userService.findByChatId(chatId);
         if (user == null||user.getStateID()<3) {
             sendBotMessage(chatId, "Задавать вопросы могут только зарегистрированные пользователи" +
-                    "\n /registration");
+                    "\n Регистрация - /registration");
             return;
         }
         state = MessageState.getInitialState();
@@ -1567,7 +1567,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 if (user == null||user.getStateID()<3) {
                     sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
                             "зарегистрированные пользователи!!!\n" +
-                            "/registration");
+                            "Регистрация - /registration");
                 } else {
                     EditMessageText messageText = new EditMessageText();
                     messageText.setChatId(chatId);
