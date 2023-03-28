@@ -92,13 +92,7 @@ public class ReportController {
 
     @GetMapping(value = "/photo")
     public ResponseEntity getPhotoReport(HttpServletResponse response) {
-        for (Report report : reportService.getAllReports()) {
-            File imgFile = new File(fileService.getPhoto(report.getPhoto()).toUri());
-            File textFile = new File(fileService.getText(report.toString()).toUri());
-            responseFile(response, imgFile);
-            responseFile(response, textFile);
-        }
-
+        fileService.getPdfDocument();
        return ResponseEntity.ok().build();
     }
 
