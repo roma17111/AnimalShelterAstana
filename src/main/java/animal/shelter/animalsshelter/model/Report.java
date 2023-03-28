@@ -31,7 +31,7 @@ public class Report {
     @Column(name = "behavior_change")
     private String behaviorChange;
 
-    public byte[] photo;
+    private byte[] photo;
 
     @OneToOne
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")

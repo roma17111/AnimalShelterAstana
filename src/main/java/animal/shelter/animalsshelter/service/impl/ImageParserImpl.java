@@ -1,7 +1,9 @@
 package animal.shelter.animalsshelter.service.impl;
 
 import animal.shelter.animalsshelter.service.ImageParser;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -9,13 +11,20 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Comparator;
 import java.util.List;
 
+@Log4j2
+@Service
 public class ImageParserImpl implements ImageParser {
 
     private final TelegramLongPollingBot telegramLongPollingBot;

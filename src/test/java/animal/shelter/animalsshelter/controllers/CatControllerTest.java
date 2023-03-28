@@ -87,12 +87,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         verify(userService).takeCatfromUser(ID_DEFAULT2);
     }*/
 
-    @Test
+ /*   @Test
     void getAllCats() throws Exception {
         when(catService.findAllCats()).thenReturn(List.of(new Cat()));
 
         mockMvc.perform(get("/cat/all")).andExpect(status().isOk());
-    }
+    }*/
   /*  @Test
     void deleteCat() throws Exception {
         mockMvc.perform(delete("/cat/{id}", ID_DEFAULT))

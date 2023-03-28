@@ -1,14 +1,20 @@
 package animal.shelter.animalsshelter.controllers.web;
 
-import animal.shelter.animalsshelter.model.CallVolunteerMsg;
 import animal.shelter.animalsshelter.model.Report;
 import animal.shelter.animalsshelter.service.CallVolunteerMsgService;
+import animal.shelter.animalsshelter.service.FileService;
+import animal.shelter.animalsshelter.service.ImageParser;
 import animal.shelter.animalsshelter.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.List;
+
+import static org.springframework.http.MediaType.ALL;
 
 /**
  * Контроллер для операций с отчётами хазяев собак
@@ -19,10 +25,15 @@ public class ReportController {
 
     private final ReportService reportService;
     private final CallVolunteerMsgService msgService;
+    private final ImageParser imageParser;
 
-    public ReportController(ReportService reportService, CallVolunteerMsgService msgService) {
+    private final FileService fileService;
+
+    public ReportController(ReportService reportService, CallVolunteerMsgService msgService, ImageParser imageParser, FileService fileService) {
         this.reportService = reportService;
         this.msgService = msgService;
+        this.imageParser = imageParser;
+        this.fileService = fileService;
     }
 
     /**
@@ -61,9 +72,9 @@ public class ReportController {
     }
 
     /**
-     *  Метод удаления отчёта по id.
+     * Метод удаления отчёта по id.
      *
-     *  @param id идентификатор удаляемого отчёта
+     * @param id идентификатор удаляемого отчёта
      */
     @DeleteMapping("/removal")
     @Operation(summary = "Удалить отчёт",
@@ -77,5 +88,35 @@ public class ReportController {
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public void deleteReport(@RequestParam Integer id) {
         reportService.deleteReport(id);
+    }
+
+    @GetMapping(value = "/photo")
+    public ResponseEntity getPhotoReport(HttpServletResponse response) {
+        for (Report report : reportService.getAllReports()) {
+            File imgFile = new File(fileService.getPhoto(report.getPhoto()).toUri());
+            File textFile = new File(fileService.getText(report.toString()).toUri());
+            responseFile(response, imgFile);
+            responseFile(response, textFile);
+        }
+
+       return ResponseEntity.ok().build();
+    }
+
+
+
+    private void responseFile(HttpServletResponse response, File imgFile) {
+        try (InputStream is = new FileInputStream(imgFile);
+             OutputStream os = response.getOutputStream();) {
+            byte[] buffer = new byte[1024]; // пул буферов потока файлов изображений
+            while (is.read(buffer) != -1) {
+                os.write(buffer);
+            }
+            os.flush();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
     }
 }
