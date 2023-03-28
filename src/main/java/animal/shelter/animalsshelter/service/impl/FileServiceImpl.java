@@ -4,7 +4,9 @@ import animal.shelter.animalsshelter.model.Report;
 import animal.shelter.animalsshelter.service.FileService;
 import animal.shelter.animalsshelter.service.ReportService;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.TextField;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -67,12 +72,13 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void getPdfDocument() {
-        Document document = new Document();
+        Document document = new Document(PageSize.A4);
+        document.setMargins(1, 1, 4, 4);
         String output = "document.pdf";
         FileOutputStream fos = null;
-        Font myfont = new Font();
-        myfont.getBaseFont();
+        Font myfont = FontFactory.getFont("DejaVuSans.ttf", "cp1251", BaseFont.EMBEDDED, 20);
         myfont.setStyle(Font.ITALIC);
+        myfont.setStyle(Element.ALIGN_CENTER);
         myfont.setSize(20);
         try {
             fos = new FileOutputStream(output);
@@ -85,30 +91,21 @@ public class FileServiceImpl implements FileService {
         } catch (DocumentException e) {
             log.error(e.getMessage());
         }
-        Objects.requireNonNull(writer).open();
         document.open();
         writer.open();
         List<Report> reportList = reportService.getAllReports();
+        reportList.stream().distinct().collect(Collectors.toList());
+        Paragraph para = new Paragraph();
+        para.setFont(myfont);
         for (Report report : reportList) {
-            Paragraph para = new Paragraph();
-            para.setFont(myfont);
             try {
-                BufferedReader br =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        new FileInputStream(getText(report).toFile()), "UTF8"));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    line = line.replace("\u0020", "\u00A0");
-                    para.add(line + "\n");
-                    //document.add(new Paragraph(line).setFont(normal));
-                }
-                para.setAlignment(Element.ALIGN_CENTER);
-                document.add(para);
                 Image image = Image.getInstance(report.getPhoto());
-                image.scaleAbsolute(400,400);
+                image.scaleAbsolute(400, 300);
                 image.setAlignment(Element.ALIGN_CENTER);
-                document.add(image);
+                para.setAlignment(Element.ALIGN_CENTER);
+                para.add(report.toString());
+                para.add(image);
+                document.add(para);
             } catch (DocumentException | IOException e) {
                 log.error(e.getMessage());
             }
