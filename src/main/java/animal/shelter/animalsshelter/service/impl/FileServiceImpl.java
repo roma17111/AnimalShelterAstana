@@ -66,18 +66,15 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        getPdfDocument();
         return text;
     }
 
     @Override
     public void getPdfDocument() {
         Document document = new Document(PageSize.A4);
-        document.setMargins(1, 1, 4, 4);
         String output = "document.pdf";
         FileOutputStream fos = null;
         Font myfont = FontFactory.getFont("DejaVuSans.ttf", "cp1251", BaseFont.EMBEDDED, 20);
-        myfont.setStyle(Font.ITALIC);
         myfont.setStyle(Element.ALIGN_CENTER);
         myfont.setSize(20);
         try {
@@ -93,19 +90,27 @@ public class FileServiceImpl implements FileService {
         }
         document.open();
         writer.open();
-        List<Report> reportList = reportService.getAllReports();
-        reportList.stream().distinct().collect(Collectors.toList());
-        Paragraph para = new Paragraph();
-        para.setFont(myfont);
-        for (Report report : reportList) {
+
+        List<Report> reports = reportService.getAllReports()
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
+        for (Report report : reports) {
             try {
+                Paragraph para = new Paragraph();
+                para.setFont(myfont);
                 Image image = Image.getInstance(report.getPhoto());
                 image.scaleAbsolute(400, 300);
                 image.setAlignment(Element.ALIGN_CENTER);
                 para.setAlignment(Element.ALIGN_CENTER);
-                para.add(report.toString());
-                para.add(image);
+                para.add("\n\nОтчёт \n");
+                para.add("Пользователь \n" +report.getUserInfo()+"\n");
+                para.add("Дата \n" +report.getMsgDate()+"\n");
+                para.add("Поведение питомца \n " +report.getBehaviorChange()+"\n");
+                para.add("Диета \n" +report.getDiet()+"\n");
+                para.add("Здоровье \n" +report.getGeneralHealth());
                 document.add(para);
+                document.add(image);
             } catch (DocumentException | IOException e) {
                 log.error(e.getMessage());
             }

@@ -50,7 +50,7 @@ public class Report {
                 "Диета " +"\n" + diet + "\n" +
                 "Состояние здоровья " + "\n" +generalHealth + "\n" +
                 "Поведение питомца " +"\n" + behaviorChange + "\n" +
-                "Информация о пользователе " +"\n" + userInfo.toString()+"\n\n";
+                "Информация о пользователе " +"\n" + userInfo+"\n";
     }
 }
 

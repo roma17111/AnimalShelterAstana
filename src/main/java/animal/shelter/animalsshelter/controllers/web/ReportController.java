@@ -7,11 +7,16 @@ import animal.shelter.animalsshelter.service.ImageParser;
 import animal.shelter.animalsshelter.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.springframework.http.MediaType.ALL;
@@ -90,27 +95,22 @@ public class ReportController {
         reportService.deleteReport(id);
     }
 
-    @GetMapping(value = "/photo")
+    @GetMapping(value = "/download")
+    @Operation(summary = "Загрузить отчёты PDF",
+            description = "Данный запрос позволяет загрузить отчёты, отправленные усыновителями" )
     public ResponseEntity getPhotoReport(HttpServletResponse response) {
         fileService.getPdfDocument();
-       return ResponseEntity.ok().build();
-    }
-
-
-
-    private void responseFile(HttpServletResponse response, File imgFile) {
-        try (InputStream is = new FileInputStream(imgFile);
-             OutputStream os = response.getOutputStream();) {
-            byte[] buffer = new byte[1024]; // пул буферов потока файлов изображений
-            while (is.read(buffer) != -1) {
-                os.write(buffer);
-            }
-            os.flush();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        try {
+            File file = new File("document.pdf");
+            InputStreamResource inputStream = new InputStreamResource(new FileInputStream(file));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"document.pdf\"")
+                    .contentLength(Files.size(file.toPath()))
+                    .body(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
         }
-
     }
 }
