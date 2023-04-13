@@ -1,14 +1,25 @@
 package animal.shelter.animalsshelter.controllers.web;
 
-import animal.shelter.animalsshelter.model.CallVolunteerMsg;
 import animal.shelter.animalsshelter.model.Report;
 import animal.shelter.animalsshelter.service.CallVolunteerMsgService;
+import animal.shelter.animalsshelter.service.FileService;
+import animal.shelter.animalsshelter.service.ImageParser;
 import animal.shelter.animalsshelter.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+
+import static org.springframework.http.MediaType.ALL;
 
 /**
  * Контроллер для операций с отчётами хазяев собак
@@ -19,10 +30,15 @@ public class ReportController {
 
     private final ReportService reportService;
     private final CallVolunteerMsgService msgService;
+    private final ImageParser imageParser;
 
-    public ReportController(ReportService reportService, CallVolunteerMsgService msgService) {
+    private final FileService fileService;
+
+    public ReportController(ReportService reportService, CallVolunteerMsgService msgService, ImageParser imageParser, FileService fileService) {
         this.reportService = reportService;
         this.msgService = msgService;
+        this.imageParser = imageParser;
+        this.fileService = fileService;
     }
 
     /**
@@ -38,9 +54,9 @@ public class ReportController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<Report> getAllReports() {
+    public String getAllReports() {
         List<Report> reports = reportService.getAllReports();
-        return reports;
+        return reports.toString();
     }
 
     /**
@@ -56,14 +72,14 @@ public class ReportController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<CallVolunteerMsg> getAllMessages() {
-        return msgService.getAllCallVolunteerMsgs();
+    public String getAllMessages() {
+        return msgService.getAllCallVolunteerMsgs().toString();
     }
 
     /**
-     *  Метод удаления отчёта по id.
+     * Метод удаления отчёта по id.
      *
-     *  @param id идентификатор удаляемого отчёта
+     * @param id идентификатор удаляемого отчёта
      */
     @DeleteMapping("/removal")
     @Operation(summary = "Удалить отчёт",
@@ -77,5 +93,24 @@ public class ReportController {
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
     public void deleteReport(@RequestParam Integer id) {
         reportService.deleteReport(id);
+    }
+
+    @GetMapping(value = "/download")
+    @Operation(summary = "Загрузить отчёты PDF",
+            description = "Данный запрос позволяет загрузить отчёты, отправленные усыновителями" )
+    public ResponseEntity getPhotoReport(HttpServletResponse response) {
+        fileService.getPdfDocument();
+        try {
+            File file = new File("document.pdf");
+            InputStreamResource inputStream = new InputStreamResource(new FileInputStream(file));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"document.pdf\"")
+                    .contentLength(Files.size(file.toPath()))
+                    .body(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 }

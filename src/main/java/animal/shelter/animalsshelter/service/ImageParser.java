@@ -4,7 +4,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 public interface ImageParser {
@@ -35,4 +37,5 @@ public interface ImageParser {
      * @return наибольший объект PhotoSize из списка или null, если список пуст
      */
     PhotoSize getLargestPhoto(List<PhotoSize> photos);
+
 }

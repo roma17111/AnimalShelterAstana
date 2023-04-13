@@ -31,7 +31,7 @@ public class Cat {
 
     @Override
     public String toString() {
-        return "Кошка: " +
+        return "Кошка: " + id +'\n' +
                 "Имя: " + name + '\n' +
                 "Возраст: " + age + '\n' +
                 "Порода: " + breed + '\n' +

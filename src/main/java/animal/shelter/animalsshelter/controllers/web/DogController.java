@@ -81,8 +81,8 @@ public class DogController {
             description = "параметры запроса отсутствуют или имеют некорректный формат;")
     @ApiResponse(responseCode = "500",
             description = "произошла ошибка, не зависящая от вызывающей стороны.")
-    public List<Dog> getAllDogs() {
-        return dogService.getAllDogs();
+    public String getAllDogs() {
+        return dogService.getAllDogs().toString();
     }
 
     /**

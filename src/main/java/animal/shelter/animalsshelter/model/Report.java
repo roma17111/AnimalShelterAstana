@@ -31,7 +31,7 @@ public class Report {
     @Column(name = "behavior_change")
     private String behaviorChange;
 
-    public byte[] photo;
+    private byte[] photo;
 
     @OneToOne
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
@@ -45,11 +45,12 @@ public class Report {
 
     @Override
     public String toString() {
-        return "id: " + id +
-                "Дата: " + msgDate + "\n" +
-                "Диета: " + diet + "\n" +
-                "Состояние здоровья: " + generalHealth + "\n" +
-                "Поведение питомца: " + behaviorChange + "\n";
+        return "id: " + id +"\n" +
+                "Дата " +"\n" + msgDate + "\n" +
+                "Диета " +"\n" + diet + "\n" +
+                "Состояние здоровья " + "\n" +generalHealth + "\n" +
+                "Поведение питомца " +"\n" + behaviorChange + "\n" +
+                "Информация о пользователе " +"\n" + userInfo+"\n";
     }
 }
 

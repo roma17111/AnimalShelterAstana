@@ -51,11 +51,11 @@ public class User {
     @Size(min = 7, max = 130)
     @Column(name = "email")
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "dog_id", referencedColumnName = "dog_id")
     private Dog dog;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "cat_id", referencedColumnName = "cat_id")
     private Cat cat;
 
@@ -115,10 +115,10 @@ public class User {
                         "chatId: " + chatId + "\n" +
                         (firstName==null?  "Имя: нет" : "Имя: "+ firstName ) + '\n' +
                         (lastName==null?  "Фамилия: нет" : "Фамилия: "+ lastName ) + '\n' +
-                        (dog==null? "Собака: нет" : "Собака: \n" + dog.toString())+ '\n' +
-                        (cat==null? "Кошка: нет" : "Кошка: \n" + cat.toString())+ '\n' +
+                       /* (dog==null? "Собака: нет" : "Собака: \n" + dog.toString())+ '\n' +
+                        (cat==null? "Кошка: нет" : "Кошка: \n" + cat.toString())+ '\n' +*/
                         (isNotified() == true ? "Волонтёр" : "Пользователь") +'\n' +
                         "Номер телефона:" + phoneNumber + '\n' +
-                        "email:     " + email;
+                        "email:     " + email +"\n";
     }
 }
