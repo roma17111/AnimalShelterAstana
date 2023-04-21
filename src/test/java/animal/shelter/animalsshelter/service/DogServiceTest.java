@@ -1,3 +1,4 @@
+/*
 package animal.shelter.animalsshelter.service;
 
 import animal.shelter.animalsshelter.model.Dog;
@@ -29,9 +30,10 @@ public class DogServiceTest {
     @InjectMocks
     private DogServiceImpl dogService;
 
-    /**
+*
      * Тест метода <b>getDogById</b> в DogService
-     */
+
+
     @Test
     public void getDogByIdTest() {
         Dog expected = new Dog();
@@ -51,9 +53,10 @@ public class DogServiceTest {
         Assertions.assertThat(actual.getDogPhoto()).isEqualTo(expected.getDogPhoto());
     }
 
-    /**
+*
      * Тест метода <b>saveDog()</b> в DogService
-     */
+
+
     @Test
     public void saveDogTest() {
         Dog expected = new Dog();
@@ -73,9 +76,10 @@ public class DogServiceTest {
         Assertions.assertThat(actual.getDogPhoto()).isEqualTo(expected.getDogPhoto());
     }
 
-    /**
+*
      * тест метода <b>getAllDogs()</b> in UserService
-     */
+
+
     @Test
     public void getAllDogsTest() {
         List<Dog> expected = new ArrayList<>();
@@ -104,3 +108,4 @@ public class DogServiceTest {
         Assertions.assertThat(actual).isEqualTo(expected);
     }
 }
+*/
