@@ -58,7 +58,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     public static final String ADMIN_COMMANDS = "Команды волонтёров: \n\n " +
             "/users - посмотреть список пользователей \n" +
             "/send - Отправить сообщение о плохом отчёте всем пользователям, " +
-            "у которых текст сообщений в отчётах очень короткий. Отчёты нухно писать подробно. \n" +
+            "у которых текст сообщений в отчётах очень короткий. Отчёты нужно писать подробно. \n" +
             "/allquestions - Посмотреть список вопросов от пользователей\n" +
             "/allreports - Посмотреть список отчётов от усыновителей питомцев\n" +
             "/badreport{id} - отправить шаблон сообщения о конкретном отчёте - плохой отчёт.\n" +
@@ -1437,7 +1437,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatId);
         messageText.setMessageId((int) messageID);
-        Report report = reportService.getReportById(10);
+        Report report = reportService.getReportById(1);
         messageText.setText("Образец и правило отчёта \n" + EmojiParser.parseToUnicode(
                 Emoji.CHECK_MARK + " Отчёт нужно заполнять и отправлять ежедневно. \n"
                         + Emoji.CHECK_MARK + " Если не отправлять отчёт два дня, придёт уведомление. \n"
@@ -1472,7 +1472,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         EditMessageText messageText = new EditMessageText();
         messageText.setChatId(chatId);
         messageText.setMessageId((int) messageID);
-        Report report = reportService.getReportById(54);
+        Report report = reportService.getReportById(2);
         messageText.setText("Образец и правило отчёта \n" + EmojiParser.parseToUnicode(
                 Emoji.CHECK_MARK + " Отчёт нужно заполнять и отправлять ежедневно. \n"
                         + Emoji.CHECK_MARK + " Если не отправлять отчёт два дня, придёт уведомление. \n"
