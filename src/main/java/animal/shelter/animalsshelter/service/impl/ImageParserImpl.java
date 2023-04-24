@@ -52,8 +52,10 @@ public class ImageParserImpl implements ImageParser {
                 return IOUtils.toByteArray(inputStream);
             }
         } catch (TelegramApiException e) {
+            log.error(e.getMessage());
             throw new TelegramApiException("Failed to execute 'getFile' method", e);
         } catch (IOException e) {
+            log.error(e.getMessage());
             throw new IOException("Failed to read data from remote server", e);
         }
     }
