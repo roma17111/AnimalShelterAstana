@@ -1,5 +1,4 @@
 FROM eclipse-temurin:17-jdk-alpine
-VOLUME /tmp
 COPY target/*.jar app.jar
 ADD DejaVuSans.ttf DejaVuSans.ttf
 ADD src/main/resources/images/dog/img.png src/main/resources/images/dog/img.png
