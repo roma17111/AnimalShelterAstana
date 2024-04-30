@@ -400,7 +400,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      * После получения всей необходимой информации, метод сохраняет собаку в базу данных.
      *
      * @param update обновление из Telegram API
-     * @param dog объект класса Dog, представляющий добавляемую собаку
+     * @param dog    объект класса Dog, представляющий добавляемую собаку
      * @throws InterruptedException исключение, возникающее, когда процесс исполнения прерывается
      * @throws TelegramApiException исключение, возникающее при ошибке выполнения Telegram API
      */
@@ -452,7 +452,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      * После получения всей необходимой информации, метод сохраняет собаку в базу данных.
      *
      * @param update обновление из Telegram API
-     * @param cat объект класса Dog, представляющий добавляемую собаку
+     * @param cat    объект класса Dog, представляющий добавляемую собаку
      * @throws InterruptedException исключение, возникающее, когда процесс исполнения прерывается
      * @throws TelegramApiException исключение, возникающее при ошибке выполнения Telegram API
      */
@@ -719,7 +719,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      * Обработчик действий по умолчанию. Определяет тип действия, которое нужно выполнить,
      * в зависимости от состояния пользователя и сообщения, и запускает соответствующий метод.
      *
-     * @param update Обновление сообщения от пользователя
+     * @param update  Обновление сообщения от пользователя
      * @param message Сообщение от пользователя
      * @throws InterruptedException если возникает прерывание потока
      * @throws TelegramApiException если возникает ошибка в API Telegram
@@ -818,6 +818,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             }
         }
     }
+
     /**
      * Метод, запускающий бота. Выводит сообщение приветствия с фотографией, отправляет клавиатуру со списком доступных опций.
      *
@@ -938,7 +939,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      * собака сохраняется в базу данных. Пользователю отправляется сообщение о том, что собака добавлена.
      *
      * @param update сообщение с фотографией и данными о пользователе
-     * @param dog объект класса Dog, содержащий данные о добавляемой собаке
+     * @param dog    объект класса Dog, содержащий данные о добавляемой собаке
      * @throws InterruptedException если возникла ошибка при попытке отправки сообщения
      */
     public void sendPhotoForDog(Update update, Dog dog) throws InterruptedException {
@@ -959,7 +960,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      * кот сохраняется в базу данных. Пользователю отправляется сообщение о том, что кошка добавлена.
      *
      * @param update сообщение с фотографией и данными о пользователе
-     * @param cat объект класса Dog, содержащий данные о добавляемой собаке
+     * @param cat    объект класса Dog, содержащий данные о добавляемой собаке
      * @throws InterruptedException если возникла ошибка при попытке отправки сообщения
      */
     public void sendPhotoForCat(Update update, Cat cat) throws InterruptedException {
@@ -1047,6 +1048,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
      * В случае отсутствия зарегистрированного пользователя возвращает сообщение об ошибке.
      * Проходит по состояниям объекта CallVolunteerMsg, вызывая методы ввода и обработки состояний,
      * сохраняя изменения состояния объекта в базу данных.
+     *
      * @param update Объект Update, содержащий запрос на помощь.
      */
     private void askQuestion(Update update) {
@@ -1054,7 +1056,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         MessageContext context = null;
         MessageState state;
         User user = userService.findByChatId(chatId);
-        if (user == null||user.getStateID()<3) {
+        if (user == null || user.getStateID() < 3) {
             sendBotMessage(chatId, "Задавать вопросы могут только зарегистрированные пользователи" +
                     "\n Регистрация - /registration");
             return;
@@ -1427,27 +1429,27 @@ public class TelegramBotStart extends TelegramLongPollingBot {
     /**
      * Отправляет образец и правила отчетности собаки пользователю в чат, а также запрашивает необходимую информацию по отчету.
      *
-     * @param chatId id чата, в который отправляется образец отчета
+     * @param chatId    id чата, в который отправляется образец отчета
      * @param messageID id сообщения с образцом отчета
-     * @param update объект типа Update, содержащий информацию о запросе пользователя
+     * @param update    объект типа Update, содержащий информацию о запросе пользователя
      * @throws TelegramApiException в случае ошибки при выполнении Telegram API запроса
      * @throws InterruptedException в случае ошибки при выполнении операции с потоком
      */
-    public void getSampleReport(long chatId, long messageID, Update update) throws TelegramApiException, InterruptedException {
-        EditMessageText messageText = new EditMessageText();
+    public void getSampleReportDog(long chatId, long messageID, Update update) throws TelegramApiException, InterruptedException {
+        SendPhoto messageText = new SendPhoto();
         messageText.setChatId(chatId);
-        messageText.setMessageId((int) messageID);
-        Report report = reportService.getReportById(1);
-        messageText.setText("Образец и правило отчёта \n" + EmojiParser.parseToUnicode(
+        InputFile cat = new InputFile(new File("photos/dog.jpg"));
+        messageText.setPhoto(cat);
+        messageText.setCaption("Образец и правило отчёта \n" + EmojiParser.parseToUnicode(
                 Emoji.CHECK_MARK + " Отчёт нужно заполнять и отправлять ежедневно. \n"
                         + Emoji.CHECK_MARK + " Если не отправлять отчёт два дня, придёт уведомление. \n"
                         + Emoji.CHECK_MARK + " При систематическом пропуске отчётности волонтёры вправе вернуть животное в приют\n\n "
                         + Emoji.QUESTION_MARK + " Какая диета у собаки?\n"
-                        + Emoji.DOUBLE_BANG_MARK + " " + report.getDiet() + "\n"
+                        + Emoji.DOUBLE_BANG_MARK + " Питомец не на диете" + "\n"
                         + Emoji.QUESTION_MARK + " Как самочувствие у питомца? Есть ли жалобы на здоровье? \n"
-                        + Emoji.DOUBLE_BANG_MARK + " " + report.getGeneralHealth() + "\n"
+                        + Emoji.DOUBLE_BANG_MARK + " Вчера " + "\n"
                         + Emoji.QUESTION_MARK + " Расскажите о поведении животного на новом месте \n"
-                        + Emoji.DOUBLE_BANG_MARK + " " + report.getBehaviorChange() + "\n"
+                        + Emoji.DOUBLE_BANG_MARK + " Собака чувствует себя хорошо - привыкает к новому дому." + "\n"
                         + Emoji.QUESTION_MARK + " Прикрепите фото питомца")
         );
         try {
@@ -1455,34 +1457,34 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
-        sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), report.getPhoto());
+
         execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
     }
 
     /**
      * Отправляет образец и правила отчетности кота пользователю в чат, а также запрашивает необходимую информацию по отчету.
      *
-     * @param chatId id чата, в который отправляется образец отчета
+     * @param chatId    id чата, в который отправляется образец отчета
      * @param messageID id сообщения с образцом отчета
-     * @param update объект типа Update, содержащий информацию о запросе пользователя
+     * @param update    объект типа Update, содержащий информацию о запросе пользователя
      * @throws TelegramApiException в случае ошибки при выполнении Telegram API запроса
      * @throws InterruptedException в случае ошибки при выполнении операции с потоком
      */
     public void getSampleReportCat(long chatId, long messageID, Update update) throws TelegramApiException, InterruptedException {
-        EditMessageText messageText = new EditMessageText();
+        SendPhoto messageText = new SendPhoto();
         messageText.setChatId(chatId);
-        messageText.setMessageId((int) messageID);
-        Report report = reportService.getReportById(2);
-        messageText.setText("Образец и правило отчёта \n" + EmojiParser.parseToUnicode(
+        InputFile cat = new InputFile(new File("photos/cat.jpg"));
+        messageText.setPhoto(cat);
+        messageText.setCaption("Образец и правило отчёта \n" + EmojiParser.parseToUnicode(
                 Emoji.CHECK_MARK + " Отчёт нужно заполнять и отправлять ежедневно. \n"
                         + Emoji.CHECK_MARK + " Если не отправлять отчёт два дня, придёт уведомление. \n"
                         + Emoji.CHECK_MARK + " При систематическом пропуске отчётности волонтёры вправе вернуть животное в приют\n\n "
                         + Emoji.QUESTION_MARK + " Какая диета у Кошки?\n"
-                        + Emoji.DOUBLE_BANG_MARK + " " + report.getDiet() + "\n"
+                        + Emoji.DOUBLE_BANG_MARK + " Гастро" + "\n"
                         + Emoji.QUESTION_MARK + " Как самочувствие у питомца? Есть ли жалобы на здоровье? \n"
-                        + Emoji.DOUBLE_BANG_MARK + " " + report.getGeneralHealth() + "\n"
+                        + Emoji.DOUBLE_BANG_MARK + " Периодически болит живот" + "\n"
                         + Emoji.QUESTION_MARK + " Расскажите о поведении животного на новом месте \n"
-                        + Emoji.DOUBLE_BANG_MARK + " " + report.getBehaviorChange() + "\n"
+                        + Emoji.DOUBLE_BANG_MARK + " Прибывает в лёгком стрессе" + "\n"
                         + Emoji.QUESTION_MARK + " Прикрепите фото питомца")
         );
         try {
@@ -1490,7 +1492,6 @@ public class TelegramBotStart extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }
-        sendPhotoFromByteCode(update.getCallbackQuery().getMessage().getChatId(), report.getPhoto());
         execute(keyboards.getTypeOfShelter(update.getCallbackQuery().getMessage().getChatId()));
     }
 
@@ -1564,7 +1565,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 getSafeInformation(chatId, messageId);
             } else if (dataCallback.equals(SEND_REPORT)) {
                 User user = userService.findByChatId(update.getCallbackQuery().getMessage().getChatId());
-                if (user == null||user.getStateID()<3) {
+                if (user == null || user.getStateID() < 3) {
                     sendBotMessage(update.getCallbackQuery().getMessage().getChatId(), "Отправлять отчёт могут только " +
                             "зарегистрированные пользователи!!!\n" +
                             "Регистрация - /registration");
@@ -1654,7 +1655,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
                 }
             } else if (dataCallback.equals(DISABLED_TYPE_CAT)) {
                 List<Cat> cats = catService.findAllCats();
-                List<Cat> catList =  cats
+                List<Cat> catList = cats
                         .stream()
                         .filter(cat -> cat.getStateId() < 7)
                         .collect(Collectors.toList());
@@ -1694,7 +1695,7 @@ public class TelegramBotStart extends TelegramLongPollingBot {
             } else if (dataCallback.equals(NECESSARY)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(SAMPLE_REPORT)) {
-                getSampleReport(chatId, messageId, update);
+                getSampleReportDog(chatId, messageId, update);
             } else if (dataCallback.equals(BACK_TWO)) {
                 execute(keyboards.WhatNeedToKnow(chatId, messageId));
             } else if (dataCallback.equals(ACQUAINTANCE)) {
