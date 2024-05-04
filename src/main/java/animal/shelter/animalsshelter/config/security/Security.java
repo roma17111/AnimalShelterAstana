@@ -1,5 +1,6 @@
 package animal.shelter.animalsshelter.config.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,11 +15,17 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 @EnableWebSecurity
 public class Security   extends WebSecurityConfigurerAdapter {
 
+    @Value("${auth.user}")
+    private String user;
+
+    @Value("${auth.password}")
+    private String password;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
         auth.inMemoryAuthentication()
-                .withUser(userBuilder.username("admin").password("12345").roles("ADMIN"));
+                .withUser(userBuilder.username(user).password(password).roles("ADMIN"));
     }
 
     @Override
